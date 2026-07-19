@@ -13,4 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-in'); });
   }, { threshold: 0.15 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Logo click — smooth return to top + micro-bounce
+  const logo = document.getElementById('logo-home');
+  if (logo) {
+    logo.addEventListener('click', (e) => {
+      e.preventDefault();
+      logo.classList.add('is-clicked');
+      lenis.scrollTo(0, { duration: 1.2, easing: (t) => 1 - Math.pow(1 - t, 3) });
+      setTimeout(() => logo.classList.remove('is-clicked'), 500);
+    });
+  }
 });

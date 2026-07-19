@@ -11,7 +11,7 @@
 
 <header class="nav">
   <div class="container nav__inner">
-    <a href="#inicio" class="nav__logo">
+    <a href="#inicio" class="nav__logo" id="logo-home">
       <svg class="nav__mark" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
         <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
         <rect x="18" y="18" width="14" height="14" fill="#2DD4FF"/>
@@ -34,18 +34,98 @@
 
   <section class="hero grid-backdrop">
     <div class="container hero__inner">
-      <p class="hero__eyebrow">DISPONIBLE PARA NUEVOS PROYECTOS</p>
-      <h1 class="hero__title">Construimos <span class="hl">sistemas digitales</span> que tu negocio realmente necesita</h1>
-      <p class="hero__sub">
-        Sitios web a medida y productos SaaS propios — desde landing pages hasta plataformas
-        completas de reservas e inventario. Sin plantillas genéricas, sin código innecesario.
-      </p>
-      <div class="hero__actions">
-        <a href="https://wa.me/50600000000" class="btn-primary">Iniciar un proyecto</a>
-        <a href="#productos" class="btn-ghost">Ver productos</a>
+      <div class="hero__content">
+        <p class="hero__eyebrow">DISPONIBLE PARA NUEVOS PROYECTOS</p>
+        <h1 class="hero__title">Construimos <span class="hl">sistemas digitales</span> que tu negocio realmente necesita</h1>
+        <p class="hero__sub">
+          Sitios web a medida y productos SaaS propios — desde landing pages hasta plataformas
+          completas de reservas e inventario. Sin plantillas genéricas, sin código innecesario.
+        </p>
+        <div class="hero__actions">
+          <a href="https://wa.me/50600000000" class="btn-primary">Iniciar un proyecto</a>
+          <a href="#productos" class="btn-ghost">Ver productos</a>
+        </div>
+      </div>
+
+      <div class="hub hero__hub">
+        <svg class="hub__lines" viewBox="0 0 640 440" preserveAspectRatio="none">
+          <path d="M320 220 L120 120" />
+          <path d="M320 220 L540 110" />
+          <path d="M320 220 L110 340" />
+          <path d="M320 220 L520 350" />
+        </svg>
+
+        <div class="hub__core">
+          <svg viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
+            <rect x="18" y="18" width="14" height="14" fill="#2DD4FF"/>
+            <rect x="18" y="2" width="14" height="14" fill="none" stroke="#7C8894" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <span class="hub__core-label mono">NÚCLEO STRUCTURA</span>
+
+        <div class="hub__node" style="top:14%; left:12%;">
+          <span class="hub__node-dot"></span>
+          <span class="hub__node-label">Google Sheets</span>
+        </div>
+        <div class="hub__node" style="top:6%; left:78%;">
+          <span class="hub__node-dot"></span>
+          <span class="hub__node-label">Google Analytics</span>
+        </div>
+        <div class="hub__node" style="top:76%; left:8%;">
+          <span class="hub__node-dot"></span>
+          <span class="hub__node-label">Recepcionista IA</span>
+        </div>
+        <div class="hub__node" style="top:80%; left:76%;">
+          <span class="hub__node-dot"></span>
+          <span class="hub__node-label">Chatbot WhatsApp</span>
+        </div>
+
+        <div class="hub__card hub__card--stat">
+          <div class="hub__card-head"><span class="hub__live-dot"></span><span class="mono">EN VIVO</span></div>
+          <div class="hub__bars">
+            <span style="height:40%"></span><span style="height:65%"></span><span style="height:50%"></span>
+            <span style="height:80%" class="is-accent"></span><span style="height:55%"></span><span style="height:70%"></span>
+          </div>
+          <div class="hub__stat">−60% <small>tiempo en tareas repetitivas</small></div>
+        </div>
+
+        <div class="hub__card hub__card--flow">
+          <div class="hub__card-head"><span class="hub__live-dot"></span><span class="mono">AUTOMATIZACIÓN</span></div>
+          <div class="hub__flow">
+            <span class="hub__flow-step">Disparador</span>
+            <span class="hub__flow-arrow">→</span>
+            <span class="hub__flow-step">Acción</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+
+  <div class="ticker">
+    <div class="ticker__track">
+      <div class="ticker__group">
+        <span class="ticker__item">Desarrollo Web</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Landing Pages</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Productos SaaS</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Paneles Administrativos</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Automatización</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Integraciones</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Dashboards en Tiempo Real</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Arquitectura de Datos</span><span class="ticker__dot ticker__dot--dim"></span>
+      </div>
+      <div class="ticker__group" aria-hidden="true">
+        <span class="ticker__item">Desarrollo Web</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Landing Pages</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Productos SaaS</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Paneles Administrativos</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Automatización</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Integraciones</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Dashboards en Tiempo Real</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Arquitectura de Datos</span><span class="ticker__dot ticker__dot--dim"></span>
+      </div>
+    </div>
+  </div>
 
   <section class="section" id="servicios">
     <div class="container">
@@ -136,7 +216,7 @@
       <h2 class="section-title reveal">¿Tenés un proyecto en mente?</h2>
       <p class="section-sub reveal" style="--d:60ms">Escribinos y conversemos sobre qué necesita tu negocio — sin compromiso.</p>
       <div class="contact__actions">
-        <a href="https://wa.me/50687096790" class="btn-primary">Escribir por WhatsApp</a>
+        <a href="https://wa.me/50600000000" class="btn-primary">Escribir por WhatsApp</a>
       </div>
     </div>
   </section>
