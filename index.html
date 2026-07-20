@@ -24,7 +24,7 @@
         <li><a href="#servicios">Servicios</a></li>
         <li><a href="#productos">Productos</a></li>
         <li><a href="#portafolio">Portafolio</a></li>
-        <li><a href="#contacto" class="nav__cta">Contactar</a></li>
+        <li><a href="https://wa.me/50687096790" target="_blank" rel="noopener" class="nav__cta">Contactar</a></li>
       </ul>
     </nav>
   </div>
@@ -42,17 +42,23 @@
           completas de reservas e inventario. Sin plantillas genéricas, sin código innecesario.
         </p>
         <div class="hero__actions">
-          <a href="https://wa.me/50600000000" class="btn-primary">Iniciar un proyecto</a>
+          <a href="https://wa.me/50687096790" target="_blank" rel="noopener" class="btn-primary">Iniciar un proyecto</a>
           <a href="#productos" class="btn-ghost">Ver productos</a>
         </div>
       </div>
 
       <div class="hub hero__hub">
         <svg class="hub__lines" viewBox="0 0 640 440" preserveAspectRatio="none">
-          <path d="M320 220 L120 120" />
-          <path d="M320 220 L540 110" />
-          <path d="M320 220 L110 340" />
-          <path d="M320 220 L520 350" />
+          <path d="M320 220 L13 176" />
+          <path d="M320 220 L525 18" />
+          <path d="M320 220 L51 352" />
+          <path d="M320 220 L563 202" />
+        </svg>
+        <svg class="hub__energy-lines" viewBox="0 0 640 440" preserveAspectRatio="none">
+          <path class="hub__energy" data-line="0" pathLength="100" d="M320 220 L13 176" />
+          <path class="hub__energy" data-line="1" pathLength="100" d="M320 220 L525 18" />
+          <path class="hub__energy" data-line="2" pathLength="100" d="M320 220 L51 352" />
+          <path class="hub__energy" data-line="3" pathLength="100" d="M320 220 L563 202" />
         </svg>
 
         <div class="hub__core">
@@ -64,39 +70,30 @@
         </div>
         <span class="hub__core-label mono">NÚCLEO STRUCTURA</span>
 
-        <div class="hub__node" style="top:14%; left:12%;">
+        <div class="hub__node" data-line="0" style="top:40%; left:2%;">
           <span class="hub__node-dot"></span>
           <span class="hub__node-label">Google Sheets</span>
         </div>
-        <div class="hub__node" style="top:6%; left:78%;">
+        <div class="hub__node" data-line="1" style="top:4%; left:82%;">
           <span class="hub__node-dot"></span>
           <span class="hub__node-label">Google Analytics</span>
         </div>
-        <div class="hub__node" style="top:76%; left:8%;">
+        <div class="hub__node" data-line="2" style="top:80%; left:8%;">
           <span class="hub__node-dot"></span>
           <span class="hub__node-label">Recepcionista IA</span>
         </div>
-        <div class="hub__node" style="top:80%; left:76%;">
+        <div class="hub__node" data-line="3" style="top:46%; left:88%;">
           <span class="hub__node-dot"></span>
           <span class="hub__node-label">Chatbot WhatsApp</span>
         </div>
 
         <div class="hub__card hub__card--stat">
-          <div class="hub__card-head"><span class="hub__live-dot"></span><span class="mono">EN VIVO</span></div>
-          <div class="hub__bars">
-            <span style="height:40%"></span><span style="height:65%"></span><span style="height:50%"></span>
-            <span style="height:80%" class="is-accent"></span><span style="height:55%"></span><span style="height:70%"></span>
-          </div>
-          <div class="hub__stat">−60% <small>tiempo en tareas repetitivas</small></div>
-        </div>
-
-        <div class="hub__card hub__card--flow">
-          <div class="hub__card-head"><span class="hub__live-dot"></span><span class="mono">AUTOMATIZACIÓN</span></div>
-          <div class="hub__flow">
-            <span class="hub__flow-step">Disparador</span>
-            <span class="hub__flow-arrow">→</span>
-            <span class="hub__flow-step">Acción</span>
-          </div>
+          <div class="hub__card-head"><span class="hub__live-dot"></span><span class="mono">STACK</span></div>
+          <ul class="hub__stack-list">
+            <li>Supabase</li>
+            <li>Multi-tenant</li>
+            <li>Tiempo real</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -134,7 +131,34 @@
       <p class="section-sub">Ya sea que necesités presencia web o un sistema interno, partimos de lo que tu negocio realmente opera — no de una plantilla.</p>
 
       <div class="services-grid">
-        <div class="service-block reveal reveal--stagger" style="--d:0ms">
+        <div class="service-block service-block--visual reveal reveal--stagger" style="--d:0ms">
+          <div class="svc-visual svc-visual--web">
+            <div class="browser-mock">
+              <div class="browser-mock__bar">
+                <span></span><span></span><span></span>
+                <div class="browser-mock__url"></div>
+              </div>
+              <div class="browser-mock__viewport">
+                <div class="mock-cursor"></div>
+                <div class="browser-mock__scroll">
+                  <div class="mini-nav"><span class="mini-dot"></span><span class="mini-line" style="width:30%"></span></div>
+                  <div class="mini-hero">
+                    <span class="mini-line" style="width:70%; height:10px;"></span>
+                    <span class="mini-line" style="width:50%; height:10px;"></span>
+                    <span class="mini-pill"></span>
+                  </div>
+                  <div class="mini-section">
+                    <span class="mini-line" style="width:40%"></span>
+                    <div class="mini-cards"><i></i><i></i></div>
+                  </div>
+                  <div class="mini-section">
+                    <span class="mini-line" style="width:35%"></span>
+                    <div class="mini-cards"><i></i><i></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="service-block__num">01</div>
           <h3>Desarrollo Web</h3>
           <p>Sitios a medida, rápidos y con identidad propia — desde landing pages hasta sitios multi-página con contenido bilingüe.</p>
@@ -144,7 +168,19 @@
             <span class="tag">GitHub Pages</span>
           </div>
         </div>
-        <div class="service-block reveal reveal--stagger" style="--d:120ms">
+        <div class="service-block service-block--visual reveal reveal--stagger" style="--d:120ms">
+          <div class="svc-visual svc-visual--saas">
+            <div class="dash-mock">
+              <div class="dash-mock__head">
+                <span class="hub__live-dot"></span><span class="mono">INVENTARIO</span>
+              </div>
+              <div class="dash-row"><span class="dash-row__icon"></span><span class="dash-row__name" style="width:60%"></span></div>
+              <div class="dash-row"><span class="dash-row__icon"></span><span class="dash-row__name" style="width:44%"></span></div>
+              <div class="dash-row"><span class="dash-row__icon"></span><span class="dash-row__name" style="width:70%"></span></div>
+              <div class="dash-row dash-row--new"><span class="dash-row__icon"></span><span class="dash-row__name" style="width:52%"></span></div>
+              <div class="dash-toast">✓ Producto agregado</div>
+            </div>
+          </div>
           <div class="service-block__num">02</div>
           <h3>Productos SaaS</h3>
           <p>Plataformas multi-tenant para operar tu negocio: reservas, inventario, y lo que sigue — con tu marca, sin licencias externas.</p>
@@ -216,7 +252,7 @@
       <h2 class="section-title reveal">¿Tenés un proyecto en mente?</h2>
       <p class="section-sub reveal" style="--d:60ms">Escribinos y conversemos sobre qué necesita tu negocio — sin compromiso.</p>
       <div class="contact__actions">
-        <a href="https://wa.me/50600000000" class="btn-primary">Escribir por WhatsApp</a>
+        <a href="https://wa.me/50687096790" target="_blank" rel="noopener" class="btn-primary">Escribir por WhatsApp</a>
       </div>
     </div>
   </section>
