@@ -58,4 +58,36 @@ document.addEventListener('DOMContentLoaded', () => {
     el.addEventListener('touchstart', () => el.classList.add('is-active'), { passive: true });
     el.addEventListener('touchend', () => setTimeout(() => el.classList.remove('is-active'), 2000));
   });
+
+  // Portfolio logo ticker — floating preview window on hover/tap
+  const preview = document.getElementById('folio-preview');
+  const previewLabel = preview?.querySelector('.folio-preview__label');
+  const folioNames = ['Haus', 'Hesa', 'Asociación de Abogados de Centroamérica', 'R. Loría', 'Altura Raíz', 'Evoke', 'Pasto Arca', 'Zacate Tierra Fértil'];
+
+  const showPreview = (logo) => {
+    const rect = logo.getBoundingClientRect();
+    preview.style.left = `${rect.left + rect.width / 2}px`;
+    preview.style.top = `${rect.top - 206}px`;
+    const idx = logo.dataset.preview;
+    if (previewLabel) previewLabel.textContent = `${folioNames[idx]} — vista previa próximamente`;
+    preview.classList.add('is-visible');
+    logo.classList.add('is-active');
+  };
+  const hidePreview = (logo) => {
+    preview.classList.remove('is-visible');
+    logo?.classList.remove('is-active');
+  };
+
+  if (preview) {
+    document.querySelectorAll('.folio-logo').forEach((logo) => {
+      logo.addEventListener('mouseenter', () => showPreview(logo));
+      logo.addEventListener('mouseleave', () => hidePreview(logo));
+      logo.addEventListener('focus', () => showPreview(logo));
+      logo.addEventListener('blur', () => hidePreview(logo));
+      logo.addEventListener('touchstart', (e) => { e.preventDefault(); showPreview(logo); }, { passive: false });
+    });
+    document.addEventListener('touchstart', (e) => {
+      if (!e.target.closest('.folio-logo')) hidePreview(document.querySelector('.folio-logo.is-active'));
+    }, { passive: true });
+  }
 });
