@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Structura — Desarrollo Web & Productos SaaS</title>
+<meta name="description" content="Agencia full-stack: sitios web a medida y productos SaaS propios para negocios en Costa Rica." />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a href="#inicio" class="nav__logo" id="logo-home">
+      <svg class="nav__mark" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
+        <rect x="18" y="18" width="14" height="14" fill="#2DD4FF"/>
+        <rect x="18" y="2" width="14" height="14" fill="none" stroke="#7C8894" stroke-width="1.5"/>
+      </svg>
+      <span class="nav__name">structura<span>.</span></span>
+    </a>
+    <nav>
+      <ul class="nav__links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#portafolio">Portafolio</a></li>
+        <li><a href="https://wa.me/50687096790" target="_blank" rel="noopener" class="nav__cta">Contactar</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <section class="hero grid-backdrop">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <p class="hero__eyebrow">DISPONIBLE PARA NUEVOS PROYECTOS</p>
+        <h1 class="hero__title">Construimos <span class="hl">sistemas digitales</span> que tu negocio realmente necesita</h1>
+        <p class="hero__sub">
+          Sitios web a medida y productos SaaS propios — desde landing pages hasta plataformas
+          completas de reservas e inventario. Sin plantillas genéricas, sin código innecesario.
+        </p>
+        <div class="hero__actions">
+          <a href="https://wa.me/50687096790" target="_blank" rel="noopener" class="btn-primary">Iniciar un proyecto</a>
+          <a href="#servicios" class="btn-ghost">Ver servicios</a>
+        </div>
+      </div>
+
+      <div class="hub hero__hub">
+        <svg class="hub__lines" viewBox="0 0 640 440" preserveAspectRatio="none">
+          <path d="M320 220 L13 176" />
+          <path d="M320 220 L525 18" />
+          <path d="M320 220 L51 352" />
+          <path d="M320 220 L563 202" />
+        </svg>
+        <svg class="hub__energy-lines" viewBox="0 0 640 440" preserveAspectRatio="none">
+          <path class="hub__energy" data-line="0" pathLength="100" d="M320 220 L13 176" />
+          <path class="hub__energy" data-line="1" pathLength="100" d="M320 220 L525 18" />
+          <path class="hub__energy" data-line="2" pathLength="100" d="M320 220 L51 352" />
+          <path class="hub__energy" data-line="3" pathLength="100" d="M320 220 L563 202" />
+        </svg>
+
+        <div class="hub__core">
+          <svg viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
+            <rect x="18" y="18" width="14" height="14" fill="#2DD4FF"/>
+            <rect x="18" y="2" width="14" height="14" fill="none" stroke="#7C8894" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <span class="hub__core-label mono">NÚCLEO STRUCTURA</span>
+
+        <div class="hub__node" data-line="0" style="top:40%; left:2%;">
+          <span class="hub__node-dot"></span>
+          <span class="hub__node-label">Google Sheets</span>
+        </div>
+        <div class="hub__node" data-line="1" style="top:4%; left:82%;">
+          <span class="hub__node-dot"></span>
+          <span class="hub__node-label">Google Analytics</span>
+        </div>
+        <div class="hub__node" data-line="2" style="top:80%; left:8%;">
+          <span class="hub__node-dot"></span>
+          <span class="hub__node-label">Recepcionista IA</span>
+        </div>
+        <div class="hub__node" data-line="3" style="top:46%; left:88%;">
+          <span class="hub__node-dot"></span>
+          <span class="hub__node-label">Chatbot WhatsApp</span>
+        </div>
+
+        <div class="hub__card hub__card--stat">
+          <div class="hub__card-head"><span class="hub__live-dot"></span><span class="mono">STACK</span></div>
+          <ul class="hub__stack-list">
+            <li>Supabase</li>
+            <li>Multi-tenant</li>
+            <li>Tiempo real</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker">
+    <div class="ticker__track">
+      <div class="ticker__group">
+        <span class="ticker__item">Desarrollo Web</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Landing Pages</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Productos SaaS</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Paneles Administrativos</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Automatización</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Integraciones</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Dashboards en Tiempo Real</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Arquitectura de Datos</span><span class="ticker__dot ticker__dot--dim"></span>
+      </div>
+      <div class="ticker__group" aria-hidden="true">
+        <span class="ticker__item">Desarrollo Web</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Landing Pages</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Productos SaaS</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Paneles Administrativos</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Automatización</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Integraciones</span><span class="ticker__dot ticker__dot--dim"></span>
+        <span class="ticker__item">Dashboards en Tiempo Real</span><span class="ticker__dot"></span>
+        <span class="ticker__item ticker__item--dim">Arquitectura de Datos</span><span class="ticker__dot ticker__dot--dim"></span>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" id="servicios">
+    <div class="container">
+      <p class="section-eyebrow">// SERVICIOS</p>
+      <h2 class="section-title">Dos formas de trabajar juntos</h2>
+      <p class="section-sub">Ya sea que necesités presencia web o un sistema interno, partimos de lo que tu negocio realmente opera — no de una plantilla.</p>
+
+      <div class="services-grid">
+        <div class="service-block service-block--visual reveal reveal--stagger" style="--d:0ms">
+          <div class="svc-visual svc-visual--web">
+            <div class="browser-mock">
+              <div class="browser-mock__bar">
+                <span></span><span></span><span></span>
+                <div class="browser-mock__url"></div>
+              </div>
+              <div class="browser-mock__viewport">
+                <div class="mock-cursor"></div>
+                <div class="browser-mock__scroll">
+                  <div class="mini-nav"><span class="mini-dot"></span><span class="mini-line" style="width:30%"></span></div>
+                  <div class="mini-hero">
+                    <span class="mini-line" style="width:70%; height:10px;"></span>
+                    <span class="mini-line" style="width:50%; height:10px;"></span>
+                    <span class="mini-pill"></span>
+                  </div>
+                  <div class="mini-section">
+                    <span class="mini-line" style="width:40%"></span>
+                    <div class="mini-cards"><i></i><i></i></div>
+                  </div>
+                  <div class="mini-section">
+                    <span class="mini-line" style="width:35%"></span>
+                    <div class="mini-cards"><i></i><i></i></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="service-block__num">01</div>
+          <h3>Desarrollo Web</h3>
+          <p>Sitios a medida, rápidos y con identidad propia — desde landing pages hasta sitios multi-página con contenido bilingüe.</p>
+          <div class="service-block__tags">
+            <span class="tag">HTML/CSS/JS</span>
+            <span class="tag">Diseño a medida</span>
+            <span class="tag">GitHub Pages</span>
+          </div>
+        </div>
+        <div class="service-block service-block--visual reveal reveal--stagger" style="--d:120ms">
+          <div class="svc-visual svc-visual--saas">
+            <div class="dash-mock">
+              <div class="dash-mock__head">
+                <span class="hub__live-dot"></span><span class="mono">INVENTARIO</span>
+              </div>
+              <div class="dash-row"><span class="dash-row__icon"></span><span class="dash-row__name" style="width:60%"></span></div>
+              <div class="dash-row"><span class="dash-row__icon"></span><span class="dash-row__name" style="width:44%"></span></div>
+              <div class="dash-row"><span class="dash-row__icon"></span><span class="dash-row__name" style="width:70%"></span></div>
+              <div class="dash-row dash-row--new"><span class="dash-row__icon"></span><span class="dash-row__name" style="width:52%"></span></div>
+              <div class="dash-toast">✓ Producto agregado</div>
+            </div>
+          </div>
+          <div class="service-block__num">02</div>
+          <h3>Productos SaaS</h3>
+          <p>Plataformas propias para operar tu negocio: reservas, inventario, y lo que sigue — con tu marca, sin licencias externas.</p>
+          <div class="service-block__tags">
+            <span class="tag">Pagos integrados</span>
+            <span class="tag">Sistema de inventario</span>
+            <span class="tag">Portales multi-estructura</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section portfolio-section" id="portafolio">
+    <div class="container">
+      <p class="section-eyebrow">// REFERENCIAS</p>
+      <h2 class="section-title reveal">El nivel que podemos alcanzar</h2>
+      <p class="section-sub reveal" style="--d:60ms">Estilos y estándares de diseño que podemos construir para tu marca — pasá el mouse (o tocá en mobile) sobre cada uno.</p>
+    </div>
+
+    <div class="folio-ticker" id="folio-ticker">
+      <div class="folio-ticker__track">
+        <div class="folio-ticker__group">
+          <button class="folio-logo" data-preview="0"><img src="images/folio/haus.png" alt="Haus" loading="lazy"></button>
+          <button class="folio-logo" data-preview="1"><img src="images/folio/hesa.png" alt="Hesa" loading="lazy"></button>
+          <button class="folio-logo" data-preview="2"><img src="images/folio/aaec.png" alt="Asociación de Abogados de Empresa para Centroamérica" loading="lazy"></button>
+          <button class="folio-logo" data-preview="3"><img src="images/folio/rloria.png" alt="R. Loría Abogados" loading="lazy"></button>
+          <button class="folio-logo" data-preview="4"><img src="images/folio/alturaraiz.png" alt="Altura Raíz" loading="lazy"></button>
+          <button class="folio-logo" data-preview="5"><img src="images/folio/evoke.png" alt="Evoke" loading="lazy"></button>
+          <button class="folio-logo" data-preview="6"><img src="images/folio/pastoarca.png" alt="Pasto Arca" loading="lazy"></button>
+          <button class="folio-logo" data-preview="7"><img src="images/folio/zacate.png" alt="Zacate Tierra Fértil" loading="lazy"></button>
+        </div>
+        <div class="folio-ticker__group" aria-hidden="true">
+          <button class="folio-logo" data-preview="0" tabindex="-1"><img src="images/folio/haus.png" alt="" loading="lazy"></button>
+          <button class="folio-logo" data-preview="1" tabindex="-1"><img src="images/folio/hesa.png" alt="" loading="lazy"></button>
+          <button class="folio-logo" data-preview="2" tabindex="-1"><img src="images/folio/aaec.png" alt="" loading="lazy"></button>
+          <button class="folio-logo" data-preview="3" tabindex="-1"><img src="images/folio/rloria.png" alt="" loading="lazy"></button>
+          <button class="folio-logo" data-preview="4" tabindex="-1"><img src="images/folio/alturaraiz.png" alt="" loading="lazy"></button>
+          <button class="folio-logo" data-preview="5" tabindex="-1"><img src="images/folio/evoke.png" alt="" loading="lazy"></button>
+          <button class="folio-logo" data-preview="6" tabindex="-1"><img src="images/folio/pastoarca.png" alt="" loading="lazy"></button>
+          <button class="folio-logo" data-preview="7" tabindex="-1"><img src="images/folio/zacate.png" alt="" loading="lazy"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="folio-preview" id="folio-preview">
+      <div class="folio-preview__bar"><span></span><span></span><span></span></div>
+      <div class="folio-preview__body">
+        <span class="mono folio-preview__label">Vista previa próximamente</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact" id="contacto">
+    <div class="container contact-inner">
+      <p class="section-eyebrow">// CONTACTO</p>
+      <h2 class="section-title reveal">¿Tenés un proyecto en mente?</h2>
+      <p class="section-sub reveal" style="--d:60ms">Escribinos y conversemos sobre qué necesita tu negocio — sin compromiso.</p>
+      <div class="contact__actions">
+        <a href="https://wa.me/50687096790" target="_blank" rel="noopener" class="btn-primary">Escribir por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer container">
+  <div class="footer__brand">structura<span>.</span> — soluciones digitales, Costa Rica</div>
+  <div class="footer__links">
+    <a href="#servicios">Servicios</a>
+    <a href="#productos">Productos</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/gh/darkroomengineering/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
