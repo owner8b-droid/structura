@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap">
+<script src="https://cdn.jsdelivr.net/gh/darkroomengineering/lenis@1.1.13/dist/lenis.min.js"></script>
+<style>
+body{margin:0;background:#0A0E13;}
+a{color:#2DD4FF;text-decoration:none;}
+a:hover{color:#7FE6FF;}
+
+/* ---- Selector de idioma ---- */
+.lang-toggle{display:flex;align-items:center;border:1px solid #232B35;border-radius:8px;overflow:hidden;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;}
+.lang-btn{background:none;border:none;padding:7px 11px;color:#7C8894;cursor:pointer;transition:background .2s ease, color .2s ease;}
+.lang-btn.is-active{background:#2DD4FF;color:#0A0E13;}
+.lang-btn:not(.is-active):hover{color:#E7ECEF;}
+
+/* ---- Icono homepage (chat bubble) ---- */
+.chat-bubble{transition:transform .2s cubic-bezier(.34,1.4,.5,1);}
+.chat-bubble:hover{transform:scale(1.08);}
+.chat-bubble:active{transform:scale(.94);}
+
+/* ---- Hero animado de contacto ---- */
+@keyframes heroGlowA{0%,100%{transform:translate(-6%,-4%) scale(1);}50%{transform:translate(4%,6%) scale(1.15);}}
+@keyframes heroGlowB{0%,100%{transform:translate(5%,3%) scale(1.05);}50%{transform:translate(-5%,-5%) scale(0.95);}}
+@keyframes heroDotPulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+.hero-contact{position:relative;overflow:hidden;padding:120px 5% 90px;text-align:center;}
+.hero-contact__glow-a{position:absolute;top:-25%;left:-12%;width:60%;height:85%;background:radial-gradient(circle,rgba(45,212,255,0.22),transparent 70%);animation:heroGlowA 16s ease-in-out infinite;pointer-events:none;}
+.hero-contact__glow-b{position:absolute;bottom:-30%;right:-12%;width:55%;height:85%;background:radial-gradient(circle,rgba(249,168,212,0.14),transparent 70%);animation:heroGlowB 20s ease-in-out infinite;pointer-events:none;}
+.hero-contact__dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2DD4FF;box-shadow:0 0 10px #2DD4FF;animation:heroDotPulse 1.8s ease-in-out infinite;margin-right:9px;vertical-align:middle;}
+
+/* ---- Formulario ---- */
+.contact-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:32px;text-align:left;padding:0 5% 120px;max-width:1180px;margin:0 auto;}
+@media (max-width:860px){.contact-grid{grid-template-columns:1fr;}}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media (max-width:520px){.form-row{grid-template-columns:1fr;}}
+.form-field{margin-bottom:20px;}
+.form-label{display:block;font-size:13px;color:#C9CFD6;margin-bottom:8px;letter-spacing:0.02em;}
+.form-required{color:#2DD4FF;}
+.form-input{width:100%;background:#0A0E13;border:1px solid #232B35;border-radius:8px;padding:12px 14px;color:#E7ECEF;font-family:'IBM Plex Sans',sans-serif;font-size:14.5px;transition:border-color .2s ease;box-sizing:border-box;}
+.form-input:focus{outline:none;border-color:#2DD4FF;}
+textarea.form-input{resize:vertical;min-height:120px;}
+.form-submit{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#2DD4FF;color:#0A0E13;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;padding:15px 24px;border:none;border-radius:8px;cursor:pointer;transition:background .2s ease, transform .2s cubic-bezier(.34,1.4,.5,1);}
+.form-submit:hover{background:#0FA8CE;}
+.form-submit:active{transform:scale(.97);}
+
+/* ---- Selectores tipo tarjeta (tipo de proyecto / interés) ---- */
+.option-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+.option-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;background:#0A0E13;border:1px solid #232B35;border-radius:10px;padding:18px 10px;color:#7C8894;font-size:12.5px;text-align:center;cursor:pointer;transition:border-color .2s ease, background .2s ease, color .2s ease;font-family:'IBM Plex Sans',sans-serif;}
+.option-card svg{width:22px;height:22px;flex-shrink:0;}
+.option-card:hover{border-color:#3a4552;color:#C9CFD6;}
+.option-card.is-selected{border-color:#2DD4FF;background:rgba(45,212,255,0.08);color:#E7ECEF;}
+.option-card.is-selected svg{color:#2DD4FF;}
+
+/* ---- Panel lateral ---- */
+.contact-side{background:#10161D;border:1px solid #232B35;border-radius:16px;padding:26px;height:fit-content;}
+.contact-side__row{display:flex;gap:12px;margin-bottom:20px;}
+.contact-side__icon{width:34px;height:34px;flex-shrink:0;border-radius:8px;background:rgba(45,212,255,0.1);display:flex;align-items:center;justify-content:center;color:#2DD4FF;}
+.why-box{background:#0A0E13;border:1px solid #232B35;border-radius:12px;padding:18px 20px;margin:22px 0;}
+.why-item{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:#C9CFD6;line-height:1.5;margin-bottom:12px;}
+.why-item:last-child{margin-bottom:0;}
+.why-item svg{flex-shrink:0;margin-top:2px;color:#2DD4FF;width:15px;height:15px;}
+</style>
+</helmet>
+
+<div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
+
+  <nav style="position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 5%;background:rgba(10,14,19,0.9);backdrop-filter:blur(10px);border-bottom:1px solid #232B35;">
+    <a href="Structura V2.dc.html" style="display:flex;align-items:center;gap:10px;">
+      <svg width="30" height="30" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
+        <rect x="18" y="18" width="14" height="14" fill="#2DD4FF"/>
+        <rect x="18" y="2" width="14" height="14" fill="none" stroke="#7C8894" stroke-width="1.5"/>
+      </svg>
+      <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:19px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
+    </a>
+    <div style="display:flex;align-items:center;gap:30px;">
+      <a href="Structura V2.dc.html#soluciones" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.soluciones }}</a>
+      <a href="Structura V2.dc.html#portafolio" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.portafolio }}</a>
+      <a href="Structura V2.dc.html#experiencia" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.experiencia }}</a>
+      <a href="Structura V2 - Como Trabajamos.dc.html" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.comoTrabajamos }}</a>
+      <a href="#form" style="color:#2DD4FF;font-size:14.5px;font-weight:600;">{{ t.nav.contacto }}</a>
+      <div class="lang-toggle">
+        <button onClick="{{ setLangEs }}" class="{{ langBtnEsClass }}">ES</button>
+        <button onClick="{{ setLangEn }}" class="{{ langBtnEnClass }}">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-contact">
+    <div class="hero-contact__glow-a"></div>
+    <div class="hero-contact__glow-b"></div>
+    <div style="position:relative;z-index:1;max-width:720px;margin:0 auto;">
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;"><span class="hero-contact__dot"></span>{{ t.hero.eyebrow }}</p>
+      <h1 style="font-size:clamp(32px,5.4vw,56px);font-weight:700;letter-spacing:-0.01em;line-height:1.1;margin:0 0 14px;">{{ t.hero.title }}</h1>
+      <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:16px;margin:0 0 20px;">{{ t.hero.tagline }}</p>
+      <p style="color:#7C8894;font-size:17px;line-height:1.6;max-width:520px;margin:0 auto;">{{ t.hero.sub }}</p>
+    </div>
+  </section>
+
+  <div id="form" class="contact-grid">
+    <form onSubmit="{{ submitContactForm }}">
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">{{ t.form.name }} <span class="form-required">*</span></label>
+          <input class="form-input" type="text" required="{{ true }}" placeholder="{{ t.form.namePh }}" value="{{ formName }}" onChange="{{ updateFormName }}" />
+        </div>
+        <div class="form-field">
+          <label class="form-label">{{ t.form.email }} <span class="form-required">*</span></label>
+          <input class="form-input" type="email" required="{{ true }}" placeholder="{{ t.form.emailPh }}" value="{{ formEmail }}" onChange="{{ updateFormEmail }}" />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">{{ t.form.company }}</label>
+        <input class="form-input" type="text" placeholder="{{ t.form.companyPh }}" value="{{ formCompany }}" onChange="{{ updateFormCompany }}" />
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">{{ t.form.projectType }} <span class="form-required">*</span></label>
+        <div class="option-grid">
+          <button type="button" class="{{ typeClasses.web }}" onClick="{{ typeHandlers.web }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 6L3 12l5 6M16 6l5 6-5 6"/></svg>
+            <span>{{ t.form.projectTypeOptions.web }}</span>
+          </button>
+          <button type="button" class="{{ typeClasses.movil }}" onClick="{{ typeHandlers.movil }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+            <span>{{ t.form.projectTypeOptions.movil }}</span>
+          </button>
+          <button type="button" class="{{ typeClasses.ia }}" onClick="{{ typeHandlers.ia }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="6" width="12" height="12" rx="2"/><line x1="9" y1="2" x2="9" y2="6"/><line x1="15" y1="2" x2="15" y2="6"/><line x1="9" y1="18" x2="9" y2="22"/><line x1="15" y1="18" x2="15" y2="22"/><line x1="2" y1="9" x2="6" y2="9"/><line x1="2" y1="15" x2="6" y2="15"/><line x1="18" y1="9" x2="22" y2="9"/><line x1="18" y1="15" x2="22" y2="15"/></svg>
+            <span>{{ t.form.projectTypeOptions.ia }}</span>
+          </button>
+          <button type="button" class="{{ typeClasses.ecommerce }}" onClick="{{ typeHandlers.ecommerce }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="20" r="1.3" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.3" fill="currentColor" stroke="none"/><path d="M2 3h2l2.4 12.2a2 2 0 002 1.8h8.2a2 2 0 002-1.8L21 7H6"/></svg>
+            <span>{{ t.form.projectTypeOptions.ecommerce }}</span>
+          </button>
+          <button type="button" class="{{ typeClasses.automatizacion }}" onClick="{{ typeHandlers.automatizacion }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+            <span>{{ t.form.projectTypeOptions.automatizacion }}</span>
+          </button>
+          <button type="button" class="{{ typeClasses.hosting }}" onClick="{{ typeHandlers.hosting }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><circle cx="7" cy="7" r="0.8" fill="currentColor" stroke="none"/><circle cx="7" cy="17" r="0.8" fill="currentColor" stroke="none"/></svg>
+            <span>{{ t.form.projectTypeOptions.hosting }}</span>
+          </button>
+          <button type="button" class="{{ typeClasses.otro }}" onClick="{{ typeHandlers.otro }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18h6M10 22h4M12 2a6 6 0 00-3.5 10.9c.6.5 1 1.2 1.1 2.1h4.8c.1-.9.5-1.6 1.1-2.1A6 6 0 0012 2z"/></svg>
+            <span>{{ t.form.projectTypeOptions.otro }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">{{ t.form.interest }} <span class="form-required">*</span></label>
+        <div class="option-grid">
+          <button type="button" class="{{ interestClasses.landing }}" onClick="{{ interestHandlers.landing }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="2" width="14" height="20" rx="1.5"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg>
+            <span>{{ t.form.interestOptions.landing }}</span>
+          </button>
+          <button type="button" class="{{ interestClasses.multipagina }}" onClick="{{ interestHandlers.multipagina }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="3" width="12" height="16" rx="1.3"/><path d="M3 7v13a1.5 1.5 0 001.5 1.5H16" opacity="0.6"/></svg>
+            <span>{{ t.form.interestOptions.multipagina }}</span>
+          </button>
+          <button type="button" class="{{ interestClasses.ecommerce }}" onClick="{{ interestHandlers.ecommerce }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="20" r="1.3" fill="currentColor" stroke="none"/><circle cx="18" cy="20" r="1.3" fill="currentColor" stroke="none"/><path d="M2 3h2l2.4 12.2a2 2 0 002 1.8h8.2a2 2 0 002-1.8L21 7H6"/></svg>
+            <span>{{ t.form.interestOptions.ecommerce }}</span>
+          </button>
+          <button type="button" class="{{ interestClasses.movil }}" onClick="{{ interestHandlers.movil }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+            <span>{{ t.form.interestOptions.movil }}</span>
+          </button>
+          <button type="button" class="{{ interestClasses.automatizacion }}" onClick="{{ interestHandlers.automatizacion }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+            <span>{{ t.form.interestOptions.automatizacion }}</span>
+          </button>
+          <button type="button" class="{{ interestClasses.hosting }}" onClick="{{ interestHandlers.hosting }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><circle cx="7" cy="7" r="0.8" fill="currentColor" stroke="none"/><circle cx="7" cy="17" r="0.8" fill="currentColor" stroke="none"/></svg>
+            <span>{{ t.form.interestOptions.hosting }}</span>
+          </button>
+          <button type="button" class="{{ interestClasses.consultoria }}" onClick="{{ interestHandlers.consultoria }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v12H8l-4 4V4z"/><line x1="8" y1="9" x2="16" y2="9"/></svg>
+            <span>{{ t.form.interestOptions.consultoria }}</span>
+          </button>
+          <button type="button" class="{{ interestClasses.noseguro }}" onClick="{{ interestHandlers.noseguro }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 114 2c-.9.7-1.5 1.2-1.5 2.5"/><circle cx="12" cy="17" r="0.4" fill="currentColor" stroke="none"/></svg>
+            <span>{{ t.form.interestOptions.noseguro }}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">{{ t.form.description }} <span class="form-required">*</span></label>
+        <textarea class="form-input" required="{{ true }}" placeholder="{{ t.form.descriptionPh }}" value="{{ formDescription }}" onChange="{{ updateFormDescription }}"></textarea>
+      </div>
+
+      <button type="submit" class="form-submit">{{ t.form.submit }}</button>
+    </form>
+
+    <div class="contact-side">
+      <p style="font-size:13px;color:#7C8894;margin:0 0 20px;">{{ t.side.title }}</p>
+
+      <div class="contact-side__row">
+        <div class="contact-side__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg></div>
+        <div>
+          <div style="color:#E7ECEF;font-size:14.5px;font-weight:500;">{{ t.side.whatsapp }}</div>
+          <div style="color:#7C8894;font-size:12.5px;margin-top:2px;">{{ t.side.whatsappNote }}</div>
+        </div>
+      </div>
+
+      <div class="contact-side__row">
+        <div class="contact-side__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <div>
+          <div style="color:#E7ECEF;font-size:14.5px;font-weight:500;">{{ t.side.hoursValue }}</div>
+          <div style="color:#7C8894;font-size:12.5px;margin-top:2px;">{{ t.side.hoursNote }}</div>
+        </div>
+      </div>
+
+      <div class="contact-side__row" style="margin-bottom:0;">
+        <div class="contact-side__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg></div>
+        <div>
+          <div style="color:#E7ECEF;font-size:14.5px;font-weight:500;">{{ t.side.reachValue }}</div>
+          <div style="color:#7C8894;font-size:12.5px;margin-top:2px;">{{ t.side.reachNote }}</div>
+        </div>
+      </div>
+
+      <div class="why-box">
+        <p style="font-size:13.5px;color:#E7ECEF;font-weight:600;margin:0 0 14px;">{{ t.side.whyTitle }}</p>
+        <div class="why-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span>{{ t.side.why[0] }}</span></div>
+        <div class="why-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span>{{ t.side.why[1] }}</span></div>
+        <div class="why-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span>{{ t.side.why[2] }}</span></div>
+        <div class="why-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span>{{ t.side.why[3] }}</span></div>
+      </div>
+
+      <a href="{{ waLink }}" target="_blank" rel="noopener" class="form-submit" style="text-decoration:none;">{{ t.side.whatsappBtn }}</a>
+
+      <div style="border-top:1px solid #232B35;margin-top:22px;padding-top:20px;">
+        <p style="font-size:13px;color:#7C8894;margin:0 0 12px;">{{ t.side.follow }}</p>
+        <div style="display:flex;gap:10px;">
+          <span style="color:#7C8894;font-size:13px;font-family:'IBM Plex Mono',monospace;">[ instagram ]</span>
+          <span style="color:#7C8894;font-size:13px;font-family:'IBM Plex Mono',monospace;">[ linkedin ]</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
+    <a href="{{ waLink }}" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp" class="chat-bubble" style="position:fixed;right:24px;bottom:24px;z-index:150;width:56px;height:56px;border-radius:50%;background:#2DD4FF;color:#0A0E13;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(45,212,255,0.35);">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+  </sc-if>
+
+  <footer style="border-top:1px solid #232B35;padding:40px 5%;text-align:center;">
+    <p style="color:#4a5560;font-size:13px;margin:0;">{{ t.footer.copyright }}</p>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;50687096790&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const TYPE_KEYS = ['web', 'movil', 'ia', 'ecommerce', 'automatizacion', 'hosting', 'otro'];
+const INTEREST_KEYS = ['landing', 'multipagina', 'ecommerce', 'movil', 'automatizacion', 'hosting', 'consultoria', 'noseguro'];
+
+const DICT = {
+  es: {
+    nav: { soluciones: 'Soluciones', portafolio: 'Portafolio', experiencia: 'Experiencia', comoTrabajamos: 'Cómo trabajamos', contacto: 'Contacto' },
+    hero: {
+      eyebrow: 'CONTACTO',
+      title: 'Hablemos de tu proyecto',
+      tagline: 'Convierte tu idea en realidad',
+      sub: 'Contanos sobre tu proyecto y te respondemos dentro de 24 horas.',
+    },
+    form: {
+      name: 'Nombre completo', namePh: 'Tu nombre',
+      email: 'Email', emailPh: 'tucorreo@ejemplo.com',
+      company: 'Empresa', companyPh: 'Nombre de tu empresa (opcional)',
+      projectType: 'Tipo de proyecto',
+      projectTypeOptions: { web: 'Desarrollo Web', movil: 'App Móvil', ia: 'Inteligencia Artificial', ecommerce: 'E-commerce', automatizacion: 'Automatización', hosting: 'Hosting / Servidor', otro: 'Otro' },
+      interest: '¿Qué te interesa específicamente?',
+      interestOptions: { landing: 'Landing Page', multipagina: 'Sitio Multi-página', ecommerce: 'E-commerce', movil: 'App Móvil', automatizacion: 'Automatización / IA', hosting: 'Hosting Personalizado', consultoria: 'Consultoría / Asesoría', noseguro: 'No estoy seguro aún' },
+      description: 'Descripción del proyecto', descriptionPh: 'Contanos qué necesitás, objetivos, plazos...',
+      submit: 'Enviar mensaje',
+    },
+    side: {
+      title: 'Otras formas de contactarnos',
+      whatsapp: 'WhatsApp', whatsappNote: 'Chat directo y rápido',
+      hoursValue: 'Lun–Vie, 8am–6pm', hoursNote: 'Zona horaria Costa Rica',
+      reachValue: 'Costa Rica y remoto', reachNote: 'También trabajamos con clientes fuera del país',
+      whyTitle: '¿Por qué elegirnos?',
+      why: [
+        'Diseño y desarrollo bajo un mismo equipo, sin subcontratar nada',
+        'Infraestructura propia con monitoreo y respaldos',
+        'Soporte continuo después del lanzamiento',
+        'Facturación electrónica lista para Costa Rica',
+      ],
+      whatsappBtn: 'Escribir por WhatsApp',
+      follow: 'Síguenos',
+    },
+    footer: { copyright: '© 2026 structura. — soluciones digitales, Costa Rica' },
+  },
+  en: {
+    nav: { soluciones: 'Solutions', portafolio: 'Portfolio', experiencia: 'Experience', comoTrabajamos: 'How we work', contacto: 'Contact' },
+    hero: {
+      eyebrow: 'CONTACT',
+      title: 'Let us talk about your project',
+      tagline: 'Turn your idea into reality',
+      sub: 'Tell us about your project and we will reply within 24 hours.',
+    },
+    form: {
+      name: 'Full name', namePh: 'Your name',
+      email: 'Email', emailPh: 'you@example.com',
+      company: 'Company', companyPh: 'Your company name (optional)',
+      projectType: 'Project type',
+      projectTypeOptions: { web: 'Web Development', movil: 'Mobile App', ia: 'Artificial Intelligence', ecommerce: 'E-commerce', automatizacion: 'Automation', hosting: 'Hosting / Server', otro: 'Other' },
+      interest: 'What are you interested in specifically?',
+      interestOptions: { landing: 'Landing Page', multipagina: 'Multi-page Site', ecommerce: 'E-commerce', movil: 'Mobile App', automatizacion: 'Automation / AI', hosting: 'Custom Hosting', consultoria: 'Consulting / Advisory', noseguro: 'Not sure yet' },
+      description: 'Project description', descriptionPh: 'Tell us what you need, goals, timeline...',
+      submit: 'Send message',
+    },
+    side: {
+      title: 'Other ways to reach us',
+      whatsapp: 'WhatsApp', whatsappNote: 'Direct, fast chat',
+      hoursValue: 'Mon–Fri, 8am–6pm', hoursNote: 'Costa Rica time zone',
+      reachValue: 'Costa Rica and remote', reachNote: 'We also work with clients outside the country',
+      whyTitle: 'Why work with us?',
+      why: [
+        'Design and development under one team, nothing outsourced',
+        'Our own infrastructure with monitoring and backups',
+        'Ongoing support after launch',
+        'E-invoicing ready for Costa Rica',
+      ],
+      whatsappBtn: 'Message on WhatsApp',
+      follow: 'Follow us',
+    },
+    footer: { copyright: '© 2026 structura. — digital solutions, Costa Rica' },
+  },
+};
+
+class Component extends DCLogic {
+  state = { lang: 'es', formName: '', formEmail: '', formCompany: '', formTypeKey: '', formInterestKey: '', formDescription: '' };
+
+  componentDidMount() {
+    try {
+      const saved = localStorage.getItem('structura_lang');
+      if (saved === 'es' || saved === 'en') this.setState({ lang: saved });
+    } catch (e) {}
+
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+    const initLenis = () => {
+      if (this._unmounted) return;
+      if (!window.Lenis) { this._lenisPoll = setTimeout(initLenis, 50); return; }
+      this._lenis = new window.Lenis({ duration: 1.1, easing: easeOutCubic });
+      const raf = (time) => { this._lenis.raf(time); this._raf = requestAnimationFrame(raf); };
+      this._raf = requestAnimationFrame(raf);
+    };
+    initLenis();
+
+    this._onAnchorClick = (e) => {
+      const link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      if (this._lenis) this._lenis.scrollTo(target, { duration: 1.2, easing: easeOutCubic });
+      else target.scrollIntoView({ behavior: 'smooth' });
+    };
+    document.addEventListener('click', this._onAnchorClick);
+  }
+  componentWillUnmount() {
+    this._unmounted = true;
+    document.removeEventListener('click', this._onAnchorClick);
+    if (this._lenisPoll) clearTimeout(this._lenisPoll);
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._lenis) this._lenis.destroy();
+  }
+
+  setLang = (lang) => {
+    this.setState({ lang });
+    try { localStorage.setItem('structura_lang', lang); } catch (e) {}
+  };
+
+  updateFormName = (e) => this.setState({ formName: e.target.value });
+  updateFormEmail = (e) => this.setState({ formEmail: e.target.value });
+  updateFormCompany = (e) => this.setState({ formCompany: e.target.value });
+  updateFormDescription = (e) => this.setState({ formDescription: e.target.value });
+
+  submitContactForm = (e) => {
+    e.preventDefault();
+    const s = this.state;
+    const lang = s.lang === 'en' ? 'en' : 'es';
+    const f = DICT[lang].form;
+    const lines = [
+      `${f.name}: ${s.formName}`,
+      `${f.email}: ${s.formEmail}`,
+      s.formCompany ? `${f.company}: ${s.formCompany}` : null,
+      s.formTypeKey ? `${f.projectType}: ${f.projectTypeOptions[s.formTypeKey]}` : null,
+      s.formInterestKey ? `${f.interest}: ${f.interestOptions[s.formInterestKey]}` : null,
+      `${f.description}: ${s.formDescription}`,
+    ].filter(Boolean).join('\n');
+    const num = (this.props.whatsappNumber ?? '50687096790').toString().replace(/[^0-9]/g, '');
+    window.open(`https://wa.me/${num}?text=${encodeURIComponent(lines)}`, '_blank');
+  };
+
+  renderVals() {
+    const lang = this.state.lang === 'en' ? 'en' : 'es';
+    const t = DICT[lang];
+    const num = (this.props.whatsappNumber ?? '50687096790').toString().replace(/[^0-9]/g, '');
+
+    const typeHandlers = {}, typeClasses = {};
+    TYPE_KEYS.forEach((k) => {
+      typeHandlers[k] = () => this.setState({ formTypeKey: k });
+      typeClasses[k] = 'option-card' + (this.state.formTypeKey === k ? ' is-selected' : '');
+    });
+    const interestHandlers = {}, interestClasses = {};
+    INTEREST_KEYS.forEach((k) => {
+      interestHandlers[k] = () => this.setState({ formInterestKey: k });
+      interestClasses[k] = 'option-card' + (this.state.formInterestKey === k ? ' is-selected' : '');
+    });
+
+    return {
+      t, lang,
+      setLangEs: () => this.setLang('es'),
+      setLangEn: () => this.setLang('en'),
+      langBtnEsClass: 'lang-btn' + (lang === 'es' ? ' is-active' : ''),
+      langBtnEnClass: 'lang-btn' + (lang === 'en' ? ' is-active' : ''),
+      waLink: `https://wa.me/${num}`,
+      formName: this.state.formName, updateFormName: this.updateFormName,
+      formEmail: this.state.formEmail, updateFormEmail: this.updateFormEmail,
+      formCompany: this.state.formCompany, updateFormCompany: this.updateFormCompany,
+      formDescription: this.state.formDescription, updateFormDescription: this.updateFormDescription,
+      submitContactForm: this.submitContactForm,
+      typeHandlers, typeClasses, interestHandlers, interestClasses,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

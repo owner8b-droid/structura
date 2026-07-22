@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  body { margin: 0; background: #050608; }
+  @keyframes flow1 { 0% { transform: translate(-5%,-2%) rotate(0deg) scale(1); } 50% { transform: translate(3%,4%) rotate(4deg) scale(1.08); } 100% { transform: translate(-5%,-2%) rotate(0deg) scale(1); } }
+  @keyframes flow2 { 0% { transform: translate(4%,3%) rotate(0deg) scale(1.05); } 50% { transform: translate(-4%,-3%) rotate(-5deg) scale(0.98); } 100% { transform: translate(4%,3%) rotate(0deg) scale(1.05); } }
+  @keyframes pulseGlow { 0%,100% { opacity: 0.35; } 50% { opacity: 0.75; } }
+  @keyframes bounce { 0%,100% { transform: translateY(0); opacity: 0.6; } 50% { transform: translateY(10px); opacity: 1; } }
+  @keyframes grainShift { 0% { transform: translate(0,0); } 100% { transform: translate(-4%,3%); } }
+</style>
+</helmet>
+
+<div ref="{{ rootRef }}" style="position:relative;width:100%;height:100vh;min-height:700px;overflow-x:hidden;overflow-y:auto;font-family:'Inter',sans-serif;background:#050608;">
+
+  <!-- Background image layer with parallax -->
+  <div style="position:fixed;inset:0;width:100%;height:100%;transform:{{ bgTransform }};transition:transform 0.05s linear;">
+    <img src="uploads/pexels-photo-19066339.avif" alt="Montaña sobre nubes" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;" />
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(5,6,10,0.15) 0%, rgba(5,6,10,0.05) 30%, rgba(5,6,10,0.55) 78%, rgba(5,6,10,0.85) 100%);"></div>
+  </div>
+
+  <!-- Iridescent flowing lines layer -->
+  <div style="position:fixed;inset:0;width:100%;height:100%;mix-blend-mode:screen;opacity:0.55;pointer-events:none;transform:{{ linesTransform }};">
+    <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;">
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.0" />
+          <stop offset="35%" stop-color="#a78bfa" stop-opacity="0.55" />
+          <stop offset="65%" stop-color="#f9a8d4" stop-opacity="0.5" />
+          <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0.0" />
+        </linearGradient>
+        <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#fbcfe8" stop-opacity="0" />
+          <stop offset="45%" stop-color="#93c5fd" stop-opacity="0.45" />
+          <stop offset="100%" stop-color="#fde68a" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+      <g style="animation:flow1 22s ease-in-out infinite;transform-origin:center;">
+        <path d="M -200 300 C 300 100, 700 500, 1000 250 S 1600 150, 1900 350" stroke="url(#grad1)" stroke-width="3" fill="none" />
+        <path d="M -200 450 C 400 250, 650 650, 1050 420 S 1500 300, 1900 500" stroke="url(#grad1)" stroke-width="2" fill="none" />
+        <path d="M -200 600 C 350 450, 800 750, 1150 550 S 1550 480, 1900 650" stroke="url(#grad1)" stroke-width="2.5" fill="none" />
+      </g>
+      <g style="animation:flow2 28s ease-in-out infinite;transform-origin:center;">
+        <path d="M -200 200 C 250 400, 750 50, 1100 300 S 1500 500, 1900 250" stroke="url(#grad2)" stroke-width="2.5" fill="none" />
+        <path d="M -200 700 C 300 550, 700 850, 1200 620 S 1600 700, 1900 800" stroke="url(#grad2)" stroke-width="2" fill="none" />
+      </g>
+    </svg>
+    <div style="position:absolute;top:15%;left:10%;width:40%;height:50%;background:radial-gradient(circle,rgba(167,139,250,0.25) 0%,transparent 70%);animation:pulseGlow 8s ease-in-out infinite;"></div>
+    <div style="position:absolute;bottom:10%;right:5%;width:45%;height:45%;background:radial-gradient(circle,rgba(249,168,212,0.2) 0%,transparent 70%);animation:pulseGlow 10s ease-in-out infinite 2s;"></div>
+  </div>
+
+  <!-- Analog grain overlay -->
+  <div style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.18;mix-blend-mode:overlay;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22 stitchTiles=%22stitch%22/></filter><rect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/></svg>');background-size:220px 220px;animation:grainShift 1.2s steps(3) infinite;"></div>
+  <!-- Pink flare accent (from original photo) -->
+  <div style="position:fixed;top:-10%;left:-5%;width:55%;height:45%;background:radial-gradient(ellipse at top left, rgba(251,207,232,0.35) 0%, transparent 65%);pointer-events:none;mix-blend-mode:screen;"></div>
+
+  <!-- Foreground content, parallax-shifted -->
+  <div style="position:relative;z-index:5;transform:{{ contentTransform }};transition:transform 0.05s linear;">
+
+    <!-- Navbar -->
+    <nav style="position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:28px 56px;background:linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 100%);backdrop-filter:blur(2px);">
+      <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#ffffff;">WeCode</div>
+      <div style="display:flex;gap:40px;">
+        <a href="#" style="color:rgba(255,255,255,0.88);text-decoration:none;font-size:14.5px;font-weight:500;letter-spacing:0.01em;" style-hover="color:#ffffff;">Soluciones</a>
+        <a href="#" style="color:rgba(255,255,255,0.88);text-decoration:none;font-size:14.5px;font-weight:500;letter-spacing:0.01em;" style-hover="color:#ffffff;">Servicios</a>
+        <a href="#" style="color:rgba(255,255,255,0.88);text-decoration:none;font-size:14.5px;font-weight:500;letter-spacing:0.01em;" style-hover="color:#ffffff;">Productos</a>
+        <a href="#" style="color:rgba(255,255,255,0.88);text-decoration:none;font-size:14.5px;font-weight:500;letter-spacing:0.01em;" style-hover="color:#ffffff;">Referidos</a>
+        <a href="#" style="color:rgba(255,255,255,0.88);text-decoration:none;font-size:14.5px;font-weight:500;letter-spacing:0.01em;" style-hover="color:#ffffff;">Contacto</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.9);">
+        <span style="color:#ffffff;border-bottom:1.5px solid #ffffff;padding-bottom:2px;">es</span>
+        <span style="opacity:0.4;">/</span>
+        <span style="opacity:0.65;">en</span>
+      </div>
+    </nav>
+
+    <!-- Hero content -->
+    <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:140px 24px 0;gap:28px;">
+      <h1 style="margin:0;font-size:clamp(40px,7vw,88px);font-weight:800;letter-spacing:-0.02em;line-height:1.05;color:#ffffff;text-shadow:0 4px 40px rgba(0,0,0,0.35);max-width:1100px;">REDEFINIENDO EL FUTURO DIGITAL</h1>
+      <p style="margin:0;font-size:clamp(16px,2vw,20px);font-weight:400;color:rgba(255,255,255,0.85);max-width:620px;line-height:1.5;">Diseñamos y desarrollamos productos digitales que transforman ideas ambiciosas en experiencias reales, escalables y memorables.</p>
+
+      <div style="display:flex;gap:18px;margin-top:16px;flex-wrap:wrap;justify-content:center;">
+        <a href="#" style="background:oklch(0.58 0.19 258);color:#ffffff;padding:16px 34px;border-radius:8px;font-size:15.5px;font-weight:600;text-decoration:none;box-shadow:0 8px 30px oklch(0.58 0.19 258 / 0.4);transition:transform 0.25s ease-out, box-shadow 0.25s ease-out;" style-hover="transform:translateY(-2px);box-shadow:0 12px 36px oklch(0.58 0.19 258 / 0.5);">Iniciar Proyecto</a>
+        <a href="#" style="background:transparent;color:#ffffff;padding:16px 34px;border-radius:8px;font-size:15.5px;font-weight:600;text-decoration:none;border:1.5px solid rgba(255,255,255,0.7);transition:background 0.25s ease-out, border-color 0.25s ease-out;" style-hover="background:rgba(255,255,255,0.12);border-color:#ffffff;">Ver Soluciones</a>
+      </div>
+    </div>
+
+    <!-- Trust indicators -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:36px;padding:0 24px 56px;">
+      <div style="display:flex;align-items:center;gap:56px;flex-wrap:wrap;justify-content:center;opacity:0.72;filter:grayscale(1) brightness(2);">
+        <span style="font-size:20px;font-weight:700;letter-spacing:0.04em;color:#ffffff;">AUDI</span>
+        <span style="font-size:20px;font-weight:800;letter-spacing:0.01em;color:#ffffff;">NETFLIX</span>
+        <span style="font-size:20px;font-weight:700;letter-spacing:0.03em;color:#ffffff;">SAMSUNG</span>
+        <span style="font-size:20px;font-weight:600;letter-spacing:0.05em;color:#ffffff;">SONY</span>
+        <span style="font-size:20px;font-weight:800;letter-spacing:0.02em;color:#ffffff;">CNN</span>
+      </div>
+
+      <div style="width:26px;height:42px;border:1.5px solid rgba(255,255,255,0.55);border-radius:14px;display:flex;justify-content:center;padding-top:8px;">
+        <div style="width:4px;height:8px;border-radius:2px;background:#ffffff;animation:bounce 1.8s ease-in-out infinite;"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { scrollY: 0 };
+
+  componentDidMount() {
+    this._onScroll = () => this.setState({ scrollY: window.scrollY || this.state.scrollY });
+    this._el = this.rootRef && this.rootRef.current;
+    if (this._el) {
+      this._el.addEventListener('scroll', () => this.setState({ scrollY: this._el.scrollTop }));
+    }
+  }
+
+  renderVals() {
+    const y = this.state.scrollY;
+    return {
+      rootRef: this.rootRef || (this.rootRef = React.createRef()),
+      bgTransform: `translateY(${y * 0.15}px) scale(1.05)`,
+      linesTransform: `translateY(${y * 0.25}px)`,
+      contentTransform: `translateY(${y * -0.08}px)`,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
