@@ -137,6 +137,30 @@ a:hover{color:#7FE6FF;}
 .ai-widget-form button{background:#2DD4FF;color:#0A0E13;border:none;border-radius:8px;width:38px;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s ease;}
 .ai-widget-form button:hover{background:#0FA8CE;}
 .ai-widget-form button:disabled{opacity:.5;cursor:not-allowed;}
+
+/* ---- Nav móvil: hamburguesa + sidebar desplegable ---- */
+.desktop-nav{display:flex;align-items:center;gap:36px;}
+.nav-burger{display:none;background:none;border:none;cursor:pointer;padding:8px;width:36px;height:36px;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;}
+.nav-burger span{display:block;width:20px;height:2px;background:#E7ECEF;border-radius:2px;}
+
+.mobile-sidebar-backdrop{position:fixed;inset:0;background:rgba(10,14,19,0.6);z-index:190;opacity:0;pointer-events:none;transition:opacity .25s ease;}
+.mobile-sidebar-backdrop.is-open{opacity:1;pointer-events:auto;}
+
+.mobile-sidebar{position:fixed;top:0;right:0;bottom:0;width:280px;max-width:80vw;background:#0D131A;border-left:1px solid #232B35;z-index:200;transform:translateX(100%);transition:transform .3s cubic-bezier(.22,.61,.30,1);overflow-y:auto;}
+.mobile-sidebar.is-open{transform:translateX(0);}
+
+.nav-sidebar-close{background:none;border:none;color:#7C8894;font-size:26px;line-height:1;cursor:pointer;padding:0;}
+.nav-sidebar-close:hover{color:#E7ECEF;}
+
+.nav-sidebar-link{display:block;color:rgba(231,236,239,0.88);font-size:16px;font-weight:500;padding:12px 10px;border-radius:8px;transition:background-color .15s ease,color .15s ease;}
+.nav-sidebar-link:hover{background:rgba(45,212,255,0.08);color:#E7ECEF;}
+.nav-sidebar-cta{display:block;margin-top:12px;text-align:center;background:#2DD4FF;color:#0A0E13;padding:13px 0;border-radius:8px;font-size:15px;font-weight:600;}
+.nav-sidebar-cta:hover{background:#0FA8CE;color:#0A0E13;}
+
+@media (max-width:768px){
+  .desktop-nav{display:none;}
+  .nav-burger{display:flex;}
+}
 </style>
 </helmet>
 
@@ -187,7 +211,7 @@ a:hover{color:#7FE6FF;}
         <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:19px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
       </a>
 
-      <div style="display:flex;align-items:center;gap:36px;" class="desktop-nav">
+      <div class="desktop-nav">
         <div style="position:relative;" onMouseEnter="{{ openSoluciones }}" onMouseLeave="{{ closeSoluciones }}">
           <span style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;">{{ t.nav.soluciones }}
             <svg width="10" height="10" viewBox="0 0 10 10" style="transform:{{ chevronRotate }};transition:transform .2s;"><path d="M1 3 L5 7 L9 3" stroke="#7C8894" stroke-width="1.4" fill="none"/></svg>
@@ -212,26 +236,30 @@ a:hover{color:#7FE6FF;}
         <a href="Structura V2 - Contacto.dc.html" style="background:#2DD4FF;color:#0A0E13;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;">{{ t.nav.contactar }}</a>
       </div>
 
-      <button onClick="{{ toggleMobile }}" style="display:none;background:none;border:none;width:34px;height:34px;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;" class="mobile-toggle">
-        <span style="display:block;height:2px;background:#E7ECEF;border-radius:2px;"></span>
-        <span style="display:block;height:2px;background:#E7ECEF;border-radius:2px;"></span>
+      <button onClick="{{ toggleMobile }}" class="nav-burger" aria-label="Abrir menú" aria-expanded="{{ mobileOpen }}" aria-controls="mobile-sidebar">
+        <span></span><span></span>
       </button>
     </nav>
 
-    <sc-if value="{{ mobileOpen }}" hint-placeholder-val="{{ false }}">
-      <div style="position:fixed;inset:0;z-index:99;background:#0A0E13;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;">
-        <a href="#soluciones" onClick="{{ toggleMobile }}" style="color:#E7ECEF;font-size:22px;font-weight:600;">{{ t.nav.soluciones }}</a>
-        <a href="#portafolio" onClick="{{ toggleMobile }}" style="color:#E7ECEF;font-size:22px;font-weight:600;">{{ t.nav.portafolio }}</a>
-        <a href="#experiencia" onClick="{{ toggleMobile }}" style="color:#E7ECEF;font-size:22px;font-weight:600;">{{ t.nav.experiencia }}</a>
-        <a href="Structura V2 - Como Trabajamos.dc.html" style="color:#E7ECEF;font-size:22px;font-weight:600;">{{ t.nav.comoTrabajamos }}</a>
-        <a href="Structura V2 - Precios.dc.html" style="color:#E7ECEF;font-size:22px;font-weight:600;">{{ t.nav.precios }}</a>
-        <div class="lang-toggle">
-          <button onClick="{{ setLangEs }}" class="{{ langBtnEsClass }}" style="padding:9px 16px;font-size:15px;">ES</button>
-          <button onClick="{{ setLangEn }}" class="{{ langBtnEnClass }}" style="padding:9px 16px;font-size:15px;">EN</button>
-        </div>
-        <a href="Structura V2 - Contacto.dc.html" style="background:#2DD4FF;color:#0A0E13;padding:14px 30px;border-radius:8px;font-size:16px;font-weight:600;margin-top:12px;">{{ t.nav.contactar }}</a>
+    <div class="{{ mobileBackdropClass }}" id="mobile-sidebar-backdrop" onClick="{{ toggleMobile }}"></div>
+    <aside class="{{ mobileSidebarClass }}" id="mobile-sidebar" aria-hidden="{{ mobileSidebarAriaHidden }}">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid #232B35;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:18px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
+        <button type="button" class="nav-sidebar-close" onClick="{{ toggleMobile }}" aria-label="Cerrar menú">&times;</button>
       </div>
-    </sc-if>
+      <div style="display:flex;flex-direction:column;padding:16px;gap:2px;">
+        <a href="#soluciones" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.soluciones }}</a>
+        <a href="#portafolio" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.portafolio }}</a>
+        <a href="#experiencia" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.experiencia }}</a>
+        <a href="Structura V2 - Como Trabajamos.dc.html" class="nav-sidebar-link">{{ t.nav.comoTrabajamos }}</a>
+        <a href="Structura V2 - Precios.dc.html" class="nav-sidebar-link">{{ t.nav.precios }}</a>
+        <div class="lang-toggle" style="margin-top:10px;">
+          <button onClick="{{ setLangEs }}" class="{{ langBtnEsClass }}">ES</button>
+          <button onClick="{{ setLangEn }}" class="{{ langBtnEnClass }}">EN</button>
+        </div>
+        <a href="Structura V2 - Contacto.dc.html" class="nav-sidebar-cta">{{ t.nav.contactar }}</a>
+      </div>
+    </aside>
 
     <!-- bottom row: giant wordmark left + description panel right -->
     <div style="position:absolute;z-index:2;left:0;right:0;bottom:7%;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:0 5%;">
@@ -921,7 +949,14 @@ class Component extends DCLogic {
       navBg,
       waLink: `https://wa.me/${num}`,
       mobileOpen: this.state.mobileOpen,
-      toggleMobile: () => this.setState(s => ({ mobileOpen: !s.mobileOpen })),
+      toggleMobile: () => this.setState(s => {
+        const next = !s.mobileOpen;
+        try { document.body.style.overflow = next ? 'hidden' : ''; } catch (e) {}
+        return { mobileOpen: next };
+      }),
+      mobileSidebarClass: 'mobile-sidebar' + (this.state.mobileOpen ? ' is-open' : ''),
+      mobileBackdropClass: 'mobile-sidebar-backdrop' + (this.state.mobileOpen ? ' is-open' : ''),
+      mobileSidebarAriaHidden: String(!this.state.mobileOpen),
       solucionesOpen: this.state.solucionesOpen,
       openSoluciones: () => this.setState({ solucionesOpen: true }),
       closeSoluciones: () => this.setState({ solucionesOpen: false }),

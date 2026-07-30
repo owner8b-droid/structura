@@ -237,49 +237,61 @@ class Component extends DCLogic {
 
 </script>
 <script type="module">
-(async () => {
-  const { createShader, isWebGPUSupported } = await import('https://esm.sh/shaders@3.0.445/js');
+import { mountShader } from './assets/js/shader-loader.js';
 
-  const canvas = document.getElementById('pricing-scale-shader');
-  if (!canvas || !isWebGPUSupported()) return;
-
-  // Gradiente medianoche + gema raymarcheada de la tarjeta destacada,
-  // recoloreados a la gama cian de Structura en vez del violeta/naranja
-  // del preset original.
-  await createShader(canvas, {
-    components: [
-      {
-        type: 'LinearGradient',
-        props: {
-          colorSpace: 'oklab',
-          start: { x: 0.5, y: 1 },
-          end: { x: 0.5, y: 0 },
-          stops: [
-            { color: '#0f1a24', position: 0 },
-            { color: '#05070a', position: 1 }
-          ]
-        }
-      },
-      {
-        type: 'Heatmap',
-        props: {
-          center: { x: 0.67, y: 0.87 },
-          scale: 1.0879,
-          shape: '{"type":"gem3D","radius":0.3,"height":0.32,"facets":8,"rotX":15,"rotY":0,"rotZ":0}',
-          shapeType: 'gem3D',
-          stops: [
-            { color: '#02040a', position: 0 },
-            { color: '#0a2a4a', position: 0.2 },
-            { color: '#0e5f8f', position: 0.45 },
-            { color: '#17b8d8', position: 0.7 },
-            { color: '#7FE6FF', position: 0.9 },
-            { color: '#ffffff', position: 1 }
-          ]
-        }
+// Gradiente medianoche + gema raymarcheada de la tarjeta destacada, recoloreada
+// a la gama cian de Structura. El tamaño/posición de la gema está calibrado para
+// que su silueta completa quepa dentro de la tarjeta a 345px de ancho — con la
+// escala del preset original (1.0879) la gema desbordaba el canvas y su corte
+// contra el borde se veía como un recorte plano poco intencional. La rotación
+// de la gema sigue el cursor (facetas se reacomodan al pasar el mouse) y se
+// suman Vignette + FilmGrain para que quede contenida y con la misma textura
+// fílmica que el resto de las páginas.
+mountShader('pricing-scale-shader', {
+  components: [
+    {
+      type: 'LinearGradient',
+      props: {
+        colorSpace: 'oklab',
+        start: { x: 0.5, y: 1 },
+        end: { x: 0.5, y: 0 },
+        stops: [
+          { color: '#0f1a24', position: 0 },
+          { color: '#05070a', position: 1 }
+        ]
       }
-    ]
-  });
-})();
+    },
+    {
+      type: 'Heatmap',
+      props: {
+        center: { x: 0.6, y: 0.9 },
+        scale: 0.55,
+        shape: JSON.stringify({
+          type: 'gem3D', radius: 0.3, height: 0.32, facets: 10, rotX: 15,
+          rotY: { type: 'mouse', axis: 'x', outputMin: -16, outputMax: 16, curve: 0 },
+          rotZ: { type: 'mouse', axis: 'y', outputMin: -5, outputMax: 5, curve: 0 }
+        }),
+        shapeType: 'gem3D',
+        stops: [
+          { color: '#02040a', position: 0 },
+          { color: '#0a2a4a', position: 0.2 },
+          { color: '#0e5f8f', position: 0.45 },
+          { color: '#17b8d8', position: 0.7 },
+          { color: '#7FE6FF', position: 0.9 },
+          { color: '#ffffff', position: 1 }
+        ]
+      }
+    },
+    {
+      type: 'Vignette',
+      props: { color: '#05070a', center: { x: 0.5, y: 0.5 }, radius: 0.62, falloff: 0.55, intensity: 0.85 }
+    },
+    {
+      type: 'FilmGrain',
+      props: { strength: 0.05 }
+    }
+  ]
+});
 </script>
 <script>
 (function () {

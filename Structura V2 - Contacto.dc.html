@@ -28,12 +28,8 @@ a:hover{color:#7FE6FF;}
 .chat-bubble:active{transform:scale(.94);}
 
 /* ---- Hero animado de contacto ---- */
-@keyframes heroGlowA{0%,100%{transform:translate(-6%,-4%) scale(1);}50%{transform:translate(4%,6%) scale(1.15);}}
-@keyframes heroGlowB{0%,100%{transform:translate(5%,3%) scale(1.05);}50%{transform:translate(-5%,-5%) scale(0.95);}}
 @keyframes heroDotPulse{0%,100%{opacity:.5;}50%{opacity:1;}}
 .hero-contact{position:relative;overflow:hidden;padding:120px 5% 90px;text-align:center;}
-.hero-contact__glow-a{position:absolute;top:-25%;left:-12%;width:60%;height:85%;background:radial-gradient(circle,rgba(45,212,255,0.22),transparent 70%);animation:heroGlowA 16s ease-in-out infinite;pointer-events:none;}
-.hero-contact__glow-b{position:absolute;bottom:-30%;right:-12%;width:55%;height:85%;background:radial-gradient(circle,rgba(249,168,212,0.14),transparent 70%);animation:heroGlowB 20s ease-in-out infinite;pointer-events:none;}
 .hero-contact__dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2DD4FF;box-shadow:0 0 10px #2DD4FF;animation:heroDotPulse 1.8s ease-in-out infinite;margin-right:9px;vertical-align:middle;}
 
 /* ---- Formulario ---- */
@@ -140,8 +136,9 @@ textarea.form-input{resize:vertical;min-height:120px;}
   </aside>
 
   <section class="hero-contact">
-    <div class="hero-contact__glow-a"></div>
-    <div class="hero-contact__glow-b"></div>
+    <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;">
+      <canvas id="contact-hero-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+    </div>
     <div style="position:relative;z-index:1;max-width:720px;margin:0 auto;">
       <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;"><span class="hero-contact__dot"></span>{{ t.hero.eyebrow }}</p>
       <h1 style="font-size:clamp(32px,5.4vw,56px);font-weight:700;letter-spacing:-0.01em;line-height:1.1;margin:0 0 14px;">{{ t.hero.title }}</h1>
@@ -492,6 +489,76 @@ class Component extends DCLogic {
   }
 }
 
+</script>
+<script type="module">
+(async () => {
+  const { createShader, isWebGPUSupported } = await import('https://esm.sh/shaders@3.0.445/js');
+
+  const canvas = document.getElementById('contact-hero-shader');
+  if (!canvas || !isWebGPUSupported()) return;
+
+  // "Signal Field" — técnica propia armada a partir de las mismas piezas
+  // que usamos en el hero de Cómo trabajamos (base + capa reactiva al
+  // cursor + grano), pero con un mecanismo totalmente distinto: en vez de
+  // refractar un bloom a través de vidrio estriado, acá una grilla de
+  // puntos (eco del propio logo cuadriculado de Structura) se ondula con
+  // ondas físicas que nacen bajo el cursor, con franjas cian/rosa en cada
+  // borde — pensado para la idea de "señal que se propaga" de la página
+  // de contacto.
+  await createShader(canvas, {
+    components: [
+      {
+        type: 'RadialGradient',
+        props: {
+          colorA: '#101826',
+          colorB: '#05070a',
+          center: { x: 0.5, y: 0.35 },
+          radius: 1.1,
+          repeat: 1,
+          aspect: 1,
+          skewAngle: 0,
+          colorSpace: 'oklab'
+        }
+      },
+      {
+        type: 'DotGrid',
+        props: {
+          color: '#1B2733',
+          density: 42,
+          dotSize: 0.16,
+          offset: 0.5,
+          speed: 0.12,
+          speedVariance: 0.4,
+          twinkle: 0.4
+        }
+      },
+      {
+        type: 'CursorRipples',
+        props: {
+          intensity: 14,
+          decay: 6,
+          radius: 0.55,
+          chromaticSplit: 2.2,
+          edges: 'stretch'
+        }
+      },
+      {
+        type: 'Vignette',
+        props: {
+          color: '#05070a',
+          center: { x: 0.5, y: 0.4 },
+          radius: 0.45,
+          falloff: 0.6,
+          intensity: 0.8
+        }
+      },
+      {
+        type: 'FilmGrain',
+        props: { strength: 0.05 }
+      }
+    ]
+  });
+})();
 </script>
 <script>
 (function () {
