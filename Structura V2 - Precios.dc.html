@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap">
+<style>
+body{margin:0;background:#0A0E13;}
+a{color:#2DD4FF;text-decoration:none;}
+a:hover{color:#7FE6FF;}
+
+/* ---- Sección de precios ---- */
+.pricing-reveal{opacity:0;transform:translateY(14px);animation:pricing-reveal-in .8s cubic-bezier(.16,1,.3,1) forwards;}
+@keyframes pricing-reveal-in{to{opacity:1;transform:translateY(0);}}
+@media (prefers-reduced-motion: reduce){.pricing-reveal{animation:none;opacity:1;transform:none;}}
+
+.pricing-toggle-btn{color:#7C8894;transition:color .15s ease,background-color .15s ease;}
+.pricing-toggle-btn:hover{color:#E7ECEF;}
+.pricing-toggle-btn.is-active{background:#2DD4FF;color:#0A0E13;}
+.pricing-toggle-btn.is-active:hover{color:#0A0E13;}
+.pricing-toggle-btn:focus-visible{outline:2px solid #2DD4FF;outline-offset:2px;}
+
+.pricing-badge{display:inline-flex;border-radius:999px;padding:2px 9px;font-size:11px;font-weight:600;background:rgba(45,212,255,0.12);color:#2DD4FF;transition:background-color .15s ease,color .15s ease;}
+.pricing-toggle-btn.is-active .pricing-badge{background:rgba(255,255,255,0.15);color:#7FE6FF;}
+
+.pricing-cta{transition:background-color .15s ease,border-color .15s ease;}
+.pricing-cta:not(.pricing-cta--primary):hover{border-color:#2DD4FF;background:rgba(45,212,255,0.06);}
+.pricing-cta--primary:hover{background:#0FA8CE;}
+.pricing-cta:focus-visible{outline:2px solid #2DD4FF;outline-offset:2px;}
+
+.pricing-grid{display:grid;row-gap:32px;}
+@media (min-width:1024px){
+  .pricing-grid{grid-template-columns:repeat(3,1fr);grid-template-rows:32px 1fr 32px;column-gap:32px;}
+  .pricing-card--edge{grid-row-start:2;}
+  .pricing-card--scale{grid-row:1 / -1;}
+}
+
+/* ---- Nav móvil: hamburguesa + sidebar desplegable ---- */
+.nav-burger{display:none;background:none;border:none;cursor:pointer;padding:8px;width:36px;height:36px;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;}
+.nav-burger span{display:block;width:20px;height:2px;background:#E7ECEF;border-radius:2px;}
+
+.mobile-sidebar-backdrop{position:fixed;inset:0;background:rgba(10,14,19,0.6);z-index:190;opacity:0;pointer-events:none;transition:opacity .25s ease;}
+.mobile-sidebar-backdrop.is-open{opacity:1;pointer-events:auto;}
+
+.mobile-sidebar{position:fixed;top:0;right:0;bottom:0;width:280px;max-width:80vw;background:#0D131A;border-left:1px solid #232B35;z-index:200;transform:translateX(100%);transition:transform .3s cubic-bezier(.22,.61,.30,1);overflow-y:auto;}
+.mobile-sidebar.is-open{transform:translateX(0);}
+
+.nav-sidebar-close{background:none;border:none;color:#7C8894;font-size:26px;line-height:1;cursor:pointer;padding:0;}
+.nav-sidebar-close:hover{color:#E7ECEF;}
+
+.nav-sidebar-link{display:block;color:rgba(231,236,239,0.88);font-size:16px;font-weight:500;padding:12px 10px;border-radius:8px;transition:background-color .15s ease,color .15s ease;}
+.nav-sidebar-link:hover{background:rgba(45,212,255,0.08);color:#E7ECEF;}
+.nav-sidebar-link.is-current{color:#2DD4FF;}
+.nav-sidebar-cta{display:block;margin-top:12px;text-align:center;background:#2DD4FF;color:#0A0E13;padding:13px 0;border-radius:8px;font-size:15px;font-weight:600;}
+.nav-sidebar-cta:hover{background:#0FA8CE;color:#0A0E13;}
+
+.nav-links-desktop{display:flex;align-items:center;gap:36px;}
+@media (max-width:768px){
+  .nav-links-desktop{display:none;}
+  .nav-burger{display:flex;}
+}
+</style>
+</helmet>
+
+<div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
+
+  <nav style="position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 5%;background:{{ navBg }};backdrop-filter:blur(10px);">
+    <a href="Structura V2.dc.html" style="display:flex;align-items:center;gap:10px;">
+      <svg width="30" height="30" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
+        <rect x="18" y="18" width="14" height="14" fill="#2DD4FF"/>
+        <rect x="18" y="2" width="14" height="14" fill="none" stroke="#7C8894" stroke-width="1.5"/>
+      </svg>
+      <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:19px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
+    </a>
+    <div class="nav-links-desktop">
+      <a href="Structura V2.dc.html#soluciones" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Soluciones</a>
+      <a href="Structura V2.dc.html#portafolio" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Portafolio</a>
+      <a href="Structura V2.dc.html#experiencia" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Experiencia</a>
+      <a href="Structura V2 - Como Trabajamos.dc.html" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Cómo trabajamos</a>
+      <span style="color:#2DD4FF;font-size:14.5px;font-weight:600;">Precios</span>
+      <a href="{{ waLink }}" target="_blank" rel="noopener" style="background:#2DD4FF;color:#0A0E13;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;">Contactar</a>
+    </div>
+    <button type="button" class="nav-burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-sidebar">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-sidebar-backdrop" id="mobile-sidebar-backdrop"></div>
+  <aside class="mobile-sidebar" id="mobile-sidebar" aria-hidden="true">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid #232B35;">
+      <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:18px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
+      <button type="button" class="nav-sidebar-close" aria-label="Cerrar menú">&times;</button>
+    </div>
+    <div style="display:flex;flex-direction:column;padding:16px;gap:2px;">
+      <a href="Structura V2.dc.html#soluciones" class="nav-sidebar-link">Soluciones</a>
+      <a href="Structura V2.dc.html#portafolio" class="nav-sidebar-link">Portafolio</a>
+      <a href="Structura V2.dc.html#experiencia" class="nav-sidebar-link">Experiencia</a>
+      <a href="Structura V2 - Como Trabajamos.dc.html" class="nav-sidebar-link">Cómo trabajamos</a>
+      <a href="Structura V2 - Precios.dc.html" class="nav-sidebar-link is-current">Precios</a>
+      <a href="{{ waLink }}" target="_blank" rel="noopener" class="nav-sidebar-cta">Contactar</a>
+    </div>
+  </aside>
+
+  <section style="padding:100px 5% 60px;text-align:center;">
+    <div class="pricing-reveal" style="max-width:640px;margin:0 auto;">
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">// PRECIOS</p>
+      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:600;letter-spacing:-0.01em;margin:0 0 20px;">Precios que se ajustan a tu proyecto</h1>
+      <p style="color:#7C8894;font-size:17px;line-height:1.6;margin:0;">Tres paquetes pensados para negocios en Costa Rica y LatAm. El alcance final se ajusta después de la etapa de descubrimiento. <em style="color:#7C8894;font-style:normal;">(precios de referencia)</em></p>
+    </div>
+  </section>
+
+  <section style="padding:0 5% 120px;max-width:1100px;margin:0 auto;">
+
+    <div class="pricing-reveal" style="display:flex;justify-content:center;animation-delay:.1s;">
+      <div role="group" aria-label="Ciclo de facturación" style="display:inline-flex;align-items:center;border-radius:999px;background:#10161D;border:1px solid #232B35;padding:4px;">
+        <button type="button" class="pricing-toggle-btn is-active" data-period="monthly" aria-pressed="true" style="border:none;background:none;cursor:pointer;border-radius:999px;padding:8px 18px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;">Mensual</button>
+        <button type="button" class="pricing-toggle-btn" data-period="yearly" aria-pressed="false" style="display:flex;align-items:center;gap:8px;border:none;background:none;cursor:pointer;border-radius:999px;padding:8px 10px 8px 18px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;">
+          Anual
+          <span class="pricing-badge">−17%</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="pricing-grid pricing-reveal" style="margin-top:48px;animation-delay:.18s;">
+
+      <div class="pricing-card pricing-card--edge" style="display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;background:#10161D;border:1px solid #232B35;padding:32px;">
+        <div>
+          <h3 style="margin:0;font-size:18px;font-weight:600;">Esencial</h3>
+          <p style="margin:4px 0 0;font-size:14px;color:#7C8894;">Para negocios que necesitan presencia digital sólida y rápida.</p>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-top:24px;">
+            <span style="font-size:36px;font-weight:600;letter-spacing:-0.02em;">$690</span>
+            <span style="font-size:14px;color:#7C8894;">pago único</span>
+          </div>
+          <ul role="list" style="list-style:none;margin:32px 0 0;padding:0;font-size:14px;">
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Sitio de hasta 5 páginas</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Diseño responsive a medida</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Formulario de contacto</span></li>
+            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">1 ronda de revisiones</span></li>
+          </ul>
+        </div>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta" style="display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;border:1px solid #232B35;color:#E7ECEF;">Escribir por WhatsApp</a>
+      </div>
+
+      <div class="pricing-card pricing-card--scale" style="position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;background:#050709;color:#fff;padding:32px;box-shadow:0 30px 70px -25px rgba(45,212,255,0.35);">
+        <div aria-hidden="true" style="position:absolute;inset:0;background:#050709;">
+          <canvas id="pricing-scale-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+        </div>
+        <div aria-hidden="true" style="position:absolute;inset:0;border-radius:20px;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.1);pointer-events:none;"></div>
+
+        <div style="position:relative;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+            <h3 style="margin:0;font-size:18px;font-weight:600;">Plataforma completa</h3>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;color:#7FE6FF;white-space:nowrap;">MÁS ELEGIDO</span>
+          </div>
+          <p style="margin:4px 0 0;font-size:14px;color:rgba(255,255,255,0.6);">Para negocios que necesitan un producto digital completo, con soporte continuo.</p>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-top:24px;">
+            <span id="pricing-scale-figure" style="font-size:36px;font-weight:600;letter-spacing:-0.02em;">$190</span>
+            <span id="pricing-scale-suffix" style="font-size:14px;color:rgba(255,255,255,0.6);">por mes</span>
+          </div>
+          <ul role="list" style="list-style:none;margin:32px 0 0;padding:0;font-size:14px;">
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Todo lo de Esencial, más…</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Diseño e identidad a medida</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Integraciones (pagos, CRM, WhatsApp)</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Mantenimiento y soporte incluido</span></li>
+            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Prioridad en tiempos de respuesta</span></li>
+          </ul>
+        </div>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta pricing-cta--primary" style="position:relative;display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;background:#2DD4FF;color:#0A0E13;">Empezar mi proyecto</a>
+      </div>
+
+      <div class="pricing-card pricing-card--edge" style="display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;background:#10161D;border:1px solid #232B35;padding:32px;">
+        <div>
+          <h3 style="margin:0;font-size:18px;font-weight:600;">A medida</h3>
+          <p style="margin:4px 0 0;font-size:14px;color:#7C8894;">Para plataformas complejas, automatización con IA o necesidades específicas.</p>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-top:24px;">
+            <span style="font-size:36px;font-weight:600;letter-spacing:-0.02em;">A cotizar</span>
+            <span style="font-size:14px;color:#7C8894;">según alcance</span>
+          </div>
+          <ul role="list" style="list-style:none;margin:32px 0 0;padding:0;font-size:14px;">
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Automatización e IA a medida</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Integraciones con sistemas existentes</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Infraestructura propia y monitoreo</span></li>
+            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Acompañamiento dedicado</span></li>
+          </ul>
+        </div>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta" style="display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;border:1px solid #232B35;color:#E7ECEF;">Hablar con el equipo</a>
+      </div>
+
+    </div>
+
+    <div class="pricing-reveal" style="margin-top:48px;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid #232B35;padding-top:32px;font-size:14px;color:#7C8894;animation-delay:.3s;">
+      <p style="margin:0;max-width:640px;">Precios de referencia en USD. El alcance final se ajusta después de la etapa de descubrimiento. Trabajamos con organizaciones sin fines de lucro con condiciones especiales — <a href="{{ waLink }}" target="_blank" rel="noopener" style="font-weight:500;">escribinos</a>.</p>
+      <a href="Structura V2 - Contacto.dc.html" style="font-weight:500;color:#E7ECEF;">Ver el detalle completo →</a>
+    </div>
+
+  </section>
+
+  <section style="padding:0 5% 120px;text-align:center;max-width:760px;margin:0 auto;">
+    <h2 style="font-size:clamp(26px,3.6vw,38px);font-weight:600;letter-spacing:-0.01em;margin:0 0 18px;">¿Empezamos con tu proyecto?</h2>
+    <p style="color:#7C8894;font-size:16px;line-height:1.6;margin:0 0 32px;">Contanos qué necesita tu negocio y te respondemos con una propuesta clara.</p>
+    <a href="{{ waLink }}" target="_blank" rel="noopener" style="display:inline-flex;background:#2DD4FF;color:#0A0E13;padding:17px 36px;border-radius:8px;font-size:16px;font-weight:600;">Escribir por WhatsApp</a>
+  </section>
+
+  <footer style="border-top:1px solid #232B35;padding:40px 5%;text-align:center;">
+    <p style="color:#4a5560;font-size:13px;margin:0;">© 2026 structura. — soluciones digitales, Costa Rica</p>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;50687096790&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { scrollY: 0 };
+
+  componentDidMount() {
+    this._onScroll = () => this.setState({ scrollY: window.scrollY });
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+  }
+
+  renderVals() {
+    const num = (this.props.whatsappNumber ?? '50687096790').toString().replace(/[^0-9]/g, '');
+    const y = this.state.scrollY;
+    const navBg = `linear-gradient(180deg, rgba(10,14,19,${Math.min(0.15 + y / 600, 0.9)}) 0%, rgba(10,14,19,0) 100%)`;
+    return { waLink: `https://wa.me/${num}`, navBg };
+  }
+}
+
+</script>
+<script type="module">
+(async () => {
+  const { createShader, isWebGPUSupported } = await import('https://esm.sh/shaders@3.0.445/js');
+
+  const canvas = document.getElementById('pricing-scale-shader');
+  if (!canvas || !isWebGPUSupported()) return;
+
+  // Gradiente medianoche + gema raymarcheada de la tarjeta destacada,
+  // recoloreados a la gama cian de Structura en vez del violeta/naranja
+  // del preset original.
+  await createShader(canvas, {
+    components: [
+      {
+        type: 'LinearGradient',
+        props: {
+          colorSpace: 'oklab',
+          start: { x: 0.5, y: 1 },
+          end: { x: 0.5, y: 0 },
+          stops: [
+            { color: '#0f1a24', position: 0 },
+            { color: '#05070a', position: 1 }
+          ]
+        }
+      },
+      {
+        type: 'Heatmap',
+        props: {
+          center: { x: 0.67, y: 0.87 },
+          scale: 1.0879,
+          shape: '{"type":"gem3D","radius":0.3,"height":0.32,"facets":8,"rotX":15,"rotY":0,"rotZ":0}',
+          shapeType: 'gem3D',
+          stops: [
+            { color: '#02040a', position: 0 },
+            { color: '#0a2a4a', position: 0.2 },
+            { color: '#0e5f8f', position: 0.45 },
+            { color: '#17b8d8', position: 0.7 },
+            { color: '#7FE6FF', position: 0.9 },
+            { color: '#ffffff', position: 1 }
+          ]
+        }
+      }
+    ]
+  });
+})();
+</script>
+<script>
+(function () {
+  var SCALE_PRICES = {
+    monthly: { figure: '$190', suffix: 'por mes' },
+    yearly: { figure: '$158', suffix: 'por mes, facturado anual' }
+  };
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.pricing-toggle-btn');
+    if (!btn) return;
+
+    var group = btn.closest('[role="group"]');
+    if (!group) return;
+
+    group.querySelectorAll('.pricing-toggle-btn').forEach(function (b) {
+      var active = b === btn;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', String(active));
+    });
+
+    var price = SCALE_PRICES[btn.dataset.period];
+    if (!price) return;
+
+    var figureEl = document.getElementById('pricing-scale-figure');
+    var suffixEl = document.getElementById('pricing-scale-suffix');
+    if (figureEl) figureEl.textContent = price.figure;
+    if (suffixEl) suffixEl.textContent = price.suffix;
+  });
+})();
+</script>
+<script>
+(function () {
+  function setSidebar(open) {
+    var sidebar = document.getElementById('mobile-sidebar');
+    var backdrop = document.getElementById('mobile-sidebar-backdrop');
+    var burger = document.querySelector('.nav-burger');
+    if (sidebar) { sidebar.classList.toggle('is-open', open); sidebar.setAttribute('aria-hidden', String(!open)); }
+    if (backdrop) backdrop.classList.toggle('is-open', open);
+    if (burger) burger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.nav-burger')) { setSidebar(true); return; }
+    if (e.target.closest('.nav-sidebar-close') || e.target.closest('#mobile-sidebar-backdrop') || e.target.closest('.mobile-sidebar a')) {
+      setSidebar(false);
+    }
+  });
+})();
+</script>
+</body>
+</html>

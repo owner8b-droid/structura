@@ -15,12 +15,42 @@ body{margin:0;background:#0A0E13;}
 @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 a{color:#2DD4FF;text-decoration:none;}
 a:hover{color:#7FE6FF;}
+
+/* ---- Bloqueo de scroll al tocar el hero shader en móvil ---- */
+@media (max-width:768px){
+  .hero-touch-lock{touch-action:none;}
+}
+
+/* ---- Nav móvil: hamburguesa + sidebar desplegable ---- */
+.nav-burger{display:none;background:none;border:none;cursor:pointer;padding:8px;width:36px;height:36px;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;}
+.nav-burger span{display:block;width:20px;height:2px;background:#E7ECEF;border-radius:2px;}
+
+.mobile-sidebar-backdrop{position:fixed;inset:0;background:rgba(10,14,19,0.6);z-index:190;opacity:0;pointer-events:none;transition:opacity .25s ease;}
+.mobile-sidebar-backdrop.is-open{opacity:1;pointer-events:auto;}
+
+.mobile-sidebar{position:fixed;top:0;right:0;bottom:0;width:280px;max-width:80vw;background:#0D131A;border-left:1px solid #232B35;z-index:200;transform:translateX(100%);transition:transform .3s cubic-bezier(.22,.61,.30,1);overflow-y:auto;}
+.mobile-sidebar.is-open{transform:translateX(0);}
+
+.nav-sidebar-close{background:none;border:none;color:#7C8894;font-size:26px;line-height:1;cursor:pointer;padding:0;}
+.nav-sidebar-close:hover{color:#E7ECEF;}
+
+.nav-sidebar-link{display:block;color:rgba(231,236,239,0.88);font-size:16px;font-weight:500;padding:12px 10px;border-radius:8px;transition:background-color .15s ease,color .15s ease;}
+.nav-sidebar-link:hover{background:rgba(45,212,255,0.08);color:#E7ECEF;}
+.nav-sidebar-link.is-current{color:#2DD4FF;}
+.nav-sidebar-cta{display:block;margin-top:12px;text-align:center;background:#2DD4FF;color:#0A0E13;padding:13px 0;border-radius:8px;font-size:15px;font-weight:600;}
+.nav-sidebar-cta:hover{background:#0FA8CE;color:#0A0E13;}
+
+.nav-links-desktop{display:flex;align-items:center;gap:36px;}
+@media (max-width:768px){
+  .nav-links-desktop{display:none;}
+  .nav-burger{display:flex;}
+}
 </style>
 </helmet>
 
 <div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
 
-  <nav style="position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 5%;background:rgba(10,14,19,0.9);backdrop-filter:blur(10px);border-bottom:1px solid #232B35;">
+  <nav style="position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 5%;background:{{ navBg }};backdrop-filter:blur(10px);">
     <a href="Structura V2.dc.html" style="display:flex;align-items:center;gap:10px;">
       <svg width="30" height="30" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
         <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
@@ -29,16 +59,36 @@ a:hover{color:#7FE6FF;}
       </svg>
       <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:19px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
     </a>
-    <div style="display:flex;align-items:center;gap:36px;">
+    <div class="nav-links-desktop">
       <a href="Structura V2.dc.html#soluciones" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Soluciones</a>
       <a href="Structura V2.dc.html#portafolio" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Portafolio</a>
       <a href="Structura V2.dc.html#experiencia" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Experiencia</a>
       <span style="color:#2DD4FF;font-size:14.5px;font-weight:600;">Cómo trabajamos</span>
+      <a href="Structura V2 - Precios.dc.html" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Precios</a>
       <a href="{{ waLink }}" target="_blank" rel="noopener" style="background:#2DD4FF;color:#0A0E13;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;">Contactar</a>
     </div>
+    <button type="button" class="nav-burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-sidebar">
+      <span></span><span></span>
+    </button>
   </nav>
 
-  <section style="position:relative;overflow:hidden;padding:100px 5% 80px;text-align:center;">
+  <div class="mobile-sidebar-backdrop" id="mobile-sidebar-backdrop"></div>
+  <aside class="mobile-sidebar" id="mobile-sidebar" aria-hidden="true">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid #232B35;">
+      <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:18px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
+      <button type="button" class="nav-sidebar-close" aria-label="Cerrar menú">&times;</button>
+    </div>
+    <div style="display:flex;flex-direction:column;padding:16px;gap:2px;">
+      <a href="Structura V2.dc.html#soluciones" class="nav-sidebar-link">Soluciones</a>
+      <a href="Structura V2.dc.html#portafolio" class="nav-sidebar-link">Portafolio</a>
+      <a href="Structura V2.dc.html#experiencia" class="nav-sidebar-link">Experiencia</a>
+      <a href="Structura V2 - Como Trabajamos.dc.html" class="nav-sidebar-link is-current">Cómo trabajamos</a>
+      <a href="Structura V2 - Precios.dc.html" class="nav-sidebar-link">Precios</a>
+      <a href="{{ waLink }}" target="_blank" rel="noopener" class="nav-sidebar-cta">Contactar</a>
+    </div>
+  </aside>
+
+  <section class="hero-touch-lock" style="position:relative;overflow:hidden;padding:100px 5% 80px;text-align:center;">
     <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;">
       <canvas id="cw-hero-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
     </div>
@@ -113,9 +163,21 @@ a:hover{color:#7FE6FF;}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;50687096790&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
+  state = { scrollY: 0 };
+
+  componentDidMount() {
+    this._onScroll = () => this.setState({ scrollY: window.scrollY });
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+  }
+
   renderVals() {
     const num = (this.props.whatsappNumber ?? '50687096790').toString().replace(/[^0-9]/g, '');
-    return { waLink: `https://wa.me/${num}` };
+    const y = this.state.scrollY;
+    const navBg = `linear-gradient(180deg, rgba(10,14,19,${Math.min(0.15 + y / 600, 0.9)}) 0%, rgba(10,14,19,0) 100%)`;
+    return { waLink: `https://wa.me/${num}`, navBg };
   }
 }
 
@@ -168,6 +230,26 @@ class Component extends DCLogic {
         props: { strength: 0.05 }
       }
     ]
+  });
+})();
+</script>
+<script>
+(function () {
+  function setSidebar(open) {
+    var sidebar = document.getElementById('mobile-sidebar');
+    var backdrop = document.getElementById('mobile-sidebar-backdrop');
+    var burger = document.querySelector('.nav-burger');
+    if (sidebar) { sidebar.classList.toggle('is-open', open); sidebar.setAttribute('aria-hidden', String(!open)); }
+    if (backdrop) backdrop.classList.toggle('is-open', open);
+    if (burger) burger.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.nav-burger')) { setSidebar(true); return; }
+    if (e.target.closest('.nav-sidebar-close') || e.target.closest('#mobile-sidebar-backdrop') || e.target.closest('.mobile-sidebar a')) {
+      setSidebar(false);
+    }
   });
 })();
 </script>
