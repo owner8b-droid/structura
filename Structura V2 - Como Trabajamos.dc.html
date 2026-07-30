@@ -38,10 +38,15 @@ a:hover{color:#7FE6FF;}
     </div>
   </nav>
 
-  <section style="padding:100px 5% 80px;max-width:900px;margin:0 auto;text-align:center;">
-    <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">// CÓMO TRABAJAMOS</p>
-    <h1 style="font-size:clamp(32px,5vw,54px);font-weight:600;letter-spacing:-0.01em;margin:0 0 20px;">De la idea al lanzamiento</h1>
-    <p style="color:#7C8894;font-size:17px;line-height:1.6;max-width:560px;margin:0 auto;">Un proceso claro en cinco pasos. Sabés qué pasa en cada etapa, quién lo hace y qué recibís.</p>
+  <section style="position:relative;overflow:hidden;padding:100px 5% 80px;text-align:center;">
+    <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;">
+      <canvas id="cw-hero-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+    </div>
+    <div style="position:relative;z-index:1;max-width:900px;margin:0 auto;">
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">// CÓMO TRABAJAMOS</p>
+      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:600;letter-spacing:-0.01em;margin:0 0 20px;">De la idea al lanzamiento</h1>
+      <p style="color:#7C8894;font-size:17px;line-height:1.6;max-width:560px;margin:0 auto;">Un proceso claro en cinco pasos. Sabés qué pasa en cada etapa, quién lo hace y qué recibís.</p>
+    </div>
   </section>
 
   <section style="padding:0 5% 120px;max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:0;">
@@ -114,6 +119,57 @@ class Component extends DCLogic {
   }
 }
 
+</script>
+<script type="module">
+(async () => {
+  const { createShader, isWebGPUSupported } = await import('https://esm.sh/shaders@3.0.445/js');
+
+  const canvas = document.getElementById('cw-hero-shader');
+  if (!canvas || !isWebGPUSupported()) return;
+
+  // Paleta oscura/cian de Structura en vez del blanco/índigo del preset
+  // original — misma técnica (fluted glass + bloom que sigue el cursor),
+  // recoloreada para calzar con el fondo #0A0E13 del resto del sitio.
+  await createShader(canvas, {
+    components: [
+      {
+        type: 'Swirl',
+        props: { colorA: '#0A0E13', colorB: '#101720', detail: 1.7 }
+      },
+      {
+        type: 'ChromaFlow',
+        props: {
+          baseColor: '#0A0E13',
+          downColor: '#2DD4FF',
+          leftColor: '#56c2fc',
+          rightColor: '#0FA8CE',
+          upColor: '#7FE6FF',
+          momentum: 13,
+          radius: 3.5
+        }
+      },
+      {
+        type: 'FlutedGlass',
+        props: {
+          aberration: 0.61,
+          angle: 31,
+          frequency: 8,
+          highlight: 0.12,
+          highlightSoftness: 0,
+          lightAngle: -90,
+          refraction: 4,
+          shape: 'rounded',
+          softness: 1,
+          speed: 0.15
+        }
+      },
+      {
+        type: 'FilmGrain',
+        props: { strength: 0.05 }
+      }
+    ]
+  });
+})();
 </script>
 </body>
 </html>
