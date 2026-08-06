@@ -154,6 +154,7 @@ a:hover{color:#7FE6FF;}
 
 .nav-sidebar-link{display:block;color:rgba(231,236,239,0.88);font-size:16px;font-weight:500;padding:12px 10px;border-radius:8px;transition:background-color .15s ease,color .15s ease;}
 .nav-sidebar-link:hover{background:rgba(45,212,255,0.08);color:#E7ECEF;}
+.nav-sidebar-link.is-current{color:#2DD4FF;}
 .nav-sidebar-cta{display:block;margin-top:12px;text-align:center;background:#2DD4FF;color:#0A0E13;padding:13px 0;border-radius:8px;font-size:15px;font-weight:600;}
 .nav-sidebar-cta:hover{background:#0FA8CE;color:#0A0E13;}
 
@@ -161,47 +162,25 @@ a:hover{color:#7FE6FF;}
   .desktop-nav{display:none;}
   .nav-burger{display:flex;}
 }
+
+/* ---- Nav desktop: link activo por ruta ---- */
+.nav-link{color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;}
+.nav-link.is-current{color:#2DD4FF;font-weight:600;}
+
+/* ---- Transición SPA entre rutas (fade + slide sutil) ---- */
+.route-content{transition:opacity .28s cubic-bezier(.22,.61,.30,1), transform .28s cubic-bezier(.22,.61,.30,1);}
+.route-content.is-transitioning{opacity:0;transform:translateY(10px);}
+@media (prefers-reduced-motion: reduce){
+  .route-content{transition:none;}
+  .route-content.is-transitioning{opacity:1;transform:none;}
+}
 </style>
 </helmet>
 
 <div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
 
-  <!-- ============ HERO ============ -->
-  <section style="position:relative;min-height:100vh;overflow:hidden;">
-    <div style="position:absolute;inset:0;transform:{{ heroBgTransform }};">
-      <img src="assets/hero-mountain.avif" alt="Volcán entre nubes" style="width:100%;height:115%;object-fit:cover;object-position:center 35%;" />
-      <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,14,19,0.25) 0%, rgba(10,14,19,0.15) 30%, rgba(10,14,19,0.65) 78%, rgba(10,14,19,0.94) 100%);"></div>
-    </div>
-
-    <div style="position:absolute;inset:0;mix-blend-mode:screen;opacity:0.45;pointer-events:none;">
-      <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;">
-        <defs>
-          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#2DD4FF" stop-opacity="0"/>
-            <stop offset="35%" stop-color="#7dd3fc" stop-opacity="0.5"/>
-            <stop offset="65%" stop-color="#f9a8d4" stop-opacity="0.4"/>
-            <stop offset="100%" stop-color="#2DD4FF" stop-opacity="0"/>
-          </linearGradient>
-          <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#fbcfe8" stop-opacity="0"/>
-            <stop offset="45%" stop-color="#93c5fd" stop-opacity="0.4"/>
-            <stop offset="100%" stop-color="#2DD4FF" stop-opacity="0"/>
-          </linearGradient>
-        </defs>
-        <g style="animation:flow1 24s ease-in-out infinite;transform-origin:center;">
-          <path d="M -200 300 C 300 100, 700 500, 1000 250 S 1600 150, 1900 350" stroke="url(#grad1)" stroke-width="2.5" fill="none"/>
-          <path d="M -200 600 C 350 450, 800 750, 1150 550 S 1550 480, 1900 650" stroke="url(#grad1)" stroke-width="2" fill="none"/>
-        </g>
-        <g style="animation:flow2 30s ease-in-out infinite;transform-origin:center;">
-          <path d="M -200 200 C 250 400, 750 50, 1100 300 S 1500 500, 1900 250" stroke="url(#grad2)" stroke-width="2" fill="none"/>
-        </g>
-      </svg>
-    </div>
-
-    <div style="position:absolute;top:-10%;left:-5%;width:55%;height:45%;background:radial-gradient(ellipse at top left, rgba(45,212,255,0.18) 0%, transparent 65%);pointer-events:none;mix-blend-mode:screen;"></div>
-
-    <!-- NAV -->
-    <nav style="position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 5%;background:{{ navBg }};backdrop-filter:blur(10px);">
+  <!-- ============ NAV ============ -->
+  <nav style="position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 5%;background:{{ navBg }};backdrop-filter:blur(10px);">
       <a href="#inicio" id="logo-home" class="{{ logoClass }}" onClick="{{ clickLogo }}" style="display:flex;align-items:center;gap:10px;">
         <svg class="nav__mark" width="30" height="30" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
           <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
@@ -228,7 +207,7 @@ a:hover{color:#7FE6FF;}
         <a href="#portafolio" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.portafolio }}</a>
         <a href="#experiencia" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.experiencia }}</a>
         <a href="Structura V2 - Como Trabajamos.dc.html" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.comoTrabajamos }}</a>
-        <a href="Structura V2 - Precios.dc.html" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.precios }}</a>
+        <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" class="{{ navLinkPreciosClass }}">{{ t.nav.precios }}</a>
         <div class="lang-toggle">
           <button onClick="{{ setLangEs }}" class="{{ langBtnEsClass }}">ES</button>
           <button onClick="{{ setLangEn }}" class="{{ langBtnEnClass }}">EN</button>
@@ -252,7 +231,7 @@ a:hover{color:#7FE6FF;}
         <a href="#portafolio" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.portafolio }}</a>
         <a href="#experiencia" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.experiencia }}</a>
         <a href="Structura V2 - Como Trabajamos.dc.html" class="nav-sidebar-link">{{ t.nav.comoTrabajamos }}</a>
-        <a href="Structura V2 - Precios.dc.html" class="nav-sidebar-link">{{ t.nav.precios }}</a>
+        <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" class="{{ navSidebarPreciosClass }}">{{ t.nav.precios }}</a>
         <div class="lang-toggle" style="margin-top:10px;">
           <button onClick="{{ setLangEs }}" class="{{ langBtnEsClass }}">ES</button>
           <button onClick="{{ setLangEn }}" class="{{ langBtnEnClass }}">EN</button>
@@ -261,19 +240,55 @@ a:hover{color:#7FE6FF;}
       </div>
     </aside>
 
-    <!-- bottom row: giant wordmark left + description panel right -->
-    <div style="position:absolute;z-index:2;left:0;right:0;bottom:7%;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:0 5%;">
-      <div style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:clamp(2.2rem,8vw,6rem);line-height:0.88;color:#F2F0EA;white-space:nowrap;text-shadow:0 8px 40px rgba(0,0,0,0.4);flex-shrink:1;min-width:0;">
-        structura<span style="color:#2DD4FF;">.</span>
+  <!-- ============ HERO (solo en la ruta home) ============ -->
+  <sc-if value="{{ route === 'home' }}" hint-placeholder-val="{{ true }}">
+    <section style="position:relative;min-height:100vh;overflow:hidden;">
+      <div style="position:absolute;inset:0;transform:{{ heroBgTransform }};">
+        <img src="assets/hero-mountain.avif" alt="Volcán entre nubes" style="width:100%;height:115%;object-fit:cover;object-position:center 35%;" />
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,14,19,0.25) 0%, rgba(10,14,19,0.15) 30%, rgba(10,14,19,0.65) 78%, rgba(10,14,19,0.94) 100%);"></div>
       </div>
 
-      <div style="max-width:320px;flex-shrink:2;text-align:right;">
-        <p style="color:#C9CFD6;font-size:0.9rem;line-height:1.6;margin:0;">{{ t.hero.text }}</p>
+      <div style="position:absolute;inset:0;mix-blend-mode:screen;opacity:0.45;pointer-events:none;">
+        <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;">
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#2DD4FF" stop-opacity="0"/>
+              <stop offset="35%" stop-color="#7dd3fc" stop-opacity="0.5"/>
+              <stop offset="65%" stop-color="#f9a8d4" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#2DD4FF" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#fbcfe8" stop-opacity="0"/>
+              <stop offset="45%" stop-color="#93c5fd" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#2DD4FF" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <g style="animation:flow1 24s ease-in-out infinite;transform-origin:center;">
+            <path d="M -200 300 C 300 100, 700 500, 1000 250 S 1600 150, 1900 350" stroke="url(#grad1)" stroke-width="2.5" fill="none"/>
+            <path d="M -200 600 C 350 450, 800 750, 1150 550 S 1550 480, 1900 650" stroke="url(#grad1)" stroke-width="2" fill="none"/>
+          </g>
+          <g style="animation:flow2 30s ease-in-out infinite;transform-origin:center;">
+            <path d="M -200 200 C 250 400, 750 50, 1100 300 S 1500 500, 1900 250" stroke="url(#grad2)" stroke-width="2" fill="none"/>
+          </g>
+        </svg>
       </div>
-    </div>
-  </section>
 
-  <sc-if value="{{ showChatBubble }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;top:-10%;left:-5%;width:55%;height:45%;background:radial-gradient(ellipse at top left, rgba(45,212,255,0.18) 0%, transparent 65%);pointer-events:none;mix-blend-mode:screen;"></div>
+
+      <!-- bottom row: giant wordmark left + description panel right -->
+      <div style="position:absolute;z-index:2;left:0;right:0;bottom:7%;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:0 5%;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:clamp(2.2rem,8vw,6rem);line-height:0.88;color:#F2F0EA;white-space:nowrap;text-shadow:0 8px 40px rgba(0,0,0,0.4);flex-shrink:1;min-width:0;">
+          structura<span style="color:#2DD4FF;">.</span>
+        </div>
+
+        <div style="max-width:320px;flex-shrink:2;text-align:right;">
+          <p style="color:#C9CFD6;font-size:0.9rem;line-height:1.6;margin:0;">{{ t.hero.text }}</p>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ showChatBubbleNow }}" hint-placeholder-val="{{ true }}">
     <a href="javascript:void(0)" id="ai-widget-toggle" aria-label="Chatear con Structura" class="chat-bubble" style="position:fixed;right:24px;bottom:24px;z-index:150;width:56px;height:56px;border-radius:50%;background:#2DD4FF;color:#0A0E13;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(45,212,255,0.35);">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     </a>
@@ -295,314 +310,16 @@ a:hover{color:#7FE6FF;}
     </div>
   </sc-if>
 
-  <!-- ============ TICKER ============ -->
-  <div style="border-top:1px solid #232B35;border-bottom:1px solid #232B35;padding:18px 0;overflow:hidden;white-space:nowrap;">
-    <div style="display:inline-flex;animation:marquee 32s linear infinite;">
-      <div style="display:inline-flex;align-items:center;gap:14px;padding-right:14px;">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#E7ECEF;">{{ t.ticker[0] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#2DD4FF;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#7C8894;">{{ t.ticker[1] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#232B35;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#E7ECEF;">{{ t.ticker[2] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#2DD4FF;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#7C8894;">{{ t.ticker[3] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#232B35;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#E7ECEF;">{{ t.ticker[4] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#2DD4FF;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#7C8894;">{{ t.ticker[5] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#232B35;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#E7ECEF;">{{ t.ticker[6] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#2DD4FF;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#7C8894;">{{ t.ticker[7] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#232B35;"></span>
-      </div>
-      <div style="display:inline-flex;align-items:center;gap:14px;padding-right:14px;" aria-hidden="true">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#E7ECEF;">{{ t.ticker[0] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#2DD4FF;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#7C8894;">{{ t.ticker[1] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#232B35;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#E7ECEF;">{{ t.ticker[2] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#2DD4FF;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#7C8894;">{{ t.ticker[3] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#232B35;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#E7ECEF;">{{ t.ticker[4] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#2DD4FF;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#7C8894;">{{ t.ticker[5] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#232B35;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#E7ECEF;">{{ t.ticker[6] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#2DD4FF;"></span>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#7C8894;">{{ t.ticker[7] }}</span><span style="width:5px;height:5px;border-radius:50%;background:#232B35;"></span>
-      </div>
-    </div>
+  <!-- ============ ROUTED CONTENT ============ -->
+  <div class="route-content{{ routeTransitionClass }}">
+    <sc-if value="{{ route === 'home' }}">
+      <dc-import name="Structura V2 - Home Content" t="{{ t }}"/>
+    </sc-if>
+    <sc-if value="{{ route === 'precios' }}">
+      <dc-import name="Structura V2 - Precios Content" waLink="{{ waLink }}"/>
+    </sc-if>
   </div>
 
-  <!-- ============ SOLUCIONES ============ -->
-  <section id="soluciones" style="padding:120px 5% 100px;max-width:1240px;margin:0 auto;">
-    <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 14px;">{{ t.soluciones.eyebrow }}</p>
-    <h2 style="font-size:clamp(28px,4vw,44px);font-weight:600;letter-spacing:-0.01em;margin:0 0 16px;max-width:700px;">{{ t.soluciones.title }}</h2>
-    <p style="color:#7C8894;font-size:17px;max-width:620px;line-height:1.6;margin:0 0 56px;">{{ t.soluciones.sub }}</p>
-
-    <div class="sol-grid">
-
-      <div class="sol-card" style="background:#10161D;border:1px solid #232B35;border-radius:16px;padding:28px;">
-        <div class="sol-visual svc-visual svc-visual--web" style="display:grid;grid-template-columns:1fr 1fr;">
-          <div style="display:flex;flex-direction:column;overflow:hidden;">
-            <div style="flex-shrink:0;display:flex;gap:5px;padding:7px 10px;background:#10161D;border-bottom:1px solid #232B35;">
-              <span style="width:6px;height:6px;border-radius:50%;background:#FF5F57;"></span>
-              <span style="width:6px;height:6px;border-radius:50%;background:#FEBC2E;"></span>
-              <span style="width:6px;height:6px;border-radius:50%;background:#28C840;"></span>
-            </div>
-            <div style="flex:1;overflow:hidden;position:relative;">
-              <div class="mock-cursor" style="position:absolute;width:8px;height:8px;border-radius:50%;background:#2DD4FF;box-shadow:0 0 0 4px rgba(45,212,255,0.15);z-index:2;pointer-events:none;"></div>
-              <div class="browser-mock__scroll" style="display:flex;flex-direction:column;gap:10px;padding:10px;">
-                <div style="display:flex;align-items:center;gap:6px;"><span style="width:7px;height:7px;border-radius:2px;background:#2DD4FF;"></span><span style="height:6px;width:28%;background:#232B35;border-radius:3px;"></span></div>
-                <div style="display:flex;flex-direction:column;gap:5px;padding:4px 0;">
-                  <span style="height:7px;width:65%;background:#232B35;border-radius:4px;"></span>
-                  <span style="height:7px;width:45%;background:#232B35;border-radius:4px;"></span>
-                  <div class="mini-pill" style="width:46px;height:12px;background:#2DD4FF;border-radius:20px;margin-top:3px;opacity:.85;"></div>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:5px;">
-                  <span style="height:6px;width:32%;background:#232B35;border-radius:3px;"></span>
-                  <div style="display:flex;gap:6px;"><i style="flex:1;height:28px;background:#0A0E13;border:1px solid #232B35;border-radius:6px;"></i><i style="flex:1;height:28px;background:#0A0E13;border:1px solid #232B35;border-radius:6px;"></i></div>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:5px;">
-                  <span style="height:6px;width:38%;background:#232B35;border-radius:3px;"></span>
-                  <div style="display:flex;gap:6px;"><i style="flex:1;height:28px;background:#0A0E13;border:1px solid #232B35;border-radius:6px;"></i><i style="flex:1;height:28px;background:#0A0E13;border:1px solid #232B35;border-radius:6px;"></i></div>
-                </div>
-              </div>
-              <div style="position:absolute;left:0;right:0;bottom:0;height:26px;background:linear-gradient(180deg, rgba(22,29,38,0) 0%, #161D26 100%);pointer-events:none;z-index:3;"></div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;justify-content:center;border-left:1px solid #232B35;background:#10161D;">
-            <div class="phone-mock">
-              <div class="phone-mock__notch"></div>
-              <div class="phone-mock__screen">
-                <div class="phone-app-icon"><i></i><i></i><i></i><i></i></div>
-                <svg class="phone-splash-logo" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2.4"/>
-                  <rect x="18" y="18" width="14" height="14" fill="#2DD4FF"/>
-                  <rect x="18" y="2" width="14" height="14" fill="none" stroke="#7C8894" stroke-width="1.8"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:13px;margin:0 0 8px;">01</p>
-        <h3 style="margin:0 0 10px;font-size:19px;font-weight:600;">{{ t.soluciones.cards[0].title }}</h3>
-        <p style="color:#7C8894;font-size:14.5px;line-height:1.6;margin:0;">{{ t.soluciones.cards[0].desc }}</p>
-      </div>
-
-      <div class="sol-card" style="background:#10161D;border:1px solid #232B35;border-radius:16px;padding:28px;">
-        <div class="sol-visual svc-visual svc-visual--saas" style="display:flex;flex-direction:column;justify-content:center;gap:6px;padding:14px 22px;">
-          <div style="display:flex;align-items:center;gap:8px;"><span style="width:6px;height:6px;border-radius:50%;background:#2DD4FF;animation:livePulse 2s ease-in-out infinite;"></span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7C8894;">{{ t.soluciones.inventario }}</span></div>
-          <div style="height:13px;background:#0A0E13;border-radius:5px;display:flex;align-items:center;padding:0 8px;"><div style="height:4px;width:55%;background:#232B35;border-radius:2px;"></div></div>
-          <div style="height:13px;background:#0A0E13;border-radius:5px;display:flex;align-items:center;padding:0 8px;"><div style="height:4px;width:40%;background:#232B35;border-radius:2px;"></div></div>
-          <div class="dash-row--new" style="height:13px;background:rgba(45,212,255,0.1);border:1px solid rgba(45,212,255,0.3);border-radius:5px;display:flex;align-items:center;padding:0 8px;"><div style="height:4px;width:60%;background:#2DD4FF;border-radius:2px;"></div></div>
-          <div class="dash-toast" style="background:rgba(45,212,255,0.12);border:1px solid #2DD4FF;color:#2DD4FF;font-family:'IBM Plex Mono',monospace;font-size:10px;text-align:center;padding:4px 8px;border-radius:5px;margin-top:2px;">{{ t.soluciones.toast }}</div>
-        </div>
-        <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:13px;margin:0 0 8px;">02</p>
-        <h3 style="margin:0 0 10px;font-size:19px;font-weight:600;">{{ t.soluciones.cards[1].title }}</h3>
-        <p style="color:#7C8894;font-size:14.5px;line-height:1.6;margin:0;">{{ t.soluciones.cards[1].desc }}</p>
-      </div>
-
-      <div class="sol-card" style="background:#10161D;border:1px solid #232B35;border-radius:16px;padding:28px;">
-        <div class="sol-visual" style="display:flex;align-items:center;justify-content:center;">
-          <svg width="100%" height="112" viewBox="0 0 220 112">
-            <path d="M58 56 L162 56" stroke="#232B35" stroke-width="1" stroke-dasharray="4 6" class="hub-mini-base"/>
-            <path d="M58 56 L162 56" stroke="#2DD4FF" stroke-width="1.8" stroke-linecap="round" class="db-mini-energy"/>
-            <g transform="translate(34,56)">
-              <path d="M-18,-22 a18,6 0 1,0 36,0 a18,6 0 1,0 -36,0" fill="none" stroke="#2DD4FF" stroke-width="1.5"/>
-              <path d="M-18,-22 v34 a18,6 0 0,0 36,0 v-34" fill="none" stroke="#2DD4FF" stroke-width="1.5"/>
-              <path d="M-18,-8 a18,6 0 0,0 36,0" fill="none" stroke="#232B35" stroke-width="1.2"/>
-              <path d="M-18,6 a18,6 0 0,0 36,0" fill="none" stroke="#232B35" stroke-width="1.2"/>
-            </g>
-            <g transform="translate(178,56)">
-              <circle r="9" fill="none" stroke="#2DD4FF" stroke-width="1.4" class="db-ping"/>
-              <rect x="-9" y="-9" width="9" height="9" fill="none" stroke="#2DD4FF" stroke-width="1.3"/>
-              <rect x="0" y="0" width="9" height="9" fill="#2DD4FF"/>
-              <rect x="0" y="-9" width="9" height="9" fill="none" stroke="#7C8894" stroke-width="1"/>
-            </g>
-          </svg>
-        </div>
-        <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:13px;margin:0 0 8px;">03</p>
-        <h3 style="margin:0 0 10px;font-size:19px;font-weight:600;">{{ t.soluciones.cards[2].title }}</h3>
-        <p style="color:#7C8894;font-size:14.5px;line-height:1.6;margin:0;">{{ t.soluciones.cards[2].desc }}</p>
-      </div>
-
-      <div class="sol-card" style="background:#10161D;border:1px solid #232B35;border-radius:16px;padding:28px;">
-        <div class="sol-visual" style="display:flex;align-items:center;justify-content:center;">
-          <svg width="100%" height="136" viewBox="0 0 220 136">
-            <path d="M110 68 L58 40" stroke="#232B35" stroke-width="1" stroke-dasharray="4 6" class="hub-mini-base"/>
-            <path d="M110 68 L162 40" stroke="#232B35" stroke-width="1" stroke-dasharray="4 6" class="hub-mini-base"/>
-            <path d="M110 68 L58 96" stroke="#232B35" stroke-width="1" stroke-dasharray="4 6" class="hub-mini-base"/>
-            <path d="M110 68 L162 96" stroke="#232B35" stroke-width="1" stroke-dasharray="4 6" class="hub-mini-base"/>
-
-            <path d="M110 68 L58 40" stroke="#2DD4FF" stroke-width="1.5" stroke-linecap="round" class="hub-mini-energy" style="animation-delay:0s;"/>
-            <path d="M110 68 L162 40" stroke="#2DD4FF" stroke-width="1.5" stroke-linecap="round" class="hub-mini-energy" style="animation-delay:.2s;"/>
-            <path d="M110 68 L58 96" stroke="#2DD4FF" stroke-width="1.5" stroke-linecap="round" class="hub-mini-energy" style="animation-delay:.4s;"/>
-            <path d="M110 68 L162 96" stroke="#2DD4FF" stroke-width="1.5" stroke-linecap="round" class="hub-mini-energy" style="animation-delay:.6s;"/>
-
-            <circle cx="110" cy="68" r="18" fill="#2DD4FF" opacity="0.14" style="filter:blur(7px);animation:livePulse 2.4s ease-in-out infinite;"/>
-            <g class="hub-mini-core" transform="translate(110,68)">
-              <rect x="-11" y="-11" width="10" height="10" fill="none" stroke="#2DD4FF" stroke-width="1.4"/>
-              <rect x="1" y="1" width="10" height="10" fill="#2DD4FF"/>
-              <rect x="1" y="-11" width="10" height="10" fill="none" stroke="#7C8894" stroke-width="1"/>
-            </g>
-
-            <g class="hub-mini-node" style="animation-delay:0s;" transform="translate(58,40)">
-              <rect x="-8" y="-6" width="16" height="11" rx="3" fill="none" stroke="#2DD4FF" stroke-width="1.4"/>
-              <path d="M-3 5 L-5 9 L1 5 Z" fill="#2DD4FF"/>
-              <circle cx="-3.5" cy="-0.5" r="1" fill="#2DD4FF"/><circle cx="0" cy="-0.5" r="1" fill="#2DD4FF"/><circle cx="3.5" cy="-0.5" r="1" fill="#2DD4FF"/>
-            </g>
-            <g class="hub-mini-node" style="animation-delay:.3s;" transform="translate(162,40)">
-              <line x1="0" y1="-10" x2="0" y2="-7" stroke="#2DD4FF" stroke-width="1.2"/><circle cx="0" cy="-11" r="1.3" fill="#2DD4FF"/>
-              <rect x="-8" y="-7" width="16" height="13" rx="3" fill="none" stroke="#2DD4FF" stroke-width="1.4"/>
-              <circle cx="-3.5" cy="-1" r="1.3" fill="#2DD4FF"/><circle cx="3.5" cy="-1" r="1.3" fill="#2DD4FF"/>
-              <path d="M-3 3.5 Q0 5.5 3 3.5" stroke="#2DD4FF" stroke-width="1.1" fill="none"/>
-            </g>
-            <g class="hub-mini-node" style="animation-delay:.6s;" transform="translate(58,96)">
-              <rect x="-7" y="1" width="4" height="6" fill="#2DD4FF"/>
-              <rect x="-1.5" y="-3" width="4" height="10" fill="#2DD4FF"/>
-              <rect x="4" y="-7" width="4" height="14" fill="#2DD4FF"/>
-            </g>
-            <g class="hub-mini-node" style="animation-delay:.9s;" transform="translate(162,96)">
-              <rect x="-8" y="-8" width="16" height="16" rx="2" fill="none" stroke="#2DD4FF" stroke-width="1.4"/>
-              <line x1="-8" y1="-2.7" x2="8" y2="-2.7" stroke="#2DD4FF" stroke-width="1"/>
-              <line x1="-8" y1="2.7" x2="8" y2="2.7" stroke="#2DD4FF" stroke-width="1"/>
-              <line x1="-2.7" y1="-8" x2="-2.7" y2="8" stroke="#2DD4FF" stroke-width="1"/>
-              <line x1="2.7" y1="-8" x2="2.7" y2="8" stroke="#2DD4FF" stroke-width="1"/>
-            </g>
-          </svg>
-        </div>
-        <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:13px;margin:0 0 8px;">04</p>
-        <h3 style="margin:0 0 10px;font-size:19px;font-weight:600;">{{ t.soluciones.cards[3].title }}</h3>
-        <p style="color:#7C8894;font-size:14.5px;line-height:1.6;margin:0;">{{ t.soluciones.cards[3].desc }}</p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============ PORTAFOLIO ============ -->
-  <section id="portafolio" style="padding:0 0 120px;">
-    <div style="padding:0 5%;max-width:1240px;margin:0 auto;">
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 14px;">{{ t.portafolio.eyebrow }}</p>
-      <h2 style="font-size:clamp(28px,4vw,44px);font-weight:600;letter-spacing:-0.01em;margin:0 0 16px;max-width:640px;">{{ t.portafolio.title }}</h2>
-      <p style="color:#7C8894;font-size:17px;max-width:600px;line-height:1.6;margin:0 0 56px;">{{ t.portafolio.sub }}</p>
-    </div>
-    <div class="folio-track">
-      <div class="folio-marquee" style="display:inline-flex;align-items:center;gap:76px;">
-        <sc-for list="{{ folioLoop }}" as="f">
-          <span class="{{ f.wrapClass }}" onMouseEnter="{{ f.onEnter }}" onMouseLeave="{{ f.onLeave }}">
-            <img src="{{ f.img }}" alt="{{ f.alt }}" class="folio-logo" />
-          </span>
-        </sc-for>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ EXPERIENCIA POR SECTOR ============ -->
-  <section id="experiencia" style="padding:0 5% 120px;max-width:1240px;margin:0 auto;">
-    <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 14px;">{{ t.experiencia.eyebrow }}</p>
-    <h2 style="font-size:clamp(28px,4vw,44px);font-weight:600;letter-spacing:-0.01em;margin:0 0 16px;max-width:640px;">{{ t.experiencia.title }}</h2>
-    <p style="color:#7C8894;font-size:17px;max-width:600px;line-height:1.6;margin:0 0 56px;">{{ t.experiencia.sub }}</p>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-bottom:48px;">
-
-      <div style="background:#10161D;border:1px solid #232B35;border-radius:16px;overflow:hidden;">
-        <div style="height:140px;overflow:hidden;"><img src="assets/experiencia/legal.png" alt="{{ t.experiencia.cards[0].title }}" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
-        <div style="padding:22px;">
-          <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:12px;margin:0 0 8px;">01</p>
-          <h3 style="margin:0 0 8px;font-size:18px;font-weight:600;">{{ t.experiencia.cards[0].title }}</h3>
-          <p style="color:#7C8894;font-size:14px;line-height:1.6;margin:0 0 14px;">{{ t.experiencia.cards[0].desc }}</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;"><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[0].tags[0] }}</span><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[0].tags[1] }}</span></div>
-        </div>
-      </div>
-
-      <div style="background:#10161D;border:1px solid #232B35;border-radius:16px;overflow:hidden;">
-        <div style="height:140px;overflow:hidden;"><img src="assets/experiencia/bienesraices.png" alt="{{ t.experiencia.cards[1].title }}" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
-        <div style="padding:22px;">
-          <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:12px;margin:0 0 8px;">02</p>
-          <h3 style="margin:0 0 8px;font-size:18px;font-weight:600;">{{ t.experiencia.cards[1].title }}</h3>
-          <p style="color:#7C8894;font-size:14px;line-height:1.6;margin:0 0 14px;">{{ t.experiencia.cards[1].desc }}</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;"><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[1].tags[0] }}</span><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[1].tags[1] }}</span></div>
-        </div>
-      </div>
-
-      <div style="background:#10161D;border:1px solid #232B35;border-radius:16px;overflow:hidden;">
-        <div style="height:140px;overflow:hidden;"><img src="assets/experiencia/agro.png" alt="{{ t.experiencia.cards[2].title }}" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
-        <div style="padding:22px;">
-          <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:12px;margin:0 0 8px;">03</p>
-          <h3 style="margin:0 0 8px;font-size:18px;font-weight:600;">{{ t.experiencia.cards[2].title }}</h3>
-          <p style="color:#7C8894;font-size:14px;line-height:1.6;margin:0 0 14px;">{{ t.experiencia.cards[2].desc }}</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;"><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[2].tags[0] }}</span><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[2].tags[1] }}</span></div>
-        </div>
-      </div>
-
-      <div style="background:#10161D;border:1px solid #232B35;border-radius:16px;overflow:hidden;">
-        <div style="height:140px;overflow:hidden;"><img src="assets/experiencia/creativos.png" alt="{{ t.experiencia.cards[3].title }}" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
-        <div style="padding:22px;">
-          <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:12px;margin:0 0 8px;">04</p>
-          <h3 style="margin:0 0 8px;font-size:18px;font-weight:600;">{{ t.experiencia.cards[3].title }}</h3>
-          <p style="color:#7C8894;font-size:14px;line-height:1.6;margin:0 0 14px;">{{ t.experiencia.cards[3].desc }}</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;"><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[3].tags[0] }}</span><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[3].tags[1] }}</span></div>
-        </div>
-      </div>
-
-      <div style="background:#10161D;border:1px solid #232B35;border-radius:16px;overflow:hidden;">
-        <div style="height:140px;overflow:hidden;"><img src="assets/experiencia/servicios-profesionales.png" alt="{{ t.experiencia.cards[4].title }}" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
-        <div style="padding:22px;">
-          <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:12px;margin:0 0 8px;">05</p>
-          <h3 style="margin:0 0 8px;font-size:18px;font-weight:600;">{{ t.experiencia.cards[4].title }}</h3>
-          <p style="color:#7C8894;font-size:14px;line-height:1.6;margin:0 0 14px;">{{ t.experiencia.cards[4].desc }}</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;"><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[4].tags[0] }}</span><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[4].tags[1] }}</span></div>
-        </div>
-      </div>
-
-      <div style="background:#10161D;border:1px solid #232B35;border-radius:16px;overflow:hidden;">
-        <div style="height:140px;overflow:hidden;"><img src="assets/experiencia/retail-ecommerce.png" alt="{{ t.experiencia.cards[5].title }}" style="width:100%;height:100%;object-fit:cover;display:block;" /></div>
-        <div style="padding:22px;">
-          <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:12px;margin:0 0 8px;">06</p>
-          <h3 style="margin:0 0 8px;font-size:18px;font-weight:600;">{{ t.experiencia.cards[5].title }}</h3>
-          <p style="color:#7C8894;font-size:14px;line-height:1.6;margin:0 0 14px;">{{ t.experiencia.cards[5].desc }}</p>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;"><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[5].tags[0] }}</span><span style="font-size:12px;color:#7C8894;background:#161D26;border:1px solid #232B35;border-radius:6px;padding:4px 10px;">{{ t.experiencia.cards[5].tags[1] }}</span></div>
-        </div>
-      </div>
-
-    </div>
-
-    <div style="border-top:1px solid #232B35;padding-top:32px;">
-      <p style="font-size:13px;color:#7C8894;margin:0 0 12px;">{{ t.experiencia.alsoWorkedIn }}</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <span style="font-size:13px;color:#C9CFD6;background:#10161D;border:1px solid #232B35;border-radius:20px;padding:8px 16px;">{{ t.experiencia.otherTags[0] }}</span>
-        <span style="font-size:13px;color:#C9CFD6;background:#10161D;border:1px solid #232B35;border-radius:20px;padding:8px 16px;">{{ t.experiencia.otherTags[1] }}</span>
-        <span style="font-size:13px;color:#C9CFD6;background:#10161D;border:1px solid #232B35;border-radius:20px;padding:8px 16px;">{{ t.experiencia.otherTags[2] }}</span>
-        <span style="font-size:13px;color:#C9CFD6;background:#10161D;border:1px solid #232B35;border-radius:20px;padding:8px 16px;">{{ t.experiencia.otherTags[3] }}</span>
-        <span style="font-size:13px;color:#C9CFD6;background:#10161D;border:1px solid #232B35;border-radius:20px;padding:8px 16px;">{{ t.experiencia.otherTags[4] }}</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ CONTACTO ============ -->
-  <section id="contacto" style="padding:100px 5% 120px;max-width:1240px;margin:0 auto;">
-    <div class="cta-grid">
-      <div>
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 16px;">{{ t.contacto.eyebrow }}</p>
-        <h2 style="font-size:clamp(30px,4.4vw,46px);font-weight:700;letter-spacing:-0.01em;line-height:1.14;margin:0 0 20px;">{{ t.contacto.ctaTitleA }} <span style="color:#2DD4FF;">{{ t.contacto.ctaTitleB }}</span> <span style="color:#7C8894;">{{ t.contacto.ctaTitleC }}</span></h2>
-        <p style="color:#C9CFD6;font-size:17px;line-height:1.6;max-width:460px;margin:0 0 32px;">{{ t.contacto.ctaSub }}</p>
-        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:36px;">
-          <a href="Structura V2 - Contacto.dc.html" class="btn-cta-primary">{{ t.contacto.ctaPrimary }} ↗</a>
-          <a href="#portafolio" class="btn-cta-ghost">{{ t.contacto.ctaSecondary }} →</a>
-        </div>
-        <div style="border-top:1px solid #232B35;padding-top:24px;">
-          <p style="color:#7C8894;font-size:13px;font-family:'IBM Plex Mono',monospace;margin:0 0 8px;">{{ t.contacto.ctaEmailLabel }}</p>
-          <a href="mailto:{{ t.contacto.contactEmail }}" style="color:#E7ECEF;font-size:16px;font-weight:600;">{{ t.contacto.contactEmail }}</a>
-        </div>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:16px;">
-        <div class="cta-benefit-card">
-          <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:12px;letter-spacing:0.05em;margin:0 0 12px;">01</p>
-          <h3 style="margin:0 0 8px;font-size:18px;font-weight:600;">{{ t.contacto.benefits[0].title }}</h3>
-          <p style="color:#7C8894;font-size:14px;line-height:1.6;margin:0;">{{ t.contacto.benefits[0].desc }}</p>
-        </div>
-        <div class="cta-benefit-card">
-          <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:12px;letter-spacing:0.05em;margin:0 0 12px;">02</p>
-          <h3 style="margin:0 0 8px;font-size:18px;font-weight:600;">{{ t.contacto.benefits[1].title }}</h3>
-          <p style="color:#7C8894;font-size:14px;line-height:1.6;margin:0;">{{ t.contacto.benefits[1].desc }}</p>
-        </div>
-        <div class="cta-benefit-card">
-          <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:12px;letter-spacing:0.05em;margin:0 0 12px;">03</p>
-          <h3 style="margin:0 0 8px;font-size:18px;font-weight:600;">{{ t.contacto.benefits[2].title }}</h3>
-          <p style="color:#7C8894;font-size:14px;line-height:1.6;margin:0;">{{ t.contacto.benefits[2].desc }}</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ============ FOOTER ============ -->
   <footer style="border-top:1px solid #232B35;padding:64px 5% 40px;">
@@ -617,7 +334,7 @@ a:hover{color:#7FE6FF;}
           <a href="#soluciones" style="color:#C9CFD6;font-size:14px;">{{ t.footer.soluciones }}</a>
           <a href="#portafolio" style="color:#C9CFD6;font-size:14px;">{{ t.footer.portafolio }}</a>
           <a href="Structura V2 - Como Trabajamos.dc.html" style="color:#C9CFD6;font-size:14px;">{{ t.footer.comoTrabajamos }}</a>
-          <a href="Structura V2 - Precios.dc.html" style="color:#C9CFD6;font-size:14px;">{{ t.footer.precios }}</a>
+          <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" style="color:#C9CFD6;font-size:14px;">{{ t.footer.precios }}</a>
           <a href="Structura V2 - Contacto.dc.html" style="color:#C9CFD6;font-size:14px;">{{ t.footer.contacto }}</a>
         </div>
       </div>
@@ -660,30 +377,6 @@ a:hover{color:#7FE6FF;}
   </footer>
 
 </div>
-
-<sc-if value="{{ activeFolioName }}">
-  <div class="folio-preview" style="transform:{{ folioPreviewTransform }};">
-    <div style="display:flex;gap:5px;padding:8px 10px;border-bottom:1px solid #232B35;">
-      <span style="width:6px;height:6px;border-radius:50%;background:#FF5F57;"></span>
-      <span style="width:6px;height:6px;border-radius:50%;background:#FEBC2E;"></span>
-      <span style="width:6px;height:6px;border-radius:50%;background:#28C840;"></span>
-    </div>
-    <div class="folio-preview__viewport">
-      <div class="folio-preview__scroll">
-        <div style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;border-radius:4px;background:#232B35;"></span><span style="height:6px;width:38%;background:#232B35;border-radius:3px;"></span></div>
-        <span style="height:7px;width:70%;background:#232B35;border-radius:4px;"></span>
-        <span style="height:7px;width:50%;background:#232B35;border-radius:4px;"></span>
-        <div style="display:flex;gap:6px;"><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i></div>
-        <span style="height:6px;width:60%;background:#232B35;border-radius:3px;"></span>
-        <div style="display:flex;gap:6px;"><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i></div>
-      </div>
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,14,19,0.35);">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.03em;color:#7C8894;background:#10161D;border:1px solid #232B35;padding:4px 9px;border-radius:20px;">{{ folioPreviewSoon }}</span>
-      </div>
-    </div>
-    <div style="padding:10px 12px;font-size:12.5px;font-weight:600;color:#E7ECEF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ activeFolioName }}</div>
-  </div>
-</sc-if>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;50687096790&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;navVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;glass&quot;,&quot;options&quot;:[&quot;glass&quot;,&quot;solid&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;showChatBubble&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
@@ -856,21 +549,16 @@ const DICT = {
   },
 };
 
-const FOLIO_ITEMS = [
-  { img: 'assets/folio/haus.png', alt: 'Haus', name: 'Haus' },
-  { img: 'assets/folio/hesa.png', alt: 'Hesa', name: 'Hesa' },
-  { img: 'assets/folio/aaec.png', alt: 'AAEC', name: 'AAEC' },
-  { img: 'assets/folio/rloria.png', alt: 'R. Loría Abogados', name: 'R. Loría Abogados' },
-  { img: 'assets/folio/alturaraiz.png', alt: 'Altura Raíz', name: 'Altura Raíz' },
-  { img: 'assets/folio/evoke.png', alt: 'Evoke', name: 'Evoke' },
-  { img: 'assets/folio/pastoarca.png', alt: 'Pasto Arca', name: 'Pasto Arca' },
-  { img: 'assets/folio/zacate.png', alt: 'Zacate Tierra Fértil', name: 'Zacate Tierra Fértil' },
-];
+const ROUTE_TRANSITION_MS = 280;
+
+function routeFromPathname(pathname) {
+  return /Precios\.dc\.html$/i.test(pathname || '') ? 'precios' : 'home';
+}
 
 class Component extends DCLogic {
   state = {
     scrollY: 0, mobileOpen: false, solucionesOpen: false, logoClicked: false,
-    lang: 'es', activeFolio: null, folioLeft: 0, folioTop: 0,
+    lang: 'es', route: routeFromPathname(location.pathname), transitioning: null,
   };
 
   componentDidMount() {
@@ -879,8 +567,15 @@ class Component extends DCLogic {
       if (saved === 'es' || saved === 'en') this.setState({ lang: saved });
     } catch (e) {}
 
+    this._homeHref = location.pathname + location.search;
+
     this._onScroll = () => this.setState({ scrollY: window.scrollY });
     window.addEventListener('scroll', this._onScroll, { passive: true });
+
+    this._onPopState = () => {
+      this.goToRoute(routeFromPathname(location.pathname), null, { push: false });
+    };
+    window.addEventListener('popstate', this._onPopState);
 
     const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
     const initLenis = () => {
@@ -906,28 +601,53 @@ class Component extends DCLogic {
   componentWillUnmount() {
     this._unmounted = true;
     window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('popstate', this._onPopState);
     document.removeEventListener('click', this._onAnchorClick);
     if (this._lenisPoll) clearTimeout(this._lenisPoll);
     if (this._raf) cancelAnimationFrame(this._raf);
     if (this._lenis) this._lenis.destroy();
+    if (this._routeTimer) clearTimeout(this._routeTimer);
   }
+
+  goToRoute = (route, href, opts = {}) => {
+    const push = opts.push !== false;
+    if (route === this.state.route) {
+      if (push && href) history.replaceState(null, '', href);
+      return;
+    }
+    clearTimeout(this._routeTimer);
+    this.setState({ transitioning: 'out' });
+    this._routeTimer = setTimeout(() => {
+      this.setState({ route, transitioning: 'out' });
+      if (push && href) history.pushState(null, '', href);
+      window.scrollTo(0, 0);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        this.setState({ transitioning: null });
+      }));
+    }, ROUTE_TRANSITION_MS);
+  };
+
+  handleNavClick = (e, route, href) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    if (this.state.mobileOpen) {
+      try { document.body.style.overflow = ''; } catch (err) {}
+      this.setState({ mobileOpen: false });
+    }
+    this.goToRoute(route, href);
+  };
 
   clickLogo = (e) => {
     e.preventDefault();
+    if (this.state.route !== 'home') {
+      this.goToRoute('home', this._homeHref);
+      return;
+    }
     this.setState({ logoClicked: true });
     const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
     if (this._lenis) this._lenis.scrollTo(0, { duration: 1.2, easing: easeOutCubic });
     else window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(() => this.setState({ logoClicked: false }), 500);
-  };
-
-  showFolio = (id, el) => {
-    const r = el.getBoundingClientRect();
-    this.setState({ activeFolio: id, folioLeft: r.left + r.width / 2, folioTop: r.top });
-  };
-
-  hideFolio = () => {
-    this.setState({ activeFolio: null });
   };
 
   setLang = (lang) => {
@@ -944,6 +664,7 @@ class Component extends DCLogic {
       : `linear-gradient(180deg, rgba(10,14,19,${Math.min(0.15 + y / 600, 0.9)}) 0%, rgba(10,14,19,0) 100%)`;
     const lang = this.state.lang === 'en' ? 'en' : 'es';
     const t = DICT[lang];
+    const route = this.state.route;
     return {
       heroBgTransform: `translateY(${y * 0.15}px) scale(1.05)`,
       navBg,
@@ -961,7 +682,7 @@ class Component extends DCLogic {
       openSoluciones: () => this.setState({ solucionesOpen: true }),
       closeSoluciones: () => this.setState({ solucionesOpen: false }),
       chevronRotate: this.state.solucionesOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-      showChatBubble: this.props.showChatBubble ?? true,
+      showChatBubbleNow: (this.props.showChatBubble ?? true) && route === 'home',
       logoClass: 'nav__logo' + (this.state.logoClicked ? ' is-clicked' : ''),
       clickLogo: this.clickLogo,
       t,
@@ -970,19 +691,12 @@ class Component extends DCLogic {
       setLangEn: () => this.setLang('en'),
       langBtnEsClass: 'lang-btn' + (lang === 'es' ? ' is-active' : ''),
       langBtnEnClass: 'lang-btn' + (lang === 'en' ? ' is-active' : ''),
-      folioLoop: [...FOLIO_ITEMS, ...FOLIO_ITEMS].map((f, i) => {
-        const isActive = this.state.activeFolio === i;
-        return {
-          img: f.img,
-          alt: f.alt,
-          wrapClass: 'folio-logo-wrap' + (isActive ? ' is-active' : ''),
-          onEnter: (e) => this.showFolio(i, e.currentTarget),
-          onLeave: this.hideFolio,
-        };
-      }),
-      activeFolioName: this.state.activeFolio == null ? '' : FOLIO_ITEMS[this.state.activeFolio % FOLIO_ITEMS.length].name,
-      folioPreviewSoon: t.portafolio.previewSoon,
-      folioPreviewTransform: `translate(-50%,-100%) translate(${this.state.folioLeft}px, ${this.state.folioTop - 16}px)`,
+      route,
+      routeTransitionClass: this.state.transitioning ? ' is-transitioning' : '',
+      navigateToPrecios: (e) => this.handleNavClick(e, 'precios', 'Structura V2 - Precios.dc.html'),
+      navigateToHome: (e) => this.handleNavClick(e, 'home', this._homeHref),
+      navLinkPreciosClass: 'nav-link' + (route === 'precios' ? ' is-current' : ''),
+      navSidebarPreciosClass: 'nav-sidebar-link' + (route === 'precios' ? ' is-current' : ''),
     };
   }
 }
