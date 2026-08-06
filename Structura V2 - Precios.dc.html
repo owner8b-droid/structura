@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -10,38 +11,135 @@
 
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap">
+<script src="https://cdn.jsdelivr.net/gh/darkroomengineering/lenis@1.1.13/dist/lenis.min.js"></script>
 <style>
 body{margin:0;background:#0A0E13;}
+@keyframes flow1{0%{transform:translate(-5%,-2%) rotate(0deg) scale(1);}50%{transform:translate(3%,4%) rotate(3deg) scale(1.06);}100%{transform:translate(-5%,-2%) rotate(0deg) scale(1);}}
+@keyframes flow2{0%{transform:translate(4%,3%) rotate(0deg) scale(1.04);}50%{transform:translate(-4%,-3%) rotate(-4deg) scale(0.98);}100%{transform:translate(4%,3%) rotate(0deg) scale(1.04);}}
+@keyframes grainShift{0%{transform:translate(0,0);}100%{transform:translate(-4%,3%);}}
+@keyframes livePulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 a{color:#2DD4FF;text-decoration:none;}
 a:hover{color:#7FE6FF;}
 
-/* ---- Sección de precios ---- */
-.pricing-reveal{opacity:0;transform:translateY(14px);animation:pricing-reveal-in .8s cubic-bezier(.16,1,.3,1) forwards;}
-@keyframes pricing-reveal-in{to{opacity:1;transform:translateY(0);}}
-@media (prefers-reduced-motion: reduce){.pricing-reveal{animation:none;opacity:1;transform:none;}}
+/* ---- Icono homepage (chat bubble) — hover + click, extraído de Structura v1 ---- */
+.chat-bubble{transition:transform .2s cubic-bezier(.34,1.4,.5,1);}
+.chat-bubble:hover{transform:scale(1.08);}
+.chat-bubble:active{transform:scale(.94);}
 
-.pricing-toggle-btn{color:#7C8894;transition:color .15s ease,background-color .15s ease;}
-.pricing-toggle-btn:hover{color:#E7ECEF;}
-.pricing-toggle-btn.is-active{background:#2DD4FF;color:#0A0E13;}
-.pricing-toggle-btn.is-active:hover{color:#0A0E13;}
-.pricing-toggle-btn:focus-visible{outline:2px solid #2DD4FF;outline-offset:2px;}
+/* ---- Logo nav — micro-bounce al hacer click + retorno con scroll fluido (v1) ---- */
+.nav__mark{transition:transform .5s cubic-bezier(.34,1.4,.5,1);}
+.nav__logo.is-clicked .nav__mark{transform:scale(1.15) rotate(-6deg);}
 
-.pricing-badge{display:inline-flex;border-radius:999px;padding:2px 9px;font-size:11px;font-weight:600;background:rgba(45,212,255,0.12);color:#2DD4FF;transition:background-color .15s ease,color .15s ease;}
-.pricing-toggle-btn.is-active .pricing-badge{background:rgba(255,255,255,0.15);color:#7FE6FF;}
+/* ---- Soluciones card animations (extraídas de Structura v1) ---- */
+@keyframes mockCursorMove{0%{top:50px;left:120px;opacity:0;transform:scale(1);}7%{opacity:1;}11%{top:70px;left:72px;opacity:1;transform:scale(1);}13%{transform:scale(.6);}15%{transform:scale(1);}22%{opacity:1;top:70px;left:72px;}27%{opacity:0;top:70px;left:72px;}100%{opacity:0;top:50px;left:120px;}}
+@keyframes mockPillPress{0%,10%{transform:scale(1);filter:brightness(1);}13%{transform:scale(.86);filter:brightness(1.4);}16%,100%{transform:scale(1);filter:brightness(1);}}
+@keyframes mockScroll{0%,12%{transform:translateY(0);}38%,50%{transform:translateY(-48px);}76%,88%{transform:translateY(-92px);}100%{transform:translateY(0);}}
+@keyframes rowAdd{0%,8%{opacity:0;transform:translateY(8px);}22%,66%{opacity:1;transform:translateY(0);}82%,100%{opacity:0;transform:translateY(8px);}}
+@keyframes toastPop{0%,26%{opacity:0;transform:translateY(6px) scale(.95);}34%,60%{opacity:1;transform:translateY(0) scale(1);}74%,100%{opacity:0;transform:translateY(6px) scale(.95);}}
 
-.pricing-cta{transition:background-color .15s ease,border-color .15s ease;}
-.pricing-cta:not(.pricing-cta--primary):hover{border-color:#2DD4FF;background:rgba(45,212,255,0.06);}
-.pricing-cta--primary:hover{background:#0FA8CE;}
-.pricing-cta:focus-visible{outline:2px solid #2DD4FF;outline-offset:2px;}
+/* núcleo mini-hub (IA y Automatización) — ciclo de energía fijo tipo red neuronal, sin hover */
+@keyframes hubMiniDash{to{stroke-dashoffset:-20;}}
+@keyframes hubMiniEnergy{from{stroke-dashoffset:60;}to{stroke-dashoffset:-60;}}
+@keyframes hubMiniCore{0%,100%{filter:drop-shadow(0 0 2px #2DD4FF);}50%{filter:drop-shadow(0 0 7px #2DD4FF);}}
+@keyframes hubMiniNode{0%,100%{opacity:.55;}50%{opacity:1;}}
+.hub-mini-base{animation:hubMiniDash 1.2s linear infinite;}
+.hub-mini-energy{stroke-dasharray:8 34;stroke-dashoffset:60;filter:drop-shadow(0 0 3px #2DD4FF);animation:hubMiniEnergy 1.3s linear infinite;}
+.hub-mini-core{animation:hubMiniCore 2.4s ease-in-out infinite;}
+.hub-mini-node{animation:hubMiniNode 2s ease-in-out infinite;filter:drop-shadow(0 0 2.5px #2DD4FF);}
 
-.pricing-grid{display:grid;row-gap:32px;}
-@media (min-width:1024px){
-  .pricing-grid{grid-template-columns:repeat(3,1fr);grid-template-rows:32px 1fr 32px;column-gap:32px;}
-  .pricing-card--edge{grid-row-start:2;}
-  .pricing-card--scale{grid-row:1 / -1;}
-}
+/* Desarrollo Web y Móvil — panel de app móvil (splash del logo al abrir) */
+.phone-mock{width:62px;height:110px;background:#0A0E13;border:2px solid #232B35;border-radius:14px;position:relative;overflow:hidden;}
+.phone-mock__notch{position:absolute;top:5px;left:50%;transform:translateX(-50%);width:18px;height:4px;border-radius:3px;background:#232B35;z-index:2;}
+.phone-mock__screen{position:absolute;inset:4px;border-radius:10px;background:linear-gradient(160deg,#161D26,#0A0E13);display:flex;align-items:center;justify-content:center;}
+@keyframes phoneIconTap{0%,7%{transform:scale(1);}10%{transform:scale(.8);}14%,100%{transform:scale(1);}}
+@keyframes phoneIconFade{0%,11%{opacity:1;}17%,90%{opacity:0;}100%{opacity:1;}}
+.phone-app-icon{position:absolute;width:16px;height:16px;border-radius:5px;background:#1B222B;border:1px solid #2A323C;display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:3px;animation:phoneIconTap 4.4s cubic-bezier(.34,1.4,.5,1) infinite, phoneIconFade 4.4s ease infinite;}
+.phone-app-icon i{border-radius:1px;background:#7C8894;}
+.phone-app-icon i:first-child{background:#2DD4FF;}
+@keyframes phoneSplashIn{0%,15%{opacity:0;transform:scale(.4);}26%,76%{opacity:1;transform:scale(1);}88%,100%{opacity:0;transform:scale(1.2);}}
+@keyframes phoneSplashGlow{0%,15%{filter:drop-shadow(0 0 0 rgba(45,212,255,0));}32%,70%{filter:drop-shadow(0 0 7px #2DD4FF);}88%,100%{filter:drop-shadow(0 0 0 rgba(45,212,255,0));}}
+.phone-splash-logo{position:absolute;width:26px;height:26px;animation:phoneSplashIn 4.4s cubic-bezier(.22,.61,.30,1) infinite, phoneSplashGlow 4.4s ease infinite;}
+
+/* mini esquema de conexión BD → sistema (Hosting & Servidores) */
+@keyframes dbEnergy{from{stroke-dashoffset:100;}to{stroke-dashoffset:-100;}}
+@keyframes dbPing{0%{opacity:.8;r:9;}70%{opacity:0;r:17;}100%{opacity:0;r:17;}}
+.db-mini-energy{stroke-dasharray:8 40;stroke-dashoffset:100;animation:dbEnergy 1.6s linear infinite;filter:drop-shadow(0 0 3px #2DD4FF);}
+.db-ping{animation:dbPing 1.6s ease-out infinite;}
+
+.sol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+@media (max-width:720px){.sol-grid{grid-template-columns:1fr;}}
+
+.sol-card{transition:transform .3s cubic-bezier(.22,.61,.30,1), border-color .3s ease, box-shadow .3s ease;}
+.sol-card:hover{transform:translateY(-4px);border-color:#2DD4FF;box-shadow:0 16px 34px rgba(0,0,0,0.35);}
+
+.sol-visual{height:136px;background:#161D26;border-radius:14px;margin-bottom:24px;overflow:hidden;position:relative;border:1px solid #232B35;box-shadow:0 14px 30px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.05);}
+
+.mock-cursor{animation:mockCursorMove 7s cubic-bezier(.22,.61,.30,1) infinite;}
+.mini-pill{animation:mockPillPress 7s cubic-bezier(.22,.61,.30,1) infinite;}
+.browser-mock__scroll{animation:mockScroll 7s cubic-bezier(.22,.61,.30,1) infinite;}
+.svc-visual--web:hover .mock-cursor{animation-duration:3s;}
+.svc-visual--web:hover .mini-pill{animation-duration:3s;}
+.svc-visual--web:hover .browser-mock__scroll{animation-duration:3s;}
+
+.dash-row--new{animation:rowAdd 3.6s cubic-bezier(.22,.61,.30,1) infinite;}
+.dash-toast{animation:toastPop 3.6s cubic-bezier(.22,.61,.30,1) infinite;}
+.svc-visual--saas:hover .dash-row--new{animation-duration:1.6s;}
+.svc-visual--saas:hover .dash-toast{animation-duration:1.6s;}
+
+/* ---- Selector de idioma ---- */
+.lang-toggle{display:flex;align-items:center;border:1px solid #232B35;border-radius:8px;overflow:hidden;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;}
+.lang-btn{background:none;border:none;padding:7px 11px;color:#7C8894;cursor:pointer;transition:background .2s ease, color .2s ease;}
+.lang-btn.is-active{background:#2DD4FF;color:#0A0E13;}
+.lang-btn:not(.is-active):hover{color:#E7ECEF;}
+
+/* ---- Banner CTA de contacto (enlaza a la página de contacto dedicada) ---- */
+.cta-grid{display:grid;grid-template-columns:1fr 0.9fr;gap:48px;align-items:center;}
+@media (max-width:860px){.cta-grid{grid-template-columns:1fr;}}
+.btn-cta-primary{display:inline-flex;align-items:center;gap:8px;background:#2DD4FF;color:#0A0E13;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14.5px;padding:15px 26px;border-radius:8px;transition:background .2s ease, transform .2s cubic-bezier(.34,1.4,.5,1);}
+.btn-cta-primary:hover{background:#0FA8CE;color:#0A0E13;}
+.btn-cta-primary:active{transform:translateY(2px) scale(.97);}
+.btn-cta-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid #232B35;color:#E7ECEF;font-family:'IBM Plex Mono',monospace;font-size:14.5px;padding:14px 24px;border-radius:8px;transition:border-color .2s ease, background .2s ease, transform .2s cubic-bezier(.34,1.4,.5,1);}
+.btn-cta-ghost:hover{border-color:#2DD4FF;background:rgba(45,212,255,0.08);color:#E7ECEF;}
+.btn-cta-ghost:active{transform:translateY(2px) scale(.97);}
+.cta-benefit-card{background:linear-gradient(160deg,#161D26,#10161D);border:1px solid #232B35;border-radius:14px;padding:24px;transition:border-color .3s ease, transform .3s cubic-bezier(.22,.61,.30,1);}
+.cta-benefit-card:hover{border-color:#2DD4FF;transform:translateY(-2px);}
+
+/* ---- Carrusel de referencias (portafolio) — logos + mini preview on hover/tap (v1) ---- */
+.folio-track{overflow:hidden;white-space:nowrap;padding:44px 0;border-top:1px solid #232B35;border-bottom:1px solid #232B35;}
+.folio-marquee{animation:marquee 40s linear infinite;}
+.folio-track:hover .folio-marquee{animation-play-state:paused;}
+.folio-logo-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:10px 0;cursor:pointer;}
+.folio-logo{height:56px;width:auto;filter:brightness(0) invert(1);opacity:0.55;transition:opacity .25s ease, filter .25s ease, transform .3s cubic-bezier(.22,.61,.30,1);}
+.folio-logo-wrap:hover .folio-logo,.folio-logo-wrap.is-active .folio-logo{opacity:1;filter:none;transform:scale(1.06);}
+/* single top-level popover (rendered once, mounted only while a logo is hovered); JS sets its viewport coords via transform */
+.folio-preview{position:fixed;top:0;left:0;width:230px;background:#10161D;border:1px solid #232B35;border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,0.5);overflow:hidden;z-index:9999;white-space:normal;pointer-events:none;}
+.folio-preview__viewport{height:126px;overflow:hidden;position:relative;background:#0A0E13;}
+@keyframes folioPreviewScroll{0%,15%{transform:translateY(0);}45%,60%{transform:translateY(-54px);}85%,100%{transform:translateY(-98px);}}
+.folio-preview__scroll{display:flex;flex-direction:column;gap:9px;padding:12px;animation:folioPreviewScroll 6s cubic-bezier(.22,.61,.30,1) infinite;}
+
+/* ---- Widget del recepcionista IA (Structura) ---- */
+#ai-widget-panel{position:fixed;right:24px;bottom:92px;z-index:150;width:340px;max-width:calc(100vw - 32px);height:460px;max-height:calc(100vh - 140px);background:#10161D;border:1px solid #232B35;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,0.5);display:flex;flex-direction:column;overflow:hidden;opacity:0;transform:translateY(16px) scale(.97);pointer-events:none;transition:opacity .22s ease, transform .22s cubic-bezier(.22,.61,.30,1);}
+#ai-widget-panel.is-open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+.ai-widget-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid #232B35;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#E7ECEF;}
+#ai-widget-close{background:none;border:none;color:#7C8894;font-size:20px;line-height:1;cursor:pointer;padding:0;}
+#ai-widget-close:hover{color:#E7ECEF;}
+.ai-widget-messages{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:10px;}
+.ai-widget-msg{max-width:84%;padding:9px 13px;border-radius:12px;font-size:14px;line-height:1.5;white-space:pre-wrap;}
+.ai-widget-msg--bot{align-self:flex-start;background:#161D26;border:1px solid #232B35;color:#C9CFD6;border-bottom-left-radius:4px;}
+.ai-widget-msg--user{align-self:flex-end;background:#2DD4FF;color:#0A0E13;border-bottom-right-radius:4px;}
+.ai-widget-msg--typing{align-self:flex-start;color:#7C8894;font-style:italic;}
+.ai-widget-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;background:#2DD4FF;color:#0A0E13;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;padding:9px 14px;border-radius:20px;text-decoration:none;transition:background .2s ease;}
+.ai-widget-cta:hover{background:#0FA8CE;}
+.ai-widget-form{display:flex;gap:8px;padding:12px;border-top:1px solid #232B35;}
+.ai-widget-form input{flex:1;background:#161D26;border:1px solid #232B35;border-radius:8px;padding:10px 12px;color:#E7ECEF;font-size:14px;font-family:inherit;}
+.ai-widget-form input:focus{outline:none;border-color:#2DD4FF;}
+.ai-widget-form button{background:#2DD4FF;color:#0A0E13;border:none;border-radius:8px;width:38px;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s ease;}
+.ai-widget-form button:hover{background:#0FA8CE;}
+.ai-widget-form button:disabled{opacity:.5;cursor:not-allowed;}
 
 /* ---- Nav móvil: hamburguesa + sidebar desplegable ---- */
+.desktop-nav{display:flex;align-items:center;gap:36px;}
 .nav-burger{display:none;background:none;border:none;cursor:pointer;padding:8px;width:36px;height:36px;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;}
 .nav-burger span{display:block;width:20px;height:2px;background:#E7ECEF;border-radius:2px;}
 
@@ -60,286 +158,658 @@ a:hover{color:#7FE6FF;}
 .nav-sidebar-cta{display:block;margin-top:12px;text-align:center;background:#2DD4FF;color:#0A0E13;padding:13px 0;border-radius:8px;font-size:15px;font-weight:600;}
 .nav-sidebar-cta:hover{background:#0FA8CE;color:#0A0E13;}
 
-.nav-links-desktop{display:flex;align-items:center;gap:36px;}
 @media (max-width:768px){
-  .nav-links-desktop{display:none;}
+  .desktop-nav{display:none;}
   .nav-burger{display:flex;}
+}
+
+/* ---- Nav desktop: link activo por ruta ---- */
+.nav-link{color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;}
+.nav-link.is-current{color:#2DD4FF;font-weight:600;}
+
+/* ---- Transición SPA entre rutas (fade + slide sutil) ---- */
+.route-content{transition:opacity .28s cubic-bezier(.22,.61,.30,1), transform .28s cubic-bezier(.22,.61,.30,1);}
+.route-content.is-transitioning{opacity:0;transform:translateY(10px);}
+@media (prefers-reduced-motion: reduce){
+  .route-content{transition:none;}
+  .route-content.is-transitioning{opacity:1;transform:none;}
 }
 </style>
 </helmet>
 
 <div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
 
-  <nav style="position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 5%;background:{{ navBg }};backdrop-filter:blur(10px);">
-    <a href="Structura V2.dc.html" style="display:flex;align-items:center;gap:10px;">
-      <svg width="30" height="30" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
-        <rect x="18" y="18" width="14" height="14" fill="#2DD4FF"/>
-        <rect x="18" y="2" width="14" height="14" fill="none" stroke="#7C8894" stroke-width="1.5"/>
-      </svg>
-      <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:19px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
+  <!-- ============ NAV ============ -->
+  <nav style="position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 5%;background:{{ navBg }};backdrop-filter:blur(10px);">
+      <a href="#inicio" id="logo-home" class="{{ logoClass }}" onClick="{{ clickLogo }}" style="display:flex;align-items:center;gap:10px;">
+        <svg class="nav__mark" width="30" height="30" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
+          <rect x="18" y="18" width="14" height="14" fill="#2DD4FF"/>
+          <rect x="18" y="2" width="14" height="14" fill="none" stroke="#7C8894" stroke-width="1.5"/>
+        </svg>
+        <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:19px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
+      </a>
+
+      <div class="desktop-nav">
+        <div style="position:relative;" onMouseEnter="{{ openSoluciones }}" onMouseLeave="{{ closeSoluciones }}">
+          <span style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;">{{ t.nav.soluciones }}
+            <svg width="10" height="10" viewBox="0 0 10 10" style="transform:{{ chevronRotate }};transition:transform .2s;"><path d="M1 3 L5 7 L9 3" stroke="#7C8894" stroke-width="1.4" fill="none"/></svg>
+          </span>
+          <sc-if value="{{ solucionesOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:28px;left:50%;transform:translateX(-50%);width:260px;background:#10161D;border:1px solid #232B35;border-radius:10px;padding:8px;box-shadow:0 20px 50px rgba(0,0,0,0.45);">
+              <a href="#soluciones" style="display:block;padding:10px 12px;border-radius:7px;font-size:14px;color:#E7ECEF;" style-hover="background:rgba(45,212,255,0.1);color:#2DD4FF;">{{ t.nav.dropdown[0] }}</a>
+              <a href="#soluciones" style="display:block;padding:10px 12px;border-radius:7px;font-size:14px;color:#E7ECEF;" style-hover="background:rgba(45,212,255,0.1);color:#2DD4FF;">{{ t.nav.dropdown[1] }}</a>
+              <a href="#soluciones" style="display:block;padding:10px 12px;border-radius:7px;font-size:14px;color:#E7ECEF;" style-hover="background:rgba(45,212,255,0.1);color:#2DD4FF;">{{ t.nav.dropdown[2] }}</a>
+              <a href="#soluciones" style="display:block;padding:10px 12px;border-radius:7px;font-size:14px;color:#E7ECEF;" style-hover="background:rgba(45,212,255,0.1);color:#2DD4FF;">{{ t.nav.dropdown[3] }}</a>
+            </div>
+          </sc-if>
+        </div>
+        <a href="#portafolio" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.portafolio }}</a>
+        <a href="#experiencia" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.experiencia }}</a>
+        <a href="Structura V2 - Como Trabajamos.dc.html" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.comoTrabajamos }}</a>
+        <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" class="{{ navLinkPreciosClass }}">{{ t.nav.precios }}</a>
+        <div class="lang-toggle">
+          <button onClick="{{ setLangEs }}" class="{{ langBtnEsClass }}">ES</button>
+          <button onClick="{{ setLangEn }}" class="{{ langBtnEnClass }}">EN</button>
+        </div>
+        <a href="Structura V2 - Contacto.dc.html" style="background:#2DD4FF;color:#0A0E13;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;">{{ t.nav.contactar }}</a>
+      </div>
+
+      <button onClick="{{ toggleMobile }}" class="nav-burger" aria-label="Abrir menú" aria-expanded="{{ mobileOpen }}" aria-controls="mobile-sidebar">
+        <span></span><span></span>
+      </button>
+    </nav>
+
+    <div class="{{ mobileBackdropClass }}" id="mobile-sidebar-backdrop" onClick="{{ toggleMobile }}"></div>
+    <aside class="{{ mobileSidebarClass }}" id="mobile-sidebar" aria-hidden="{{ mobileSidebarAriaHidden }}">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid #232B35;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:18px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
+        <button type="button" class="nav-sidebar-close" onClick="{{ toggleMobile }}" aria-label="Cerrar menú">&times;</button>
+      </div>
+      <div style="display:flex;flex-direction:column;padding:16px;gap:2px;">
+        <a href="#soluciones" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.soluciones }}</a>
+        <a href="#portafolio" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.portafolio }}</a>
+        <a href="#experiencia" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.experiencia }}</a>
+        <a href="Structura V2 - Como Trabajamos.dc.html" class="nav-sidebar-link">{{ t.nav.comoTrabajamos }}</a>
+        <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" class="{{ navSidebarPreciosClass }}">{{ t.nav.precios }}</a>
+        <div class="lang-toggle" style="margin-top:10px;">
+          <button onClick="{{ setLangEs }}" class="{{ langBtnEsClass }}">ES</button>
+          <button onClick="{{ setLangEn }}" class="{{ langBtnEnClass }}">EN</button>
+        </div>
+        <a href="Structura V2 - Contacto.dc.html" class="nav-sidebar-cta">{{ t.nav.contactar }}</a>
+      </div>
+    </aside>
+
+  <!-- ============ HERO (solo en la ruta home) ============ -->
+  <sc-if value="{{ route === 'home' }}" hint-placeholder-val="{{ true }}">
+    <section style="position:relative;min-height:100vh;overflow:hidden;">
+      <div style="position:absolute;inset:0;transform:{{ heroBgTransform }};">
+        <img src="assets/hero-mountain.avif" alt="Volcán entre nubes" style="width:100%;height:115%;object-fit:cover;object-position:center 35%;" />
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,14,19,0.25) 0%, rgba(10,14,19,0.15) 30%, rgba(10,14,19,0.65) 78%, rgba(10,14,19,0.94) 100%);"></div>
+      </div>
+
+      <div style="position:absolute;inset:0;mix-blend-mode:screen;opacity:0.45;pointer-events:none;">
+        <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;">
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#2DD4FF" stop-opacity="0"/>
+              <stop offset="35%" stop-color="#7dd3fc" stop-opacity="0.5"/>
+              <stop offset="65%" stop-color="#f9a8d4" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#2DD4FF" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#fbcfe8" stop-opacity="0"/>
+              <stop offset="45%" stop-color="#93c5fd" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#2DD4FF" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <g style="animation:flow1 24s ease-in-out infinite;transform-origin:center;">
+            <path d="M -200 300 C 300 100, 700 500, 1000 250 S 1600 150, 1900 350" stroke="url(#grad1)" stroke-width="2.5" fill="none"/>
+            <path d="M -200 600 C 350 450, 800 750, 1150 550 S 1550 480, 1900 650" stroke="url(#grad1)" stroke-width="2" fill="none"/>
+          </g>
+          <g style="animation:flow2 30s ease-in-out infinite;transform-origin:center;">
+            <path d="M -200 200 C 250 400, 750 50, 1100 300 S 1500 500, 1900 250" stroke="url(#grad2)" stroke-width="2" fill="none"/>
+          </g>
+        </svg>
+      </div>
+
+      <div style="position:absolute;top:-10%;left:-5%;width:55%;height:45%;background:radial-gradient(ellipse at top left, rgba(45,212,255,0.18) 0%, transparent 65%);pointer-events:none;mix-blend-mode:screen;"></div>
+
+      <!-- bottom row: giant wordmark left + description panel right -->
+      <div style="position:absolute;z-index:2;left:0;right:0;bottom:7%;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:0 5%;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:clamp(2.2rem,8vw,6rem);line-height:0.88;color:#F2F0EA;white-space:nowrap;text-shadow:0 8px 40px rgba(0,0,0,0.4);flex-shrink:1;min-width:0;">
+          structura<span style="color:#2DD4FF;">.</span>
+        </div>
+
+        <div style="max-width:320px;flex-shrink:2;text-align:right;">
+          <p style="color:#C9CFD6;font-size:0.9rem;line-height:1.6;margin:0;">{{ t.hero.text }}</p>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ showChatBubbleNow }}" hint-placeholder-val="{{ true }}">
+    <a href="javascript:void(0)" id="ai-widget-toggle" aria-label="Chatear con Structura" class="chat-bubble" style="position:fixed;right:24px;bottom:24px;z-index:150;width:56px;height:56px;border-radius:50%;background:#2DD4FF;color:#0A0E13;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(45,212,255,0.35);">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     </a>
-    <div class="nav-links-desktop">
-      <a href="Structura V2.dc.html#soluciones" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Soluciones</a>
-      <a href="Structura V2.dc.html#portafolio" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Portafolio</a>
-      <a href="Structura V2.dc.html#experiencia" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Experiencia</a>
-      <a href="Structura V2 - Como Trabajamos.dc.html" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">Cómo trabajamos</a>
-      <span style="color:#2DD4FF;font-size:14.5px;font-weight:600;">Precios</span>
-      <a href="{{ waLink }}" target="_blank" rel="noopener" style="background:#2DD4FF;color:#0A0E13;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;">Contactar</a>
-    </div>
-    <button type="button" class="nav-burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-sidebar">
-      <span></span><span></span>
-    </button>
-  </nav>
 
-  <div class="mobile-sidebar-backdrop" id="mobile-sidebar-backdrop"></div>
-  <aside class="mobile-sidebar" id="mobile-sidebar" aria-hidden="true">
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid #232B35;">
-      <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:18px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
-      <button type="button" class="nav-sidebar-close" aria-label="Cerrar menú">&times;</button>
-    </div>
-    <div style="display:flex;flex-direction:column;padding:16px;gap:2px;">
-      <a href="Structura V2.dc.html#soluciones" class="nav-sidebar-link">Soluciones</a>
-      <a href="Structura V2.dc.html#portafolio" class="nav-sidebar-link">Portafolio</a>
-      <a href="Structura V2.dc.html#experiencia" class="nav-sidebar-link">Experiencia</a>
-      <a href="Structura V2 - Como Trabajamos.dc.html" class="nav-sidebar-link">Cómo trabajamos</a>
-      <a href="Structura V2 - Precios.dc.html" class="nav-sidebar-link is-current">Precios</a>
-      <a href="{{ waLink }}" target="_blank" rel="noopener" class="nav-sidebar-cta">Contactar</a>
-    </div>
-  </aside>
-
-  <section style="padding:100px 5% 60px;text-align:center;">
-    <div class="pricing-reveal" style="max-width:640px;margin:0 auto;">
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">// PRECIOS</p>
-      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:600;letter-spacing:-0.01em;margin:0 0 20px;">Precios que se ajustan a tu proyecto</h1>
-      <p style="color:#7C8894;font-size:17px;line-height:1.6;margin:0;">Tres paquetes pensados para negocios en Costa Rica y LatAm. El alcance final se ajusta después de la etapa de descubrimiento. <em style="color:#7C8894;font-style:normal;">(precios de referencia)</em></p>
-    </div>
-  </section>
-
-  <section style="padding:0 5% 120px;max-width:1100px;margin:0 auto;">
-
-    <div class="pricing-reveal" style="display:flex;justify-content:center;animation-delay:.1s;">
-      <div role="group" aria-label="Ciclo de facturación" style="display:inline-flex;align-items:center;border-radius:999px;background:#10161D;border:1px solid #232B35;padding:4px;">
-        <button type="button" class="pricing-toggle-btn is-active" data-period="monthly" aria-pressed="true" style="border:none;background:none;cursor:pointer;border-radius:999px;padding:8px 18px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;">Mensual</button>
-        <button type="button" class="pricing-toggle-btn" data-period="yearly" aria-pressed="false" style="display:flex;align-items:center;gap:8px;border:none;background:none;cursor:pointer;border-radius:999px;padding:8px 10px 8px 18px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;">
-          Anual
-          <span class="pricing-badge">−17%</span>
+    <div id="ai-widget-panel" aria-hidden="true">
+      <div class="ai-widget-header">
+        <span>Structura — Asistente</span>
+        <button type="button" id="ai-widget-close" aria-label="Cerrar chat">&times;</button>
+      </div>
+      <div id="ai-widget-messages" class="ai-widget-messages">
+        <div class="ai-widget-msg ai-widget-msg--bot">Hola, soy el asistente de Structura. ¿En qué te puedo ayudar?</div>
+      </div>
+      <form id="ai-widget-form" class="ai-widget-form">
+        <input id="ai-widget-input" type="text" placeholder="Escribí tu mensaje..." autocomplete="off" />
+        <button type="submit" aria-label="Enviar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
+      </form>
+    </div>
+  </sc-if>
+
+  <!-- ============ ROUTED CONTENT ============ -->
+  <div class="route-content{{ routeTransitionClass }}">
+    <sc-if value="{{ route === 'home' }}">
+      <dc-import name="Structura V2 - Home Content" t="{{ t }}"/>
+    </sc-if>
+    <sc-if value="{{ route === 'precios' }}">
+      <dc-import name="Structura V2 - Precios Content" waLink="{{ waLink }}"/>
+    </sc-if>
+  </div>
+
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="border-top:1px solid #232B35;padding:64px 5% 40px;">
+    <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:56px;">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:20px;color:#F2F0EA;margin-bottom:14px;">structura<span style="color:#2DD4FF;">.</span></div>
+        <p style="color:#7C8894;font-size:14px;line-height:1.6;max-width:320px;">{{ t.footer.blurb }}</p>
+      </div>
+      <div>
+        <p style="font-size:13px;color:#7C8894;margin:0 0 14px;">{{ t.footer.empresa }}</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="#soluciones" style="color:#C9CFD6;font-size:14px;">{{ t.footer.soluciones }}</a>
+          <a href="#portafolio" style="color:#C9CFD6;font-size:14px;">{{ t.footer.portafolio }}</a>
+          <a href="Structura V2 - Como Trabajamos.dc.html" style="color:#C9CFD6;font-size:14px;">{{ t.footer.comoTrabajamos }}</a>
+          <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" style="color:#C9CFD6;font-size:14px;">{{ t.footer.precios }}</a>
+          <a href="Structura V2 - Contacto.dc.html" style="color:#C9CFD6;font-size:14px;">{{ t.footer.contacto }}</a>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:13px;color:#7C8894;margin:0 0 14px;">{{ t.footer.siguenos }}</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <span style="color:#7C8894;font-size:14px;font-family:'IBM Plex Mono',monospace;">[ instagram ]</span>
+          <span style="color:#7C8894;font-size:14px;font-family:'IBM Plex Mono',monospace;">[ linkedin ]</span>
+        </div>
       </div>
     </div>
 
-    <div class="pricing-grid pricing-reveal" style="margin-top:48px;animation-delay:.18s;">
-
-      <div class="pricing-card pricing-card--edge" style="display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;background:#10161D;border:1px solid #232B35;padding:32px;">
-        <div>
-          <h3 style="margin:0;font-size:18px;font-weight:600;">Esencial</h3>
-          <p style="margin:4px 0 0;font-size:14px;color:#7C8894;">Para negocios que necesitan presencia digital sólida y rápida.</p>
-          <div style="display:flex;align-items:baseline;gap:8px;margin-top:24px;">
-            <span style="font-size:36px;font-weight:600;letter-spacing:-0.02em;">$690</span>
-            <span style="font-size:14px;color:#7C8894;">pago único</span>
-          </div>
-          <ul role="list" style="list-style:none;margin:32px 0 0;padding:0;font-size:14px;">
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Sitio de hasta 5 páginas</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Diseño responsive a medida</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Formulario de contacto</span></li>
-            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">1 ronda de revisiones</span></li>
-          </ul>
+    <div style="max-width:1240px;margin:0 auto 56px;">
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 16px;">{{ t.footer.testimonios }}</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;">
+        <div style="background:#10161D;border:1px dashed #232B35;border-radius:12px;padding:22px;">
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7C8894;margin:0 0 10px;">{{ t.footer.testimonioPendiente }}</p>
+          <p style="color:#4a5560;font-size:13px;line-height:1.6;margin:0 0 12px;">{{ t.footer.nombreCliente }}</p>
         </div>
-        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta" style="display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;border:1px solid #232B35;color:#E7ECEF;">Escribir por WhatsApp</a>
+        <div style="background:#10161D;border:1px dashed #232B35;border-radius:12px;padding:22px;">
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7C8894;margin:0 0 10px;">{{ t.footer.testimonioPendiente }}</p>
+          <p style="color:#4a5560;font-size:13px;line-height:1.6;margin:0 0 12px;">{{ t.footer.nombreCliente }}</p>
+        </div>
+        <div style="background:#10161D;border:1px dashed #232B35;border-radius:12px;padding:22px;">
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7C8894;margin:0 0 10px;">{{ t.footer.testimonioPendiente }}</p>
+          <p style="color:#4a5560;font-size:13px;line-height:1.6;margin:0 0 12px;">{{ t.footer.nombreCliente }}</p>
+        </div>
       </div>
-
-      <div class="pricing-card pricing-card--scale" style="position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;background:#050709;color:#fff;padding:32px;box-shadow:0 30px 70px -25px rgba(45,212,255,0.35);">
-        <div aria-hidden="true" style="position:absolute;inset:0;background:#050709;">
-          <canvas id="pricing-scale-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
-        </div>
-        <div aria-hidden="true" style="position:absolute;inset:0;border-radius:20px;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.1);pointer-events:none;"></div>
-
-        <div style="position:relative;">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-            <h3 style="margin:0;font-size:18px;font-weight:600;">Plataforma completa</h3>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;color:#7FE6FF;white-space:nowrap;">MÁS ELEGIDO</span>
-          </div>
-          <p style="margin:4px 0 0;font-size:14px;color:rgba(255,255,255,0.6);">Para negocios que necesitan un producto digital completo, con soporte continuo.</p>
-          <div style="display:flex;align-items:baseline;gap:8px;margin-top:24px;">
-            <span id="pricing-scale-figure" style="font-size:36px;font-weight:600;letter-spacing:-0.02em;">$190</span>
-            <span id="pricing-scale-suffix" style="font-size:14px;color:rgba(255,255,255,0.6);">por mes</span>
-          </div>
-          <ul role="list" style="list-style:none;margin:32px 0 0;padding:0;font-size:14px;">
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Todo lo de Esencial, más…</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Diseño e identidad a medida</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Integraciones (pagos, CRM, WhatsApp)</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Mantenimiento y soporte incluido</span></li>
-            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Prioridad en tiempos de respuesta</span></li>
-          </ul>
-        </div>
-        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta pricing-cta--primary" style="position:relative;display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;background:#2DD4FF;color:#0A0E13;">Empezar mi proyecto</a>
-      </div>
-
-      <div class="pricing-card pricing-card--edge" style="display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;background:#10161D;border:1px solid #232B35;padding:32px;">
-        <div>
-          <h3 style="margin:0;font-size:18px;font-weight:600;">A medida</h3>
-          <p style="margin:4px 0 0;font-size:14px;color:#7C8894;">Para plataformas complejas, automatización con IA o necesidades específicas.</p>
-          <div style="display:flex;align-items:baseline;gap:8px;margin-top:24px;">
-            <span style="font-size:36px;font-weight:600;letter-spacing:-0.02em;">A cotizar</span>
-            <span style="font-size:14px;color:#7C8894;">según alcance</span>
-          </div>
-          <ul role="list" style="list-style:none;margin:32px 0 0;padding:0;font-size:14px;">
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Automatización e IA a medida</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Integraciones con sistemas existentes</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Infraestructura propia y monitoreo</span></li>
-            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Acompañamiento dedicado</span></li>
-          </ul>
-        </div>
-        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta" style="display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;border:1px solid #232B35;color:#E7ECEF;">Hablar con el equipo</a>
-      </div>
-
     </div>
 
-    <div class="pricing-reveal" style="margin-top:48px;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid #232B35;padding-top:32px;font-size:14px;color:#7C8894;animation-delay:.3s;">
-      <p style="margin:0;max-width:640px;">Precios de referencia en USD. El alcance final se ajusta después de la etapa de descubrimiento. Trabajamos con organizaciones sin fines de lucro con condiciones especiales — <a href="{{ waLink }}" target="_blank" rel="noopener" style="font-weight:500;">escribinos</a>.</p>
-      <a href="Structura V2 - Contacto.dc.html" style="font-weight:500;color:#E7ECEF;">Ver el detalle completo →</a>
+    <div style="max-width:1240px;margin:0 auto 56px;">
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 16px;">{{ t.footer.faqEyebrow }}</p>
+      <details style="border-top:1px solid #232B35;padding:16px 0;"><summary style="cursor:pointer;font-size:15px;color:#E7ECEF;">{{ t.footer.faq[0].q }}</summary><p style="color:#7C8894;font-size:14px;line-height:1.6;margin:12px 0 0;">{{ t.footer.faq[0].a }}</p></details>
+      <details style="border-top:1px solid #232B35;padding:16px 0;"><summary style="cursor:pointer;font-size:15px;color:#E7ECEF;">{{ t.footer.faq[1].q }}</summary><p style="color:#7C8894;font-size:14px;line-height:1.6;margin:12px 0 0;">{{ t.footer.faq[1].a }}</p></details>
+      <details style="border-top:1px solid #232B35;padding:16px 0;"><summary style="cursor:pointer;font-size:15px;color:#E7ECEF;">{{ t.footer.faq[2].q }}</summary><p style="color:#7C8894;font-size:14px;line-height:1.6;margin:12px 0 0;">{{ t.footer.faq[2].a }}</p></details>
+      <details style="border-top:1px solid #232B35;border-bottom:1px solid #232B35;padding:16px 0;"><summary style="cursor:pointer;font-size:15px;color:#E7ECEF;">{{ t.footer.faq[3].q }}</summary><p style="color:#7C8894;font-size:14px;line-height:1.6;margin:12px 0 0;">{{ t.footer.faq[3].a }}</p></details>
     </div>
 
-  </section>
-
-  <section style="padding:0 5% 120px;text-align:center;max-width:760px;margin:0 auto;">
-    <h2 style="font-size:clamp(26px,3.6vw,38px);font-weight:600;letter-spacing:-0.01em;margin:0 0 18px;">¿Empezamos con tu proyecto?</h2>
-    <p style="color:#7C8894;font-size:16px;line-height:1.6;margin:0 0 32px;">Contanos qué necesita tu negocio y te respondemos con una propuesta clara.</p>
-    <a href="{{ waLink }}" target="_blank" rel="noopener" style="display:inline-flex;background:#2DD4FF;color:#0A0E13;padding:17px 36px;border-radius:8px;font-size:16px;font-weight:600;">Escribir por WhatsApp</a>
-  </section>
-
-  <footer style="border-top:1px solid #232B35;padding:40px 5%;text-align:center;">
-    <p style="color:#4a5560;font-size:13px;margin:0;">© 2026 structura. — soluciones digitales, Costa Rica</p>
+    <p style="max-width:1240px;margin:0 auto;color:#4a5560;font-size:13px;">{{ t.footer.copyright }}</p>
   </footer>
 
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;50687096790&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;50687096790&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;navVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;glass&quot;,&quot;options&quot;:[&quot;glass&quot;,&quot;solid&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;showChatBubble&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const DICT = {
+  es: {
+    nav: {
+      soluciones: 'Soluciones',
+      dropdown: ['Desarrollo Web y Móvil', 'E-commerce', 'Hosting & Servidores', 'IA y Automatización'],
+      portafolio: 'Portafolio',
+      experiencia: 'Experiencia',
+      comoTrabajamos: 'Cómo trabajamos',
+      precios: 'Precios',
+      contactar: 'Contactar',
+    },
+    hero: {
+      text: 'Construimos software propio — desde landing pages hasta plataformas completas. Sin plantillas genéricas, sin código innecesario.',
+    },
+    ticker: ['Desarrollo Web', 'E-commerce', 'Productos SaaS', 'Hosting & Servidores', 'Automatización', 'Integraciones', 'Dashboards en Tiempo Real', 'Arquitectura de Datos'],
+    soluciones: {
+      eyebrow: '// SOLUCIONES',
+      title: 'Todo lo que tu negocio necesita, bajo un mismo equipo',
+      sub: 'Desde el sitio que te presenta hasta el sistema que opera tu negocio — diseño, desarrollo e infraestructura sin subcontratar nada.',
+      inventario: 'INVENTARIO',
+      toast: '✓ Producto agregado',
+      nucleo: 'NÚCLEO STRUCTURA',
+      cards: [
+        { title: 'Desarrollo Web y Móvil', desc: 'Sitios y apps a medida, rápidas y con identidad propia — desde landings hasta plataformas multi-página.' },
+        { title: 'E-commerce', desc: 'Tiendas en línea con inventario, pagos y facturación electrónica lista para Costa Rica.' },
+        { title: 'Hosting & Servidores', desc: 'Infraestructura propia con monitoreo y respaldos — tu plataforma disponible todo el tiempo.' },
+        { title: 'IA y Automatización', desc: 'Chatbots, agentes e integraciones que eliminan trabajo manual y aceleran tu operación.' },
+      ],
+    },
+    portafolio: {
+      eyebrow: '// REFERENCIAS',
+      title: 'El nivel que podemos alcanzar',
+      sub: 'Estilos y estándares de diseño que podemos construir para tu marca — marcas y proyectos con los que ya trabajamos.',
+      previewSoon: 'VIDEO PRÓXIMAMENTE',
+    },
+    experiencia: {
+      eyebrow: '// EXPERIENCIA POR SECTOR',
+      title: 'Ya construimos para industrias como la tuya',
+      sub: 'No partimos de cero — conocemos los retos de cada sector porque ya entregamos soluciones ahí.',
+      photoPlaceholder: '[ foto sector ]',
+      cards: [
+        { title: 'Legal', desc: 'Sitios corporativos y portales para firmas y asociaciones legales.', tags: ['Sitio corporativo', 'Multilenguaje'] },
+        { title: 'Bienes Raíces & Hospitalidad', desc: 'Portales con buscador de propiedades y fichas por proyecto.', tags: ['Buscador', 'Fichas'] },
+        { title: 'Agro & Sostenibilidad', desc: 'Sitios y plataformas para operaciones agrícolas y proyectos sostenibles.', tags: ['Trazabilidad', 'Catálogo'] },
+        { title: 'Creativos & Marca', desc: 'Portafolios de alto impacto para estudios y marcas visuales.', tags: ['Galerías', 'Video'] },
+        { title: 'Servicios Profesionales', desc: 'Sitios y sistemas internos para firmas de consultoría y servicios.', tags: ['Reservas', 'Portales de cliente'] },
+        { title: 'Retail & E-commerce', desc: 'Tiendas en línea con inventario y facturación electrónica.', tags: ['Inventario', 'Facturación'] },
+      ],
+      alsoWorkedIn: 'También hemos trabajado en',
+      otherTags: ['ERP a la medida', 'CRM', 'Intranets y portales internos', 'Reservas y citas', 'Integraciones y APIs'],
+    },
+    contacto: {
+      eyebrow: '// CONTACTO',
+      contactEmail: 'soluciones@structuracr.com',
+      ctaTitleA: '¿Listo para',
+      ctaTitleB: 'comenzar',
+      ctaTitleC: 'tu proyecto?',
+      ctaSub: 'Contanos qué necesita tu negocio y te respondemos con una propuesta clara.',
+      ctaPrimary: 'Iniciar Proyecto',
+      ctaSecondary: 'Ver Portafolio',
+      ctaEmailLabel: 'O escribinos directamente a:',
+      benefits: [
+        { title: 'Respuesta rápida', desc: 'Te contactamos en menos de 24 horas.' },
+        { title: 'Propuesta a la medida', desc: 'Alcance y presupuesto claros antes de empezar.' },
+        { title: 'Arranque inmediato', desc: 'Empezamos a trabajar en tu proyecto la siguiente semana.' },
+      ],
+    },
+    footer: {
+      blurb: 'Estudio de software en Costa Rica. Diseñamos, desarrollamos y operamos sitios, apps y sistemas a la medida.',
+      empresa: 'Empresa', soluciones: 'Soluciones', portafolio: 'Portafolio', comoTrabajamos: 'Cómo trabajamos', precios: 'Precios', contacto: 'Contacto',
+      siguenos: 'Síguenos',
+      testimonios: '// TESTIMONIOS',
+      testimonioPendiente: '[ testimonio pendiente ]',
+      nombreCliente: '— Nombre del cliente, cargo',
+      faqEyebrow: '// PREGUNTAS FRECUENTES',
+      faq: [
+        { q: '¿Cómo definen el alcance de mi proyecto?', a: 'Partimos de tus objetivos reales en una conversación inicial y definimos juntos alcance, funcionalidades y tiempos.' },
+        { q: '¿Cuánto tardan en entregar?', a: '[ respuesta pendiente ]' },
+        { q: '¿El código fuente es mío?', a: '[ respuesta pendiente ]' },
+        { q: '¿Dan soporte después del lanzamiento?', a: '[ respuesta pendiente ]' },
+      ],
+      copyright: '© 2026 structura. — soluciones digitales, Costa Rica',
+    },
+  },
+  en: {
+    nav: {
+      soluciones: 'Solutions',
+      dropdown: ['Web & Mobile Development', 'E-commerce', 'Hosting & Servers', 'AI & Automation'],
+      portafolio: 'Portfolio',
+      experiencia: 'Experience',
+      comoTrabajamos: 'How we work',
+      precios: 'Pricing',
+      contactar: 'Contact',
+    },
+    hero: {
+      text: 'We build software that does not look like a template. Custom design and development, made to sell, scale, and last.',
+    },
+    ticker: ['Web Development', 'E-commerce', 'SaaS Products', 'Hosting & Servers', 'Automation', 'Integrations', 'Real-Time Dashboards', 'Data Architecture'],
+    soluciones: {
+      eyebrow: '// SOLUTIONS',
+      title: 'Everything your business needs, under one team',
+      sub: 'From the site that introduces you to the system that runs your business — design, development, and infrastructure, nothing outsourced.',
+      inventario: 'INVENTORY',
+      toast: '✓ Product added',
+      nucleo: 'STRUCTURA CORE',
+      cards: [
+        { title: 'Web & Mobile Development', desc: 'Custom sites and apps, fast and with their own identity — from landing pages to multi-page platforms.' },
+        { title: 'E-commerce', desc: 'Online stores with inventory, payments, and e-invoicing ready for Costa Rica.' },
+        { title: 'Hosting & Servers', desc: 'Our own infrastructure with monitoring and backups — your platform available at all times.' },
+        { title: 'AI & Automation', desc: 'Chatbots, agents, and integrations that remove manual work and speed up your operation.' },
+      ],
+    },
+    portafolio: {
+      eyebrow: '// REFERENCES',
+      title: 'The level we can reach',
+      sub: 'Design styles and standards we can build for your brand — brands and projects we have already worked with.',
+      previewSoon: 'VIDEO COMING SOON',
+    },
+    experiencia: {
+      eyebrow: '// EXPERIENCE BY INDUSTRY',
+      title: 'We have already built for industries like yours',
+      sub: 'We do not start from zero — we know each sector challenges because we have already delivered solutions there.',
+      photoPlaceholder: '[ sector photo ]',
+      cards: [
+        { title: 'Legal', desc: 'Corporate sites and portals for law firms and legal associations.', tags: ['Corporate site', 'Multi-language'] },
+        { title: 'Real Estate & Hospitality', desc: 'Portals with property search and per-project listings.', tags: ['Search', 'Listings'] },
+        { title: 'Agro & Sustainability', desc: 'Sites and platforms for agricultural operations and sustainable projects.', tags: ['Traceability', 'Catalog'] },
+        { title: 'Creative & Branding', desc: 'High-impact portfolios for studios and visual brands.', tags: ['Galleries', 'Video'] },
+        { title: 'Professional Services', desc: 'Sites and internal systems for consulting and service firms.', tags: ['Bookings', 'Client portals'] },
+        { title: 'Retail & E-commerce', desc: 'Online stores with inventory and e-invoicing.', tags: ['Inventory', 'Invoicing'] },
+      ],
+      alsoWorkedIn: 'We have also worked on',
+      otherTags: ['Custom ERP', 'CRM', 'Intranets & internal portals', 'Bookings & appointments', 'Integrations & APIs'],
+    },
+    contacto: {
+      eyebrow: '// CONTACT',
+      contactEmail: 'soluciones@structuracr.com',
+      ctaTitleA: 'Ready to',
+      ctaTitleB: 'start',
+      ctaTitleC: 'your project?',
+      ctaSub: 'Tell us what your business needs and we will reply with a clear proposal.',
+      ctaPrimary: 'Start a Project',
+      ctaSecondary: 'View Portfolio',
+      ctaEmailLabel: 'Or write to us directly at:',
+      benefits: [
+        { title: 'Fast reply', desc: 'We get back to you in under 24 hours.' },
+        { title: 'A proposal built for you', desc: 'Clear scope and budget before we start.' },
+        { title: 'Immediate start', desc: 'We begin work on your project the following week.' },
+      ],
+    },
+    footer: {
+      blurb: 'Software studio in Costa Rica. We design, develop, and operate custom sites, apps, and systems.',
+      empresa: 'Company', soluciones: 'Solutions', portafolio: 'Portfolio', comoTrabajamos: 'How we work', precios: 'Pricing', contacto: 'Contact',
+      siguenos: 'Follow us',
+      testimonios: '// TESTIMONIALS',
+      testimonioPendiente: '[ testimonial pending ]',
+      nombreCliente: '— Client name, role',
+      faqEyebrow: '// FREQUENTLY ASKED QUESTIONS',
+      faq: [
+        { q: 'How do you define my project scope?', a: 'We start from your real goals in an initial conversation and define scope, features, and timeline together.' },
+        { q: 'How long does delivery take?', a: '[ answer pending ]' },
+        { q: 'Is the source code mine?', a: '[ answer pending ]' },
+        { q: 'Do you offer support after launch?', a: '[ answer pending ]' },
+      ],
+      copyright: '© 2026 structura. — digital solutions, Costa Rica',
+    },
+  },
+};
+
+const ROUTE_TRANSITION_MS = 280;
+
+function routeFromPathname(pathname) {
+  return /Precios\.dc\.html$/i.test(pathname || '') ? 'precios' : 'home';
+}
+
 class Component extends DCLogic {
-  state = { scrollY: 0 };
+  state = {
+    scrollY: 0, mobileOpen: false, solucionesOpen: false, logoClicked: false,
+    lang: 'es', route: routeFromPathname(location.pathname), transitioning: null,
+  };
 
   componentDidMount() {
+    try {
+      const saved = localStorage.getItem('structura_lang');
+      if (saved === 'es' || saved === 'en') this.setState({ lang: saved });
+    } catch (e) {}
+
+    this._homeHref = location.pathname + location.search;
+
     this._onScroll = () => this.setState({ scrollY: window.scrollY });
     window.addEventListener('scroll', this._onScroll, { passive: true });
+
+    this._onPopState = () => {
+      this.goToRoute(routeFromPathname(location.pathname), null, { push: false });
+    };
+    window.addEventListener('popstate', this._onPopState);
+
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+    const initLenis = () => {
+      if (this._unmounted) return;
+      if (!window.Lenis) { this._lenisPoll = setTimeout(initLenis, 50); return; }
+      this._lenis = new window.Lenis({ duration: 1.1, easing: easeOutCubic });
+      const raf = (time) => { this._lenis.raf(time); this._raf = requestAnimationFrame(raf); };
+      this._raf = requestAnimationFrame(raf);
+    };
+    initLenis();
+
+    this._onAnchorClick = (e) => {
+      const link = e.target.closest('a[href^="#"]');
+      if (!link || link.id === 'logo-home') return;
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      if (this._lenis) this._lenis.scrollTo(target, { duration: 1.2, easing: easeOutCubic });
+      else target.scrollIntoView({ behavior: 'smooth' });
+    };
+    document.addEventListener('click', this._onAnchorClick);
   }
   componentWillUnmount() {
+    this._unmounted = true;
     window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('popstate', this._onPopState);
+    document.removeEventListener('click', this._onAnchorClick);
+    if (this._lenisPoll) clearTimeout(this._lenisPoll);
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._lenis) this._lenis.destroy();
+    if (this._routeTimer) clearTimeout(this._routeTimer);
   }
 
+  goToRoute = (route, href, opts = {}) => {
+    const push = opts.push !== false;
+    if (route === this.state.route) {
+      if (push && href) history.replaceState(null, '', href);
+      return;
+    }
+    clearTimeout(this._routeTimer);
+    this.setState({ transitioning: 'out' });
+    this._routeTimer = setTimeout(() => {
+      this.setState({ route, transitioning: 'out' });
+      if (push && href) history.pushState(null, '', href);
+      window.scrollTo(0, 0);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        this.setState({ transitioning: null });
+      }));
+    }, ROUTE_TRANSITION_MS);
+  };
+
+  handleNavClick = (e, route, href) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    if (this.state.mobileOpen) {
+      try { document.body.style.overflow = ''; } catch (err) {}
+      this.setState({ mobileOpen: false });
+    }
+    this.goToRoute(route, href);
+  };
+
+  clickLogo = (e) => {
+    e.preventDefault();
+    if (this.state.route !== 'home') {
+      this.goToRoute('home', this._homeHref);
+      return;
+    }
+    this.setState({ logoClicked: true });
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+    if (this._lenis) this._lenis.scrollTo(0, { duration: 1.2, easing: easeOutCubic });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => this.setState({ logoClicked: false }), 500);
+  };
+
+  setLang = (lang) => {
+    this.setState({ lang });
+    try { localStorage.setItem('structura_lang', lang); } catch (e) {}
+  };
+
   renderVals() {
-    const num = (this.props.whatsappNumber ?? '50687096790').toString().replace(/[^0-9]/g, '');
     const y = this.state.scrollY;
-    const navBg = `linear-gradient(180deg, rgba(10,14,19,${Math.min(0.15 + y / 600, 0.9)}) 0%, rgba(10,14,19,0) 100%)`;
-    return { waLink: `https://wa.me/${num}`, navBg };
+    const num = (this.props.whatsappNumber ?? '50687096790').toString().replace(/[^0-9]/g, '');
+    const variant = this.props.navVariant ?? 'glass';
+    const navBg = variant === 'solid'
+      ? '#0A0E13'
+      : `linear-gradient(180deg, rgba(10,14,19,${Math.min(0.15 + y / 600, 0.9)}) 0%, rgba(10,14,19,0) 100%)`;
+    const lang = this.state.lang === 'en' ? 'en' : 'es';
+    const t = DICT[lang];
+    const route = this.state.route;
+    return {
+      heroBgTransform: `translateY(${y * 0.15}px) scale(1.05)`,
+      navBg,
+      waLink: `https://wa.me/${num}`,
+      mobileOpen: this.state.mobileOpen,
+      toggleMobile: () => this.setState(s => {
+        const next = !s.mobileOpen;
+        try { document.body.style.overflow = next ? 'hidden' : ''; } catch (e) {}
+        return { mobileOpen: next };
+      }),
+      mobileSidebarClass: 'mobile-sidebar' + (this.state.mobileOpen ? ' is-open' : ''),
+      mobileBackdropClass: 'mobile-sidebar-backdrop' + (this.state.mobileOpen ? ' is-open' : ''),
+      mobileSidebarAriaHidden: String(!this.state.mobileOpen),
+      solucionesOpen: this.state.solucionesOpen,
+      openSoluciones: () => this.setState({ solucionesOpen: true }),
+      closeSoluciones: () => this.setState({ solucionesOpen: false }),
+      chevronRotate: this.state.solucionesOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+      showChatBubbleNow: (this.props.showChatBubble ?? true) && route === 'home',
+      logoClass: 'nav__logo' + (this.state.logoClicked ? ' is-clicked' : ''),
+      clickLogo: this.clickLogo,
+      t,
+      lang,
+      setLangEs: () => this.setLang('es'),
+      setLangEn: () => this.setLang('en'),
+      langBtnEsClass: 'lang-btn' + (lang === 'es' ? ' is-active' : ''),
+      langBtnEnClass: 'lang-btn' + (lang === 'en' ? ' is-active' : ''),
+      route,
+      routeTransitionClass: this.state.transitioning ? ' is-transitioning' : '',
+      navigateToPrecios: (e) => this.handleNavClick(e, 'precios', 'Structura V2 - Precios.dc.html'),
+      navigateToHome: (e) => this.handleNavClick(e, 'home', this._homeHref),
+      navLinkPreciosClass: 'nav-link' + (route === 'precios' ? ' is-current' : ''),
+      navSidebarPreciosClass: 'nav-sidebar-link' + (route === 'precios' ? ' is-current' : ''),
+    };
   }
 }
 
 </script>
-<script type="module">
-import { mountShader } from './assets/js/shader-loader.js';
 
-// Gradiente medianoche + gema raymarcheada de la tarjeta destacada, recoloreada
-// a la gama cian de Structura. El tamaño/posición de la gema está calibrado para
-// que su silueta completa quepa dentro de la tarjeta a 345px de ancho — con la
-// escala del preset original (1.0879) la gema desbordaba el canvas y su corte
-// contra el borde se veía como un recorte plano poco intencional. La rotación
-// de la gema sigue el cursor (facetas se reacomodan al pasar el mouse) y se
-// suman Vignette + FilmGrain para que quede contenida y con la misma textura
-// fílmica que el resto de las páginas.
-mountShader('pricing-scale-shader', {
-  components: [
-    {
-      type: 'LinearGradient',
-      props: {
-        colorSpace: 'oklab',
-        start: { x: 0.5, y: 1 },
-        end: { x: 0.5, y: 0 },
-        stops: [
-          { color: '#0f1a24', position: 0 },
-          { color: '#05070a', position: 1 }
-        ]
-      }
-    },
-    {
-      type: 'Heatmap',
-      props: {
-        center: { x: 0.6, y: 0.9 },
-        scale: 0.55,
-        shape: JSON.stringify({
-          type: 'gem3D', radius: 0.3, height: 0.32, facets: 10, rotX: 15,
-          rotY: { type: 'mouse', axis: 'x', outputMin: -16, outputMax: 16, curve: 0 },
-          rotZ: { type: 'mouse', axis: 'y', outputMin: -5, outputMax: 5, curve: 0 }
-        }),
-        shapeType: 'gem3D',
-        stops: [
-          { color: '#02040a', position: 0 },
-          { color: '#0a2a4a', position: 0.2 },
-          { color: '#0e5f8f', position: 0.45 },
-          { color: '#17b8d8', position: 0.7 },
-          { color: '#7FE6FF', position: 0.9 },
-          { color: '#ffffff', position: 1 }
-        ]
-      }
-    },
-    {
-      type: 'Vignette',
-      props: { color: '#05070a', center: { x: 0.5, y: 0.5 }, radius: 0.62, falloff: 0.55, intensity: 0.85 }
-    },
-    {
-      type: 'FilmGrain',
-      props: { strength: 0.05 }
+<script>
+(function () {
+  var AI_CHAT_URL = 'https://ftpoicnwpnurvptmkdoo.supabase.co/functions/v1/ai-chat';
+  var AI_CHAT_ANON_KEY = 'sb_publishable_3CoeGLx9VVsZ6-c8bkyGyg_xnWWL5t_';
+  var BUSINESS_ID = '19b3ff71-b46c-41f1-8e57-19fe2a5259ed';
+  var SESSION_KEY = 'structura_chat_session';
+  var sending = false;
+
+  function getSessionId() {
+    try {
+      var existing = localStorage.getItem(SESSION_KEY);
+      if (existing) return existing;
+      var id = (crypto.randomUUID ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(16).slice(2)));
+      localStorage.setItem(SESSION_KEY, id);
+      return id;
+    } catch (e) {
+      return 'anon-' + Date.now();
     }
-  ]
-});
-</script>
-<script>
-(function () {
-  var SCALE_PRICES = {
-    monthly: { figure: '$190', suffix: 'por mes' },
-    yearly: { figure: '$158', suffix: 'por mes, facturado anual' }
-  };
+  }
+  var sessionId = getSessionId();
 
-  document.addEventListener('click', function (e) {
-    var btn = e.target.closest('.pricing-toggle-btn');
-    if (!btn) return;
-
-    var group = btn.closest('[role="group"]');
-    if (!group) return;
-
-    group.querySelectorAll('.pricing-toggle-btn').forEach(function (b) {
-      var active = b === btn;
-      b.classList.toggle('is-active', active);
-      b.setAttribute('aria-pressed', String(active));
-    });
-
-    var price = SCALE_PRICES[btn.dataset.period];
-    if (!price) return;
-
-    var figureEl = document.getElementById('pricing-scale-figure');
-    var suffixEl = document.getElementById('pricing-scale-suffix');
-    if (figureEl) figureEl.textContent = price.figure;
-    if (suffixEl) suffixEl.textContent = price.suffix;
-  });
-})();
-</script>
-<script>
-(function () {
-  function setSidebar(open) {
-    var sidebar = document.getElementById('mobile-sidebar');
-    var backdrop = document.getElementById('mobile-sidebar-backdrop');
-    var burger = document.querySelector('.nav-burger');
-    if (sidebar) { sidebar.classList.toggle('is-open', open); sidebar.setAttribute('aria-hidden', String(!open)); }
-    if (backdrop) backdrop.classList.toggle('is-open', open);
-    if (burger) burger.setAttribute('aria-expanded', String(open));
-    document.body.style.overflow = open ? 'hidden' : '';
+  function addMessage(messages, text, role) {
+    var el = document.createElement('div');
+    el.className = 'ai-widget-msg ai-widget-msg--' + role;
+    el.textContent = text;
+    messages.appendChild(el);
+    messages.scrollTop = messages.scrollHeight;
+    return el;
   }
 
+  // Nota: este widget vive dentro del árbol que el framework "dc" vuelve a
+  // renderizar tras el mount inicial, así que los botones/formulario pueden
+  // ser nodos nuevos en cualquier momento. Por eso todo se maneja con
+  // delegación de eventos sobre document en vez de listeners directos.
   document.addEventListener('click', function (e) {
-    if (e.target.closest('.nav-burger')) { setSidebar(true); return; }
-    if (e.target.closest('.nav-sidebar-close') || e.target.closest('#mobile-sidebar-backdrop') || e.target.closest('.mobile-sidebar a')) {
-      setSidebar(false);
+    if (e.target.closest('#ai-widget-toggle')) {
+      e.preventDefault();
+      var panel = document.getElementById('ai-widget-panel');
+      if (!panel) return;
+      var isOpen = panel.classList.toggle('is-open');
+      panel.setAttribute('aria-hidden', String(!isOpen));
+      if (isOpen) {
+        var input = document.getElementById('ai-widget-input');
+        if (input) input.focus();
+      }
+      return;
     }
+    if (e.target.closest('#ai-widget-close')) {
+      var panel2 = document.getElementById('ai-widget-panel');
+      if (panel2) {
+        panel2.classList.remove('is-open');
+        panel2.setAttribute('aria-hidden', 'true');
+      }
+    }
+  });
+
+  document.addEventListener('submit', function (e) {
+    if (!e.target.closest('#ai-widget-form')) return;
+    e.preventDefault();
+
+    var input = document.getElementById('ai-widget-input');
+    var messages = document.getElementById('ai-widget-messages');
+    if (!input || !messages) return;
+
+    var text = input.value.trim();
+    if (!text || sending) return;
+
+    addMessage(messages, text, 'user');
+    input.value = '';
+    sending = true;
+    input.disabled = true;
+
+    var typing = addMessage(messages, 'Escribiendo...', 'typing');
+
+    fetch(AI_CHAT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': AI_CHAT_ANON_KEY,
+        'Authorization': 'Bearer ' + AI_CHAT_ANON_KEY,
+      },
+      body: JSON.stringify({ business_id: BUSINESS_ID, session_id: sessionId, message: text }),
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        typing.remove();
+        addMessage(messages, data.respuesta || 'Disculpá, tuve un problema para responder. Te vamos a contactar directo.', 'bot');
+        if (data.whatsapp_link) {
+          var cta = document.createElement('a');
+          cta.href = data.whatsapp_link;
+          cta.target = '_blank';
+          cta.rel = 'noopener';
+          cta.className = 'ai-widget-cta';
+          cta.textContent = 'Escribir por WhatsApp';
+          messages.appendChild(cta);
+          messages.scrollTop = messages.scrollHeight;
+        }
+      })
+      .catch(function () {
+        typing.remove();
+        addMessage(messages, 'Disculpá, tuve un problema de conexión. Te vamos a contactar directo.', 'bot');
+      })
+      .finally(function () {
+        sending = false;
+        input.disabled = false;
+        input.focus();
+      });
   });
 })();
 </script>
