@@ -443,7 +443,7 @@ a:hover{color:#7FE6FF;}
         <h2 style="font-size:clamp(30px,4.4vw,46px);font-weight:700;letter-spacing:-0.01em;line-height:1.14;margin:0 0 20px;">{{ t.contacto.ctaTitleA }} <span style="color:#2DD4FF;">{{ t.contacto.ctaTitleB }}</span> <span style="color:#7C8894;">{{ t.contacto.ctaTitleC }}</span></h2>
         <p style="color:#C9CFD6;font-size:17px;line-height:1.6;max-width:460px;margin:0 0 32px;">{{ t.contacto.ctaSub }}</p>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:36px;">
-          <a href="Structura V2 - Contacto.dc.html" class="btn-cta-primary">{{ t.contacto.ctaPrimary }} ↗</a>
+          <a href="Structura V2 - Contacto.dc.html" onClick="{{ navigateToContacto }}" class="btn-cta-primary">{{ t.contacto.ctaPrimary }} ↗</a>
           <a href="#portafolio" class="btn-cta-ghost">{{ t.contacto.ctaSecondary }} →</a>
         </div>
         <div style="border-top:1px solid #232B35;padding-top:24px;">
@@ -526,6 +526,7 @@ class Component extends DCLogic {
     const t = this.props.t;
     return {
       t,
+      navigateToContacto: this.props.navigateToContacto,
       folioLoop: [...FOLIO_ITEMS, ...FOLIO_ITEMS].map((f, i) => {
         const isActive = this.state.activeFolio === i;
         return {

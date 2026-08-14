@@ -206,13 +206,13 @@ a:hover{color:#7FE6FF;}
         </div>
         <a href="#portafolio" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.portafolio }}</a>
         <a href="#experiencia" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.experiencia }}</a>
-        <a href="Structura V2 - Como Trabajamos.dc.html" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.comoTrabajamos }}</a>
+        <a href="Structura V2 - Como Trabajamos.dc.html" onClick="{{ navigateToComoTrabajamos }}" class="{{ navLinkComoTrabajamosClass }}">{{ t.nav.comoTrabajamos }}</a>
         <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" class="{{ navLinkPreciosClass }}">{{ t.nav.precios }}</a>
         <div class="lang-toggle">
           <button onClick="{{ setLangEs }}" class="{{ langBtnEsClass }}">ES</button>
           <button onClick="{{ setLangEn }}" class="{{ langBtnEnClass }}">EN</button>
         </div>
-        <a href="Structura V2 - Contacto.dc.html" style="background:#2DD4FF;color:#0A0E13;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;">{{ t.nav.contactar }}</a>
+        <a href="Structura V2 - Contacto.dc.html" onClick="{{ navigateToContacto }}" style="background:#2DD4FF;color:#0A0E13;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;">{{ t.nav.contactar }}</a>
       </div>
 
       <button onClick="{{ toggleMobile }}" class="nav-burger" aria-label="Abrir menú" aria-expanded="{{ mobileOpen }}" aria-controls="mobile-sidebar">
@@ -230,13 +230,13 @@ a:hover{color:#7FE6FF;}
         <a href="#soluciones" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.soluciones }}</a>
         <a href="#portafolio" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.portafolio }}</a>
         <a href="#experiencia" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.experiencia }}</a>
-        <a href="Structura V2 - Como Trabajamos.dc.html" class="nav-sidebar-link">{{ t.nav.comoTrabajamos }}</a>
+        <a href="Structura V2 - Como Trabajamos.dc.html" onClick="{{ navigateToComoTrabajamos }}" class="{{ navSidebarComoTrabajamosClass }}">{{ t.nav.comoTrabajamos }}</a>
         <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" class="{{ navSidebarPreciosClass }}">{{ t.nav.precios }}</a>
         <div class="lang-toggle" style="margin-top:10px;">
           <button onClick="{{ setLangEs }}" class="{{ langBtnEsClass }}">ES</button>
           <button onClick="{{ setLangEn }}" class="{{ langBtnEnClass }}">EN</button>
         </div>
-        <a href="Structura V2 - Contacto.dc.html" class="nav-sidebar-cta">{{ t.nav.contactar }}</a>
+        <a href="Structura V2 - Contacto.dc.html" onClick="{{ navigateToContacto }}" class="nav-sidebar-cta">{{ t.nav.contactar }}</a>
       </div>
     </aside>
 
@@ -313,10 +313,16 @@ a:hover{color:#7FE6FF;}
   <!-- ============ ROUTED CONTENT ============ -->
   <div class="route-content{{ routeTransitionClass }}">
     <sc-if value="{{ route === 'home' }}">
-      <dc-import name="Structura V2 - Home Content" t="{{ t }}"/>
+      <dc-import name="Structura V2 - Home Content" t="{{ t }}" navigateToContacto="{{ navigateToContacto }}"/>
     </sc-if>
     <sc-if value="{{ route === 'precios' }}">
-      <dc-import name="Structura V2 - Precios Content" waLink="{{ waLink }}"/>
+      <dc-import name="Structura V2 - Precios Content" waLink="{{ waLink }}" navigateToContacto="{{ navigateToContacto }}"/>
+    </sc-if>
+    <sc-if value="{{ route === 'comoTrabajamos' }}">
+      <dc-import name="Structura V2 - Como Trabajamos Content" waLink="{{ waLink }}"/>
+    </sc-if>
+    <sc-if value="{{ route === 'contacto' }}">
+      <dc-import name="Structura V2 - Contacto Content" waLink="{{ waLink }}" lang="{{ lang }}"/>
     </sc-if>
   </div>
 
@@ -333,9 +339,9 @@ a:hover{color:#7FE6FF;}
         <div style="display:flex;flex-direction:column;gap:10px;">
           <a href="#soluciones" style="color:#C9CFD6;font-size:14px;">{{ t.footer.soluciones }}</a>
           <a href="#portafolio" style="color:#C9CFD6;font-size:14px;">{{ t.footer.portafolio }}</a>
-          <a href="Structura V2 - Como Trabajamos.dc.html" style="color:#C9CFD6;font-size:14px;">{{ t.footer.comoTrabajamos }}</a>
+          <a href="Structura V2 - Como Trabajamos.dc.html" onClick="{{ navigateToComoTrabajamos }}" style="color:#C9CFD6;font-size:14px;">{{ t.footer.comoTrabajamos }}</a>
           <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" style="color:#C9CFD6;font-size:14px;">{{ t.footer.precios }}</a>
-          <a href="Structura V2 - Contacto.dc.html" style="color:#C9CFD6;font-size:14px;">{{ t.footer.contacto }}</a>
+          <a href="Structura V2 - Contacto.dc.html" onClick="{{ navigateToContacto }}" style="color:#C9CFD6;font-size:14px;">{{ t.footer.contacto }}</a>
         </div>
       </div>
       <div>
@@ -552,7 +558,11 @@ const DICT = {
 const ROUTE_TRANSITION_MS = 280;
 
 function routeFromPathname(pathname) {
-  return /Precios\.dc\.html$/i.test(pathname || '') ? 'precios' : 'home';
+  const p = pathname || '';
+  if (/Precios\.dc\.html$/i.test(p)) return 'precios';
+  if (/Trabajamos\.dc\.html$/i.test(p)) return 'comoTrabajamos';
+  if (/Contacto\.dc\.html$/i.test(p)) return 'contacto';
+  return 'home';
 }
 
 class Component extends DCLogic {
@@ -694,9 +704,13 @@ class Component extends DCLogic {
       route,
       routeTransitionClass: this.state.transitioning ? ' is-transitioning' : '',
       navigateToPrecios: (e) => this.handleNavClick(e, 'precios', 'Structura V2 - Precios.dc.html'),
+      navigateToComoTrabajamos: (e) => this.handleNavClick(e, 'comoTrabajamos', 'Structura V2 - Como Trabajamos.dc.html'),
+      navigateToContacto: (e) => this.handleNavClick(e, 'contacto', 'Structura V2 - Contacto.dc.html'),
       navigateToHome: (e) => this.handleNavClick(e, 'home', this._homeHref),
       navLinkPreciosClass: 'nav-link' + (route === 'precios' ? ' is-current' : ''),
       navSidebarPreciosClass: 'nav-sidebar-link' + (route === 'precios' ? ' is-current' : ''),
+      navLinkComoTrabajamosClass: 'nav-link' + (route === 'comoTrabajamos' ? ' is-current' : ''),
+      navSidebarComoTrabajamosClass: 'nav-sidebar-link' + (route === 'comoTrabajamos' ? ' is-current' : ''),
     };
   }
 }

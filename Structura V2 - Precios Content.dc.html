@@ -158,7 +158,7 @@ a:hover{color:#7FE6FF;}
 
     <div class="pricing-reveal" style="margin-top:48px;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid #232B35;padding-top:32px;font-size:14px;color:#7C8894;animation-delay:.3s;">
       <p style="margin:0;max-width:640px;">Precios de referencia en USD. El alcance final se ajusta después de la etapa de descubrimiento. Trabajamos con organizaciones sin fines de lucro con condiciones especiales — <a href="{{ waLink }}" target="_blank" rel="noopener" style="font-weight:500;">escribinos</a>.</p>
-      <a href="Structura V2 - Contacto.dc.html" style="font-weight:500;color:#E7ECEF;">Ver el detalle completo →</a>
+      <a href="Structura V2 - Contacto.dc.html" onClick="{{ navigateToContacto }}" style="font-weight:500;color:#E7ECEF;">Ver el detalle completo →</a>
     </div>
 
   </section>
@@ -245,6 +245,7 @@ class Component extends DCLogic {
     const price = SCALE_PRICES[period];
     return {
       waLink: this.props.waLink,
+      navigateToContacto: this.props.navigateToContacto,
       scaleFigure: price.figure,
       scaleSuffix: price.suffix,
       monthlyBtnClass: 'pricing-toggle-btn' + (period === 'monthly' ? ' is-active' : ''),
