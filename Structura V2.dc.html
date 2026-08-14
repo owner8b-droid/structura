@@ -206,13 +206,13 @@ a:hover{color:#7FE6FF;}
         </div>
         <a href="#portafolio" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.portafolio }}</a>
         <a href="#experiencia" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.experiencia }}</a>
-        <a href="Structura V2 - Como Trabajamos.dc.html" style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{{ t.nav.comoTrabajamos }}</a>
+        <a href="Structura V2 - Como Trabajamos.dc.html" onClick="{{ navigateToComoTrabajamos }}" class="{{ navLinkComoTrabajamosClass }}">{{ t.nav.comoTrabajamos }}</a>
         <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" class="{{ navLinkPreciosClass }}">{{ t.nav.precios }}</a>
         <div class="lang-toggle">
           <button onClick="{{ setLangEs }}" class="{{ langBtnEsClass }}">ES</button>
           <button onClick="{{ setLangEn }}" class="{{ langBtnEnClass }}">EN</button>
         </div>
-        <a href="Structura V2 - Contacto.dc.html" style="background:#2DD4FF;color:#0A0E13;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;">{{ t.nav.contactar }}</a>
+        <a href="Structura V2 - Contacto.dc.html" onClick="{{ navigateToContacto }}" style="background:#2DD4FF;color:#0A0E13;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;">{{ t.nav.contactar }}</a>
       </div>
 
       <button onClick="{{ toggleMobile }}" class="nav-burger" aria-label="Abrir menú" aria-expanded="{{ mobileOpen }}" aria-controls="mobile-sidebar">
@@ -230,13 +230,13 @@ a:hover{color:#7FE6FF;}
         <a href="#soluciones" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.soluciones }}</a>
         <a href="#portafolio" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.portafolio }}</a>
         <a href="#experiencia" onClick="{{ toggleMobile }}" class="nav-sidebar-link">{{ t.nav.experiencia }}</a>
-        <a href="Structura V2 - Como Trabajamos.dc.html" class="nav-sidebar-link">{{ t.nav.comoTrabajamos }}</a>
+        <a href="Structura V2 - Como Trabajamos.dc.html" onClick="{{ navigateToComoTrabajamos }}" class="{{ navSidebarComoTrabajamosClass }}">{{ t.nav.comoTrabajamos }}</a>
         <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" class="{{ navSidebarPreciosClass }}">{{ t.nav.precios }}</a>
         <div class="lang-toggle" style="margin-top:10px;">
           <button onClick="{{ setLangEs }}" class="{{ langBtnEsClass }}">ES</button>
           <button onClick="{{ setLangEn }}" class="{{ langBtnEnClass }}">EN</button>
         </div>
-        <a href="Structura V2 - Contacto.dc.html" class="nav-sidebar-cta">{{ t.nav.contactar }}</a>
+        <a href="Structura V2 - Contacto.dc.html" onClick="{{ navigateToContacto }}" class="nav-sidebar-cta">{{ t.nav.contactar }}</a>
       </div>
     </aside>
 
@@ -313,10 +313,16 @@ a:hover{color:#7FE6FF;}
   <!-- ============ ROUTED CONTENT ============ -->
   <div class="route-content{{ routeTransitionClass }}">
     <sc-if value="{{ route === 'home' }}">
-      <dc-import name="Structura V2 - Home Content" t="{{ t }}"/>
+      <dc-import name="Structura V2 - Home Content" t="{{ t }}" navigateToContacto="{{ navigateToContacto }}"/>
     </sc-if>
     <sc-if value="{{ route === 'precios' }}">
-      <dc-import name="Structura V2 - Precios Content" waLink="{{ waLink }}"/>
+      <dc-import name="Structura V2 - Precios Content" waLink="{{ waLink }}" navigateToContacto="{{ navigateToContacto }}"/>
+    </sc-if>
+    <sc-if value="{{ route === 'comoTrabajamos' }}">
+      <dc-import name="Structura V2 - Como Trabajamos Content" waLink="{{ waLink }}"/>
+    </sc-if>
+    <sc-if value="{{ route === 'contacto' }}">
+      <dc-import name="Structura V2 - Contacto Content" waLink="{{ waLink }}" lang="{{ lang }}"/>
     </sc-if>
   </div>
 
@@ -333,9 +339,9 @@ a:hover{color:#7FE6FF;}
         <div style="display:flex;flex-direction:column;gap:10px;">
           <a href="#soluciones" style="color:#C9CFD6;font-size:14px;">{{ t.footer.soluciones }}</a>
           <a href="#portafolio" style="color:#C9CFD6;font-size:14px;">{{ t.footer.portafolio }}</a>
-          <a href="Structura V2 - Como Trabajamos.dc.html" style="color:#C9CFD6;font-size:14px;">{{ t.footer.comoTrabajamos }}</a>
+          <a href="Structura V2 - Como Trabajamos.dc.html" onClick="{{ navigateToComoTrabajamos }}" style="color:#C9CFD6;font-size:14px;">{{ t.footer.comoTrabajamos }}</a>
           <a href="Structura V2 - Precios.dc.html" onClick="{{ navigateToPrecios }}" style="color:#C9CFD6;font-size:14px;">{{ t.footer.precios }}</a>
-          <a href="Structura V2 - Contacto.dc.html" style="color:#C9CFD6;font-size:14px;">{{ t.footer.contacto }}</a>
+          <a href="Structura V2 - Contacto.dc.html" onClick="{{ navigateToContacto }}" style="color:#C9CFD6;font-size:14px;">{{ t.footer.contacto }}</a>
         </div>
       </div>
       <div>
@@ -457,9 +463,9 @@ const DICT = {
       faqEyebrow: '// PREGUNTAS FRECUENTES',
       faq: [
         { q: '¿Cómo definen el alcance de mi proyecto?', a: 'Partimos de tus objetivos reales en una conversación inicial y definimos juntos alcance, funcionalidades y tiempos.' },
-        { q: '¿Cuánto tardan en entregar?', a: '[ respuesta pendiente ]' },
-        { q: '¿El código fuente es mío?', a: '[ respuesta pendiente ]' },
-        { q: '¿Dan soporte después del lanzamiento?', a: '[ respuesta pendiente ]' },
+        { q: '¿Cuánto tardan en entregar?', a: 'Los tiempos de entrega varían según la complejidad del proyecto, pero generalmente oscilan entre 2 y 8 semanas.' },
+        { q: '¿El código fuente es mío?', a: 'Sí, el código fuente es tuyo una vez que se complete el proyecto.' },
+        { q: '¿Dan soporte después del lanzamiento?', a: 'Sí, ofrecemos soporte post-lanzamiento para garantizar el correcto funcionamiento de tu proyecto.' },
       ],
       copyright: '© 2026 structura. — soluciones digitales, Costa Rica',
     },
@@ -540,9 +546,9 @@ const DICT = {
       faqEyebrow: '// FREQUENTLY ASKED QUESTIONS',
       faq: [
         { q: 'How do you define my project scope?', a: 'We start from your real goals in an initial conversation and define scope, features, and timeline together.' },
-        { q: 'How long does delivery take?', a: '[ answer pending ]' },
-        { q: 'Is the source code mine?', a: '[ answer pending ]' },
-        { q: 'Do you offer support after launch?', a: '[ answer pending ]' },
+        { q: 'How long does delivery take?', a: 'Delivery times vary based on project complexity, but typically range from 2 to 8 weeks.' },
+        { q: 'Is the source code mine?', a: 'Yes, the source code is yours once the project is completed.' },
+        { q: 'Do you offer support after launch?', a: 'Yes, we offer post-launch support to ensure your project functions correctly.' },
       ],
       copyright: '© 2026 structura. — digital solutions, Costa Rica',
     },
@@ -552,7 +558,11 @@ const DICT = {
 const ROUTE_TRANSITION_MS = 280;
 
 function routeFromPathname(pathname) {
-  return /Precios\.dc\.html$/i.test(pathname || '') ? 'precios' : 'home';
+  const p = pathname || '';
+  if (/Precios\.dc\.html$/i.test(p)) return 'precios';
+  if (/Trabajamos\.dc\.html$/i.test(p)) return 'comoTrabajamos';
+  if (/Contacto\.dc\.html$/i.test(p)) return 'contacto';
+  return 'home';
 }
 
 class Component extends DCLogic {
@@ -694,9 +704,13 @@ class Component extends DCLogic {
       route,
       routeTransitionClass: this.state.transitioning ? ' is-transitioning' : '',
       navigateToPrecios: (e) => this.handleNavClick(e, 'precios', 'Structura V2 - Precios.dc.html'),
+      navigateToComoTrabajamos: (e) => this.handleNavClick(e, 'comoTrabajamos', 'Structura V2 - Como Trabajamos.dc.html'),
+      navigateToContacto: (e) => this.handleNavClick(e, 'contacto', 'Structura V2 - Contacto.dc.html'),
       navigateToHome: (e) => this.handleNavClick(e, 'home', this._homeHref),
       navLinkPreciosClass: 'nav-link' + (route === 'precios' ? ' is-current' : ''),
       navSidebarPreciosClass: 'nav-sidebar-link' + (route === 'precios' ? ' is-current' : ''),
+      navLinkComoTrabajamosClass: 'nav-link' + (route === 'comoTrabajamos' ? ' is-current' : ''),
+      navSidebarComoTrabajamosClass: 'nav-sidebar-link' + (route === 'comoTrabajamos' ? ' is-current' : ''),
     };
   }
 }
