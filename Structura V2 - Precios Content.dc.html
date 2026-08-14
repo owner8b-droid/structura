@@ -71,19 +71,19 @@ a:hover{color:#7FE6FF;}
 
   <section style="padding:100px 5% 60px;text-align:center;">
     <div class="pricing-reveal" style="max-width:640px;margin:0 auto;">
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">// PRECIOS</p>
-      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:600;letter-spacing:-0.01em;margin:0 0 20px;">Precios que se ajustan a tu proyecto</h1>
-      <p style="color:#7C8894;font-size:17px;line-height:1.6;margin:0;">Tres paquetes pensados para negocios en Costa Rica y LatAm. El alcance final se ajusta después de la etapa de descubrimiento. <em style="color:#7C8894;font-style:normal;">(precios de referencia)</em></p>
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">{{ t.eyebrow }}</p>
+      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:600;letter-spacing:-0.01em;margin:0 0 20px;">{{ t.title }}</h1>
+      <p style="color:#7C8894;font-size:17px;line-height:1.6;margin:0;">{{ t.sub }} <em style="color:#7C8894;font-style:normal;">{{ t.subEm }}</em></p>
     </div>
   </section>
 
   <section style="padding:0 5% 120px;max-width:1100px;margin:0 auto;">
 
     <div class="pricing-reveal" style="display:flex;justify-content:center;animation-delay:.1s;">
-      <div role="group" aria-label="Ciclo de facturación" style="display:inline-flex;align-items:center;border-radius:999px;background:#10161D;border:1px solid #232B35;padding:4px;">
-        <button type="button" class="{{ monthlyBtnClass }}" aria-pressed="{{ monthlyPressed }}" onClick="{{ setMonthly }}" style="border:none;background:none;cursor:pointer;border-radius:999px;padding:8px 18px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;">Mensual</button>
+      <div role="group" aria-label="{{ t.billingGroupLabel }}" style="display:inline-flex;align-items:center;border-radius:999px;background:#10161D;border:1px solid #232B35;padding:4px;">
+        <button type="button" class="{{ monthlyBtnClass }}" aria-pressed="{{ monthlyPressed }}" onClick="{{ setMonthly }}" style="border:none;background:none;cursor:pointer;border-radius:999px;padding:8px 18px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;">{{ t.monthly }}</button>
         <button type="button" class="{{ yearlyBtnClass }}" aria-pressed="{{ yearlyPressed }}" onClick="{{ setYearly }}" style="display:flex;align-items:center;gap:8px;border:none;background:none;cursor:pointer;border-radius:999px;padding:8px 10px 8px 18px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:500;">
-          Anual
+          {{ t.yearly }}
           <span class="pricing-badge">−17%</span>
         </button>
       </div>
@@ -93,20 +93,20 @@ a:hover{color:#7FE6FF;}
 
       <div class="pricing-card pricing-card--edge" style="display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;background:#10161D;border:1px solid #232B35;padding:32px;">
         <div>
-          <h3 style="margin:0;font-size:18px;font-weight:600;">Esencial</h3>
-          <p style="margin:4px 0 0;font-size:14px;color:#7C8894;">Para negocios que necesitan presencia digital sólida y rápida.</p>
+          <h3 style="margin:0;font-size:18px;font-weight:600;">{{ t.essential.title }}</h3>
+          <p style="margin:4px 0 0;font-size:14px;color:#7C8894;">{{ t.essential.desc }}</p>
           <div style="display:flex;align-items:baseline;gap:8px;margin-top:24px;">
             <span style="font-size:36px;font-weight:600;letter-spacing:-0.02em;">$690</span>
-            <span style="font-size:14px;color:#7C8894;">pago único</span>
+            <span style="font-size:14px;color:#7C8894;">{{ t.essential.priceSuffix }}</span>
           </div>
           <ul role="list" style="list-style:none;margin:32px 0 0;padding:0;font-size:14px;">
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Sitio de hasta 5 páginas</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Diseño responsive a medida</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Formulario de contacto</span></li>
-            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">1 ronda de revisiones</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">{{ t.essential.features[0] }}</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">{{ t.essential.features[1] }}</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">{{ t.essential.features[2] }}</span></li>
+            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">{{ t.essential.features[3] }}</span></li>
           </ul>
         </div>
-        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta" style="display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;border:1px solid #232B35;color:#E7ECEF;">Escribir por WhatsApp</a>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta" style="display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;border:1px solid #232B35;color:#E7ECEF;">{{ t.essential.cta }}</a>
       </div>
 
       <div class="pricing-card pricing-card--scale" style="position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;background:#050709;color:#fff;padding:32px;box-shadow:0 30px 70px -25px rgba(45,212,255,0.35);">
@@ -117,56 +117,56 @@ a:hover{color:#7FE6FF;}
 
         <div style="position:relative;">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-            <h3 style="margin:0;font-size:18px;font-weight:600;">Plataforma completa</h3>
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;color:#7FE6FF;white-space:nowrap;">MÁS ELEGIDO</span>
+            <h3 style="margin:0;font-size:18px;font-weight:600;">{{ t.scale.title }}</h3>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;color:#7FE6FF;white-space:nowrap;">{{ t.scale.badge }}</span>
           </div>
-          <p style="margin:4px 0 0;font-size:14px;color:rgba(255,255,255,0.6);">Para negocios que necesitan un producto digital completo, con soporte continuo.</p>
+          <p style="margin:4px 0 0;font-size:14px;color:rgba(255,255,255,0.6);">{{ t.scale.desc }}</p>
           <div style="display:flex;align-items:baseline;gap:8px;margin-top:24px;">
             <span style="font-size:36px;font-weight:600;letter-spacing:-0.02em;">{{ scaleFigure }}</span>
             <span style="font-size:14px;color:rgba(255,255,255,0.6);">{{ scaleSuffix }}</span>
           </div>
           <ul role="list" style="list-style:none;margin:32px 0 0;padding:0;font-size:14px;">
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Todo lo de Esencial, más…</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Diseño e identidad a medida</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Integraciones (pagos, CRM, WhatsApp)</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Mantenimiento y soporte incluido</span></li>
-            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">Prioridad en tiempos de respuesta</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">{{ t.scale.features[0] }}</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">{{ t.scale.features[1] }}</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">{{ t.scale.features[2] }}</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">{{ t.scale.features[3] }}</span></li>
+            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#7FE6FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:rgba(255,255,255,0.75);">{{ t.scale.features[4] }}</span></li>
           </ul>
         </div>
-        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta pricing-cta--primary" style="position:relative;display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;background:#2DD4FF;color:#0A0E13;">Empezar mi proyecto</a>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta pricing-cta--primary" style="position:relative;display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;background:#2DD4FF;color:#0A0E13;">{{ t.scale.cta }}</a>
       </div>
 
       <div class="pricing-card pricing-card--edge" style="display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;background:#10161D;border:1px solid #232B35;padding:32px;">
         <div>
-          <h3 style="margin:0;font-size:18px;font-weight:600;">A medida</h3>
-          <p style="margin:4px 0 0;font-size:14px;color:#7C8894;">Para plataformas complejas, automatización con IA o necesidades específicas.</p>
+          <h3 style="margin:0;font-size:18px;font-weight:600;">{{ t.custom.title }}</h3>
+          <p style="margin:4px 0 0;font-size:14px;color:#7C8894;">{{ t.custom.desc }}</p>
           <div style="display:flex;align-items:baseline;gap:8px;margin-top:24px;">
-            <span style="font-size:36px;font-weight:600;letter-spacing:-0.02em;">A cotizar</span>
-            <span style="font-size:14px;color:#7C8894;">según alcance</span>
+            <span style="font-size:36px;font-weight:600;letter-spacing:-0.02em;">{{ t.custom.priceFigure }}</span>
+            <span style="font-size:14px;color:#7C8894;">{{ t.custom.priceSuffix }}</span>
           </div>
           <ul role="list" style="list-style:none;margin:32px 0 0;padding:0;font-size:14px;">
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Automatización e IA a medida</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Integraciones con sistemas existentes</span></li>
-            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Infraestructura propia y monitoreo</span></li>
-            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">Acompañamiento dedicado</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">{{ t.custom.features[0] }}</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">{{ t.custom.features[1] }}</span></li>
+            <li style="display:flex;gap:12px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">{{ t.custom.features[2] }}</span></li>
+            <li style="display:flex;gap:12px;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:2px;"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="color:#C9CFD6;">{{ t.custom.features[3] }}</span></li>
           </ul>
         </div>
-        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta" style="display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;border:1px solid #232B35;color:#E7ECEF;">Hablar con el equipo</a>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" class="pricing-cta" style="display:block;margin-top:40px;border-radius:10px;padding:11px 0;text-align:center;font-size:14px;font-weight:600;border:1px solid #232B35;color:#E7ECEF;">{{ t.custom.cta }}</a>
       </div>
 
     </div>
 
     <div class="pricing-reveal" style="margin-top:48px;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid #232B35;padding-top:32px;font-size:14px;color:#7C8894;animation-delay:.3s;">
-      <p style="margin:0;max-width:640px;">Precios de referencia en USD. El alcance final se ajusta después de la etapa de descubrimiento. Trabajamos con organizaciones sin fines de lucro con condiciones especiales — <a href="{{ waLink }}" target="_blank" rel="noopener" style="font-weight:500;">escribinos</a>.</p>
-      <a href="Structura V2 - Contacto.dc.html" onClick="{{ navigateToContacto }}" style="font-weight:500;color:#E7ECEF;">Ver el detalle completo →</a>
+      <p style="margin:0;max-width:640px;">{{ t.footnote }} <a href="{{ waLink }}" target="_blank" rel="noopener" style="font-weight:500;">{{ t.footnoteLink }}</a>.</p>
+      <a href="Structura V2 - Contacto.dc.html" onClick="{{ navigateToContacto }}" style="font-weight:500;color:#E7ECEF;">{{ t.detailLink }} →</a>
     </div>
 
   </section>
 
   <section style="padding:0 5% 120px;text-align:center;max-width:760px;margin:0 auto;">
-    <h2 style="font-size:clamp(26px,3.6vw,38px);font-weight:600;letter-spacing:-0.01em;margin:0 0 18px;">¿Empezamos con tu proyecto?</h2>
-    <p style="color:#7C8894;font-size:16px;line-height:1.6;margin:0 0 32px;">Contanos qué necesita tu negocio y te respondemos con una propuesta clara.</p>
-    <a href="{{ waLink }}" target="_blank" rel="noopener" style="display:inline-flex;background:#2DD4FF;color:#0A0E13;padding:17px 36px;border-radius:8px;font-size:16px;font-weight:600;">Escribir por WhatsApp</a>
+    <h2 style="font-size:clamp(26px,3.6vw,38px);font-weight:600;letter-spacing:-0.01em;margin:0 0 18px;">{{ t.finalCtaTitle }}</h2>
+    <p style="color:#7C8894;font-size:16px;line-height:1.6;margin:0 0 32px;">{{ t.finalCtaSub }}</p>
+    <a href="{{ waLink }}" target="_blank" rel="noopener" style="display:inline-flex;background:#2DD4FF;color:#0A0E13;padding:17px 36px;border-radius:8px;font-size:16px;font-weight:600;">{{ t.finalCtaBtn }}</a>
   </section>
 
 </div>
@@ -174,8 +174,91 @@ a:hover{color:#7FE6FF;}
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 const SCALE_PRICES = {
-  monthly: { figure: '$190', suffix: 'por mes' },
-  yearly: { figure: '$158', suffix: 'por mes, facturado anual' },
+  es: {
+    monthly: { figure: '$190', suffix: 'por mes' },
+    yearly: { figure: '$158', suffix: 'por mes, facturado anual' },
+  },
+  en: {
+    monthly: { figure: '$190', suffix: 'per month' },
+    yearly: { figure: '$158', suffix: 'per month, billed annually' },
+  },
+};
+
+const DICT = {
+  es: {
+    eyebrow: '// PRECIOS',
+    title: 'Precios que se ajustan a tu proyecto',
+    sub: 'Tres paquetes pensados para negocios en Costa Rica y LatAm. El alcance final se ajusta después de la etapa de descubrimiento.',
+    subEm: '(precios de referencia)',
+    billingGroupLabel: 'Ciclo de facturación',
+    monthly: 'Mensual',
+    yearly: 'Anual',
+    essential: {
+      title: 'Esencial',
+      desc: 'Para negocios que necesitan presencia digital sólida y rápida.',
+      priceSuffix: 'pago único',
+      features: ['Sitio de hasta 5 páginas', 'Diseño responsive a medida', 'Formulario de contacto', '1 ronda de revisiones'],
+      cta: 'Escribir por WhatsApp',
+    },
+    scale: {
+      title: 'Plataforma completa',
+      badge: 'MÁS ELEGIDO',
+      desc: 'Para negocios que necesitan un producto digital completo, con soporte continuo.',
+      features: ['Todo lo de Esencial, más…', 'Diseño e identidad a medida', 'Integraciones (pagos, CRM, WhatsApp)', 'Mantenimiento y soporte incluido', 'Prioridad en tiempos de respuesta'],
+      cta: 'Empezar mi proyecto',
+    },
+    custom: {
+      title: 'A medida',
+      desc: 'Para plataformas complejas, automatización con IA o necesidades específicas.',
+      priceFigure: 'A cotizar',
+      priceSuffix: 'según alcance',
+      features: ['Automatización e IA a medida', 'Integraciones con sistemas existentes', 'Infraestructura propia y monitoreo', 'Acompañamiento dedicado'],
+      cta: 'Hablar con el equipo',
+    },
+    footnote: 'Precios de referencia en USD. El alcance final se ajusta después de la etapa de descubrimiento. Trabajamos con organizaciones sin fines de lucro con condiciones especiales —',
+    footnoteLink: 'escribinos',
+    detailLink: 'Ver el detalle completo',
+    finalCtaTitle: '¿Empezamos con tu proyecto?',
+    finalCtaSub: 'Contanos qué necesita tu negocio y te respondemos con una propuesta clara.',
+    finalCtaBtn: 'Escribir por WhatsApp',
+  },
+  en: {
+    eyebrow: '// PRICING',
+    title: 'Pricing that fits your project',
+    sub: 'Three packages built for businesses in Costa Rica and LatAm. Final scope is set after the discovery stage.',
+    subEm: '(reference pricing)',
+    billingGroupLabel: 'Billing cycle',
+    monthly: 'Monthly',
+    yearly: 'Yearly',
+    essential: {
+      title: 'Essential',
+      desc: 'For businesses that need a solid, fast digital presence.',
+      priceSuffix: 'one-time payment',
+      features: ['Site with up to 5 pages', 'Custom responsive design', 'Contact form', '1 round of revisions'],
+      cta: 'Message on WhatsApp',
+    },
+    scale: {
+      title: 'Full platform',
+      badge: 'MOST CHOSEN',
+      desc: 'For businesses that need a complete digital product, with ongoing support.',
+      features: ['Everything in Essential, plus…', 'Custom design and identity', 'Integrations (payments, CRM, WhatsApp)', 'Maintenance and support included', 'Priority response times'],
+      cta: 'Start my project',
+    },
+    custom: {
+      title: 'Custom',
+      desc: 'For complex platforms, AI automation, or specific needs.',
+      priceFigure: 'Get a quote',
+      priceSuffix: 'based on scope',
+      features: ['Custom AI and automation', 'Integrations with existing systems', 'Our own infrastructure and monitoring', 'Dedicated support'],
+      cta: 'Talk to the team',
+    },
+    footnote: 'Reference pricing in USD. Final scope is set after the discovery stage. We work with non-profits under special terms —',
+    footnoteLink: 'write to us',
+    detailLink: 'See the full breakdown',
+    finalCtaTitle: 'Ready to start your project?',
+    finalCtaSub: 'Tell us what your business needs and we will reply with a clear proposal.',
+    finalCtaBtn: 'Message on WhatsApp',
+  },
 };
 
 class Component extends DCLogic {
@@ -241,11 +324,13 @@ class Component extends DCLogic {
   setPeriod = (period) => this.setState({ period });
 
   renderVals() {
+    const lang = this.props.lang === 'en' ? 'en' : 'es';
     const period = this.state.period === 'yearly' ? 'yearly' : 'monthly';
-    const price = SCALE_PRICES[period];
+    const price = SCALE_PRICES[lang][period];
     return {
       waLink: this.props.waLink,
       navigateToContacto: this.props.navigateToContacto,
+      t: DICT[lang],
       scaleFigure: price.figure,
       scaleSuffix: price.suffix,
       monthlyBtnClass: 'pricing-toggle-btn' + (period === 'monthly' ? ' is-active' : ''),

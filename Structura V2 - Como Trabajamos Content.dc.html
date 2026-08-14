@@ -54,9 +54,9 @@ a:hover{color:#7FE6FF;}
       <canvas id="cw-hero-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
     </div>
     <div style="position:relative;z-index:1;max-width:900px;margin:0 auto;">
-      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">// CÓMO TRABAJAMOS</p>
-      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:600;letter-spacing:-0.01em;margin:0 0 20px;">De la idea al lanzamiento</h1>
-      <p style="color:#7C8894;font-size:17px;line-height:1.6;max-width:560px;margin:0 auto;">Un proceso claro en cinco pasos. Sabés qué pasa en cada etapa, quién lo hace y qué recibís.</p>
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">{{ t.eyebrow }}</p>
+      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:600;letter-spacing:-0.01em;margin:0 0 20px;">{{ t.title }}</h1>
+      <p style="color:#7C8894;font-size:17px;line-height:1.6;max-width:560px;margin:0 auto;">{{ t.sub }}</p>
     </div>
   </section>
 
@@ -65,60 +65,93 @@ a:hover{color:#7FE6FF;}
     <div style="display:grid;grid-template-columns:80px 1fr;gap:28px;padding:36px 0;border-top:1px solid #232B35;">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:700;color:#232B35;">01</div>
       <div>
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;margin:0 0 8px;">SEMANA 1</p>
-        <h3 style="margin:0 0 10px;font-size:22px;font-weight:600;">Descubrimiento</h3>
-        <p style="color:#7C8894;font-size:15px;line-height:1.65;margin:0;max-width:560px;">Entendemos tu operación, tus usuarios y tus objetivos reales antes de proponer nada. Salimos de esta etapa con alcance y prioridades claras.</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;margin:0 0 8px;">{{ t.steps[0].phase }}</p>
+        <h3 style="margin:0 0 10px;font-size:22px;font-weight:600;">{{ t.steps[0].title }}</h3>
+        <p style="color:#7C8894;font-size:15px;line-height:1.65;margin:0;max-width:560px;">{{ t.steps[0].desc }}</p>
       </div>
     </div>
 
     <div style="display:grid;grid-template-columns:80px 1fr;gap:28px;padding:36px 0;border-top:1px solid #232B35;">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:700;color:#232B35;">02</div>
       <div>
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;margin:0 0 8px;">SEMANAS 1–2</p>
-        <h3 style="margin:0 0 10px;font-size:22px;font-weight:600;">Diseño</h3>
-        <p style="color:#7C8894;font-size:15px;line-height:1.65;margin:0;max-width:560px;">Prototipo navegable de las pantallas clave antes de escribir una línea de código. Iterás sobre algo que podés ver y tocar, no sobre promesas.</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;margin:0 0 8px;">{{ t.steps[1].phase }}</p>
+        <h3 style="margin:0 0 10px;font-size:22px;font-weight:600;">{{ t.steps[1].title }}</h3>
+        <p style="color:#7C8894;font-size:15px;line-height:1.65;margin:0;max-width:560px;">{{ t.steps[1].desc }}</p>
       </div>
     </div>
 
     <div style="display:grid;grid-template-columns:80px 1fr;gap:28px;padding:36px 0;border-top:1px solid #232B35;">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:700;color:#232B35;">03</div>
       <div>
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;margin:0 0 8px;">SEMANAS 2–6</p>
-        <h3 style="margin:0 0 10px;font-size:22px;font-weight:600;">Desarrollo</h3>
-        <p style="color:#7C8894;font-size:15px;line-height:1.65;margin:0;max-width:560px;">Sprints cortos con entregas funcionales cada semana. Ves el avance en un ambiente de pruebas desde el primer sprint.</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;margin:0 0 8px;">{{ t.steps[2].phase }}</p>
+        <h3 style="margin:0 0 10px;font-size:22px;font-weight:600;">{{ t.steps[2].title }}</h3>
+        <p style="color:#7C8894;font-size:15px;line-height:1.65;margin:0;max-width:560px;">{{ t.steps[2].desc }}</p>
       </div>
     </div>
 
     <div style="display:grid;grid-template-columns:80px 1fr;gap:28px;padding:36px 0;border-top:1px solid #232B35;">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:700;color:#232B35;">04</div>
       <div>
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;margin:0 0 8px;">LANZAMIENTO</p>
-        <h3 style="margin:0 0 10px;font-size:22px;font-weight:600;">Lanzamiento</h3>
-        <p style="color:#7C8894;font-size:15px;line-height:1.65;margin:0;max-width:560px;">Pruebas, optimización de rendimiento, SEO y salida a producción con monitoreo activo desde el día uno.</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;margin:0 0 8px;">{{ t.steps[3].phase }}</p>
+        <h3 style="margin:0 0 10px;font-size:22px;font-weight:600;">{{ t.steps[3].title }}</h3>
+        <p style="color:#7C8894;font-size:15px;line-height:1.65;margin:0;max-width:560px;">{{ t.steps[3].desc }}</p>
       </div>
     </div>
 
     <div style="display:grid;grid-template-columns:80px 1fr;gap:28px;padding:36px 0;border-top:1px solid #232B35;border-bottom:1px solid #232B35;">
       <div style="font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:700;color:#232B35;">05</div>
       <div>
-        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;margin:0 0 8px;">SIEMPRE</p>
-        <h3 style="margin:0 0 10px;font-size:22px;font-weight:600;">Soporte y evolución</h3>
-        <p style="color:#7C8894;font-size:15px;line-height:1.65;margin:0;max-width:560px;">No desaparecemos después del lanzamiento. Mantenimiento, métricas y nuevas funcionalidades según crece tu negocio.</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;margin:0 0 8px;">{{ t.steps[4].phase }}</p>
+        <h3 style="margin:0 0 10px;font-size:22px;font-weight:600;">{{ t.steps[4].title }}</h3>
+        <p style="color:#7C8894;font-size:15px;line-height:1.65;margin:0;max-width:560px;">{{ t.steps[4].desc }}</p>
       </div>
     </div>
 
   </section>
 
   <section style="padding:0 5% 120px;text-align:center;max-width:760px;margin:0 auto;">
-    <h2 style="font-size:clamp(26px,3.6vw,38px);font-weight:600;letter-spacing:-0.01em;margin:0 0 18px;">¿Empezamos con tu proyecto?</h2>
-    <p style="color:#7C8894;font-size:16px;line-height:1.6;margin:0 0 32px;">Contanos qué necesita tu negocio y te respondemos con una propuesta clara.</p>
-    <a href="{{ waLink }}" target="_blank" rel="noopener" style="display:inline-flex;background:#2DD4FF;color:#0A0E13;padding:17px 36px;border-radius:8px;font-size:16px;font-weight:600;">Escribir por WhatsApp</a>
+    <h2 style="font-size:clamp(26px,3.6vw,38px);font-weight:600;letter-spacing:-0.01em;margin:0 0 18px;">{{ t.ctaTitle }}</h2>
+    <p style="color:#7C8894;font-size:16px;line-height:1.6;margin:0 0 32px;">{{ t.ctaSub }}</p>
+    <a href="{{ waLink }}" target="_blank" rel="noopener" style="display:inline-flex;background:#2DD4FF;color:#0A0E13;padding:17px 36px;border-radius:8px;font-size:16px;font-weight:600;">{{ t.ctaBtn }}</a>
   </section>
 
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const DICT = {
+  es: {
+    eyebrow: '// CÓMO TRABAJAMOS',
+    title: 'De la idea al lanzamiento',
+    sub: 'Un proceso claro en cinco pasos. Sabés qué pasa en cada etapa, quién lo hace y qué recibís.',
+    steps: [
+      { phase: 'SEMANA 1', title: 'Descubrimiento', desc: 'Entendemos tu operación, tus usuarios y tus objetivos reales antes de proponer nada. Salimos de esta etapa con alcance y prioridades claras.' },
+      { phase: 'SEMANAS 1–2', title: 'Diseño', desc: 'Prototipo navegable de las pantallas clave antes de escribir una línea de código. Iterás sobre algo que podés ver y tocar, no sobre promesas.' },
+      { phase: 'SEMANAS 2–6', title: 'Desarrollo', desc: 'Sprints cortos con entregas funcionales cada semana. Ves el avance en un ambiente de pruebas desde el primer sprint.' },
+      { phase: 'LANZAMIENTO', title: 'Lanzamiento', desc: 'Pruebas, optimización de rendimiento, SEO y salida a producción con monitoreo activo desde el día uno.' },
+      { phase: 'SIEMPRE', title: 'Soporte y evolución', desc: 'No desaparecemos después del lanzamiento. Mantenimiento, métricas y nuevas funcionalidades según crece tu negocio.' },
+    ],
+    ctaTitle: '¿Empezamos con tu proyecto?',
+    ctaSub: 'Contanos qué necesita tu negocio y te respondemos con una propuesta clara.',
+    ctaBtn: 'Escribir por WhatsApp',
+  },
+  en: {
+    eyebrow: '// HOW WE WORK',
+    title: 'From idea to launch',
+    sub: 'A clear five-step process. You know what happens at every stage, who does it, and what you get.',
+    steps: [
+      { phase: 'WEEK 1', title: 'Discovery', desc: 'We understand your operation, your users, and your real goals before proposing anything. We leave this stage with clear scope and priorities.' },
+      { phase: 'WEEKS 1–2', title: 'Design', desc: 'A clickable prototype of the key screens before writing a line of code. You iterate on something you can see and touch, not on promises.' },
+      { phase: 'WEEKS 2–6', title: 'Development', desc: 'Short sprints with functional deliveries every week. You see progress in a staging environment from the first sprint.' },
+      { phase: 'LAUNCH', title: 'Launch', desc: 'Testing, performance optimization, SEO, and release to production with active monitoring from day one.' },
+      { phase: 'ONGOING', title: 'Support & evolution', desc: 'We do not disappear after launch. Maintenance, metrics, and new features as your business grows.' },
+    ],
+    ctaTitle: 'Ready to start your project?',
+    ctaSub: 'Tell us what your business needs and we will reply with a clear proposal.',
+    ctaBtn: 'Message on WhatsApp',
+  },
+};
+
 class Component extends DCLogic {
   componentDidMount() {
     this._unmounted = false;
@@ -176,7 +209,8 @@ class Component extends DCLogic {
   }
 
   renderVals() {
-    return { waLink: this.props.waLink };
+    const lang = this.props.lang === 'en' ? 'en' : 'es';
+    return { waLink: this.props.waLink, t: DICT[lang] };
   }
 }
 

@@ -316,10 +316,10 @@ a:hover{color:#7FE6FF;}
       <dc-import name="Structura V2 - Home Content" t="{{ t }}" navigateToContacto="{{ navigateToContacto }}"/>
     </sc-if>
     <sc-if value="{{ route === 'precios' }}">
-      <dc-import name="Structura V2 - Precios Content" waLink="{{ waLink }}" navigateToContacto="{{ navigateToContacto }}"/>
+      <dc-import name="Structura V2 - Precios Content" waLink="{{ waLink }}" navigateToContacto="{{ navigateToContacto }}" lang="{{ lang }}"/>
     </sc-if>
     <sc-if value="{{ route === 'comoTrabajamos' }}">
-      <dc-import name="Structura V2 - Como Trabajamos Content" waLink="{{ waLink }}"/>
+      <dc-import name="Structura V2 - Como Trabajamos Content" waLink="{{ waLink }}" lang="{{ lang }}"/>
     </sc-if>
     <sc-if value="{{ route === 'contacto' }}">
       <dc-import name="Structura V2 - Contacto Content" waLink="{{ waLink }}" lang="{{ lang }}"/>
@@ -600,7 +600,14 @@ class Component extends DCLogic {
     this._onAnchorClick = (e) => {
       const link = e.target.closest('a[href^="#"]');
       if (!link || link.id === 'logo-home') return;
-      const target = document.querySelector(link.getAttribute('href'));
+      const hash = link.getAttribute('href');
+      if (this.state.route !== 'home') {
+        e.preventDefault();
+        this._pendingScrollHash = hash;
+        this.goToRoute('home', this._homeHref);
+        return;
+      }
+      const target = document.querySelector(hash);
       if (!target) return;
       e.preventDefault();
       if (this._lenis) this._lenis.scrollTo(target, { duration: 1.2, easing: easeOutCubic });
@@ -617,22 +624,44 @@ class Component extends DCLogic {
     if (this._raf) cancelAnimationFrame(this._raf);
     if (this._lenis) this._lenis.destroy();
     if (this._routeTimer) clearTimeout(this._routeTimer);
+    if (this._scrollRetryTimer) clearTimeout(this._scrollRetryTimer);
   }
+
+  /** Scrolls to a same-page anchor once its target exists in the DOM —
+   *  needed after routing home from another page, since the Home Content
+   *  dc-import may still be fetching/rendering when the route flips. */
+  _flushPendingScroll = (attempt = 0) => {
+    const hash = this._pendingScrollHash;
+    if (!hash) return;
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+    const target = document.querySelector(hash);
+    if (target) {
+      this._pendingScrollHash = null;
+      if (this._lenis) this._lenis.scrollTo(target, { duration: 1.2, easing: easeOutCubic });
+      else target.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    if (attempt > 40) { this._pendingScrollHash = null; return; }
+    this._scrollRetryTimer = setTimeout(() => this._flushPendingScroll(attempt + 1), 100);
+  };
 
   goToRoute = (route, href, opts = {}) => {
     const push = opts.push !== false;
     if (route === this.state.route) {
       if (push && href) history.replaceState(null, '', href);
+      this._flushPendingScroll();
       return;
     }
     clearTimeout(this._routeTimer);
+    clearTimeout(this._scrollRetryTimer);
     this.setState({ transitioning: 'out' });
     this._routeTimer = setTimeout(() => {
       this.setState({ route, transitioning: 'out' });
       if (push && href) history.pushState(null, '', href);
-      window.scrollTo(0, 0);
+      if (!this._pendingScrollHash) window.scrollTo(0, 0);
       requestAnimationFrame(() => requestAnimationFrame(() => {
         this.setState({ transitioning: null });
+        this._flushPendingScroll();
       }));
     }, ROUTE_TRANSITION_MS);
   };
@@ -644,6 +673,8 @@ class Component extends DCLogic {
       try { document.body.style.overflow = ''; } catch (err) {}
       this.setState({ mobileOpen: false });
     }
+    this._pendingScrollHash = null;
+    clearTimeout(this._scrollRetryTimer);
     this.goToRoute(route, href);
   };
 
