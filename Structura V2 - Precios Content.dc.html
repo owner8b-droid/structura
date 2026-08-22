@@ -24,6 +24,10 @@ a:hover{color:#7FE6FF;}
 .pricing-cta--primary:hover{background:#0FA8CE;}
 .pricing-cta:focus-visible{outline:2px solid #2DD4FF;outline-offset:2px;}
 
+.pricing-scale-bg{background:
+  radial-gradient(ellipse 70% 55% at 62% 88%,rgba(255,255,255,0.16) 0%,rgba(127,230,255,0.30) 10%,rgba(23,184,216,0.22) 22%,rgba(14,95,143,0.18) 36%,rgba(10,42,74,0.12) 52%,rgba(2,4,10,0) 68%),
+  linear-gradient(to top,#05070a 0%,#0f1a24 100%);}
+
 .pricing-grid{display:grid;row-gap:32px;}
 @media (min-width:1024px){
   .pricing-grid{grid-template-columns:repeat(3,1fr);grid-template-rows:32px 1fr 32px;column-gap:32px;}
@@ -93,7 +97,7 @@ a:hover{color:#7FE6FF;}
       </div>
 
       <div class="pricing-card pricing-card--scale" style="position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;border-radius:20px;background:#050709;color:#fff;padding:32px;box-shadow:0 30px 70px -25px rgba(45,212,255,0.35);">
-        <div aria-hidden="true" style="position:absolute;inset:0;background:#050709;">
+        <div aria-hidden="true" class="pricing-scale-bg" style="position:absolute;inset:0;">
           <canvas id="pricing-scale-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
         </div>
         <div aria-hidden="true" style="position:absolute;inset:0;border-radius:20px;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.1);pointer-events:none;"></div>
@@ -239,6 +243,8 @@ const DICT = {
 class Component extends DCLogic {
   componentDidMount() {
     this._unmounted = false;
+    const skipShader = window.matchMedia('(max-width: 767px), (pointer: coarse), (prefers-reduced-motion: reduce)').matches;
+    if (skipShader) return;
     import('./assets/js/shader-loader.js').then(({ mountShader }) => mountShader('pricing-scale-shader', {
       components: [
         {
