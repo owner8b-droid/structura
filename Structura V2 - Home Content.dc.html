@@ -482,17 +482,22 @@ a:hover{color:#7FE6FF;}
       <span style="width:6px;height:6px;border-radius:50%;background:#28C840;"></span>
     </div>
     <div class="folio-preview__viewport">
-      <div class="folio-preview__scroll">
-        <div style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;border-radius:4px;background:#232B35;"></span><span style="height:6px;width:38%;background:#232B35;border-radius:3px;"></span></div>
-        <span style="height:7px;width:70%;background:#232B35;border-radius:4px;"></span>
-        <span style="height:7px;width:50%;background:#232B35;border-radius:4px;"></span>
-        <div style="display:flex;gap:6px;"><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i></div>
-        <span style="height:6px;width:60%;background:#232B35;border-radius:3px;"></span>
-        <div style="display:flex;gap:6px;"><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i></div>
-      </div>
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,14,19,0.35);">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.03em;color:#7C8894;background:#10161D;border:1px solid #232B35;padding:4px 9px;border-radius:20px;">{{ folioPreviewSoon }}</span>
-      </div>
+      <sc-if value="{{ activeFolioVideo }}">
+        <video id="folio-preview-video" src="{{ activeFolioVideo }}" muted="{{ true }}" loop="{{ true }}" playsinline="{{ true }}" autoplay="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+      </sc-if>
+      <sc-if value="{{ !activeFolioVideo }}">
+        <div class="folio-preview__scroll">
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;border-radius:4px;background:#232B35;"></span><span style="height:6px;width:38%;background:#232B35;border-radius:3px;"></span></div>
+          <span style="height:7px;width:70%;background:#232B35;border-radius:4px;"></span>
+          <span style="height:7px;width:50%;background:#232B35;border-radius:4px;"></span>
+          <div style="display:flex;gap:6px;"><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i></div>
+          <span style="height:6px;width:60%;background:#232B35;border-radius:3px;"></span>
+          <div style="display:flex;gap:6px;"><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i></div>
+        </div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,14,19,0.35);">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.03em;color:#7C8894;background:#10161D;border:1px solid #232B35;padding:4px 9px;border-radius:20px;">{{ folioPreviewSoon }}</span>
+        </div>
+      </sc-if>
     </div>
     <div style="padding:10px 12px;font-size:12.5px;font-weight:600;color:#E7ECEF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ activeFolioName }}</div>
   </div>
@@ -500,14 +505,14 @@ a:hover{color:#7FE6FF;}
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 const FOLIO_ITEMS = [
-  { img: 'assets/folio/haus.png', alt: 'Haus', name: 'Haus' },
-  { img: 'assets/folio/hesa.png', alt: 'Hesa', name: 'Hesa' },
-  { img: 'assets/folio/aaec.png', alt: 'AAEC', name: 'AAEC' },
-  { img: 'assets/folio/rloria.png', alt: 'R. Loría Abogados', name: 'R. Loría Abogados' },
-  { img: 'assets/folio/alturaraiz.png', alt: 'Altura Raíz', name: 'Altura Raíz' },
-  { img: 'assets/folio/evoke.png', alt: 'Evoke', name: 'Evoke' },
-  { img: 'assets/folio/pastoarca.png', alt: 'Pasto Arca', name: 'Pasto Arca' },
-  { img: 'assets/folio/zacate.png', alt: 'Zacate Tierra Fértil', name: 'Zacate Tierra Fértil' },
+  { img: 'assets/folio/haus.png', alt: 'Haus', name: 'Haus', video: 'assets/folio/videos/haus.mp4' },
+  { img: 'assets/folio/hesa.png', alt: 'Hesa', name: 'Hesa', video: 'assets/folio/videos/hesa.mp4' },
+  { img: 'assets/folio/aaec.png', alt: 'AAEC', name: 'AAEC', video: 'assets/folio/videos/aaec.mp4' },
+  { img: 'assets/folio/rloria.png', alt: 'R. Loría Abogados', name: 'R. Loría Abogados', video: 'assets/folio/videos/rloria.mp4' },
+  { img: 'assets/folio/alturaraiz.png', alt: 'Altura Raíz', name: 'Altura Raíz', video: 'assets/folio/videos/alturaraiz.mp4' },
+  { img: 'assets/folio/evoke.png', alt: 'Evoke', name: 'Evoke', video: 'assets/folio/videos/evoke.mp4' },
+  { img: 'assets/folio/pastoarca.png', alt: 'Pasto Arca', name: 'Pasto Arca', video: 'assets/folio/videos/pastoarca.mp4' },
+  { img: 'assets/folio/zacate.png', alt: 'Zacate Tierra Fértil', name: 'Zacate Tierra Fértil', video: 'assets/folio/videos/zacate.mp4' },
 ];
 
 class Component extends DCLogic {
@@ -516,6 +521,12 @@ class Component extends DCLogic {
   showFolio = (id, el) => {
     const r = el.getBoundingClientRect();
     this.setState({ activeFolio: id, folioLeft: r.left + r.width / 2, folioTop: r.top });
+    // Force the <video> to pick up the new src and restart the loop even when
+    // hopping directly from one logo to another (no mouseleave in between).
+    requestAnimationFrame(() => {
+      const v = document.getElementById('folio-preview-video');
+      if (v) { v.load(); v.play().catch(() => {}); }
+    });
   };
 
   hideFolio = () => {
@@ -538,6 +549,7 @@ class Component extends DCLogic {
         };
       }),
       activeFolioName: this.state.activeFolio == null ? '' : FOLIO_ITEMS[this.state.activeFolio % FOLIO_ITEMS.length].name,
+      activeFolioVideo: this.state.activeFolio == null ? '' : (FOLIO_ITEMS[this.state.activeFolio % FOLIO_ITEMS.length].video || ''),
       folioPreviewSoon: t.portafolio.previewSoon,
       folioPreviewTransform: `translate(-50%,-100%) translate(${this.state.folioLeft}px, ${this.state.folioTop - 16}px)`,
     };
