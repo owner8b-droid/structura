@@ -30,6 +30,26 @@ a:hover{color:#7FE6FF;}
 .hero-contact{position:relative;overflow:hidden;padding:120px 5% 90px;text-align:center;}
 .hero-contact__dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2DD4FF;box-shadow:0 0 10px #2DD4FF;animation:heroDotPulse 1.8s ease-in-out infinite;margin-right:9px;vertical-align:middle;}
 
+/* ---- Hero: el shader WebGPU entra en fundido sobre un fondo CSS animado, que queda
+   de respaldo donde no hay WebGPU (p. ej. el navegador interno de Instagram) ---- */
+.hero-shader{opacity:0;transition:opacity .8s ease;}
+.hero-shader.is-ready{opacity:1;}
+.hero-grain{position:absolute;inset:-50%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");opacity:.06;animation:heroGrain 1.2s steps(6) infinite;}
+@keyframes heroGrain{to{transform:translate(-8%,6%);}}
+.ct-fallback{position:absolute;inset:0;overflow:hidden;background:radial-gradient(ellipse 110% 100% at 50% 35%,#101826 0%,#0b1119 45%,#05070a 100%);}
+.ct-fallback.is-hidden{visibility:hidden;transition:visibility 0s linear .8s;}
+/* rejilla del DotGrid; las capas que titilan son subconjuntos alineados con ella (78 = 3×26, 130 = 5×26) */
+.ct-fallback__dots,.ct-fallback__twinkle{position:absolute;inset:0;background-position:0 0;}
+.ct-fallback__dots{background-image:radial-gradient(circle,#1B2733 1.2px,rgba(27,39,51,0) 1.8px);background-size:26px 26px;}
+.ct-fallback__twinkle{background-image:radial-gradient(circle,rgba(127,230,255,0.55) 1.1px,rgba(127,230,255,0) 1.8px);background-size:78px 78px;opacity:0;animation:ctTwinkle 5s ease-in-out infinite;}
+.ct-fallback__twinkle--b{background-size:130px 130px;background-position:26px 52px;animation-delay:-2.5s;}
+@keyframes ctTwinkle{0%,100%{opacity:0;}50%{opacity:.7;}}
+.ct-fallback__ripple{position:absolute;left:50%;top:40%;width:60vmax;height:60vmax;margin:-30vmax 0 0 -30vmax;border-radius:50%;border:1px solid rgba(45,212,255,0.22);opacity:0;animation:ctRipple 7s cubic-bezier(.22,.61,.30,1) infinite;}
+.ct-fallback__ripple--b{animation-delay:-3.5s;}
+@keyframes ctRipple{0%{transform:scale(.1);opacity:0;}12%{opacity:.8;}100%{transform:scale(1.4);opacity:0;}}
+.ct-fallback__vignette{position:absolute;inset:0;background:radial-gradient(ellipse 80% 75% at 50% 40%,rgba(5,7,10,0) 40%,rgba(5,7,10,0.9) 100%);}
+@media (prefers-reduced-motion: reduce){.ct-fallback *{animation:none;}}
+
 /* ---- Formulario ---- */
 .contact-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:32px;text-align:left;padding:0 5% 120px;max-width:1180px;margin:0 auto;}
 @media (max-width:860px){.contact-grid{grid-template-columns:1fr;}}
@@ -91,7 +111,16 @@ textarea.form-input{resize:vertical;min-height:120px;}
 
   <section class="hero-contact">
     <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;">
-      <canvas id="contact-hero-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+      <div class="{{ fallbackClass }}">
+        <div class="ct-fallback__dots"></div>
+        <div class="ct-fallback__twinkle"></div>
+        <div class="ct-fallback__twinkle ct-fallback__twinkle--b"></div>
+        <div class="ct-fallback__ripple"></div>
+        <div class="ct-fallback__ripple ct-fallback__ripple--b"></div>
+        <div class="ct-fallback__vignette"></div>
+        <div class="hero-grain"></div>
+      </div>
+      <canvas id="contact-hero-shader" class="{{ canvasClass }}" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
     </div>
     <div style="position:relative;z-index:1;max-width:720px;margin:0 auto;">
       <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;"><span class="hero-contact__dot"></span>{{ t.hero.eyebrow }}</p>
@@ -321,67 +350,66 @@ const DICT = {
 };
 
 class Component extends DCLogic {
-  state = { formName: '', formEmail: '', formCompany: '', formTypeKey: '', formInterestKey: '', formDescription: '' };
+  state = { formName: '', formEmail: '', formCompany: '', formTypeKey: '', formInterestKey: '', formDescription: '', shaderReady: false };
 
   componentDidMount() {
     this._unmounted = false;
-    import('https://esm.sh/shaders@3.0.445/js').then(({ createShader, isWebGPUSupported }) => {
-      const canvas = document.getElementById('contact-hero-shader');
-      if (this._unmounted || !canvas || !isWebGPUSupported()) return null;
-      return createShader(canvas, {
-        components: [
-          {
-            type: 'RadialGradient',
-            props: {
-              colorA: '#101826',
-              colorB: '#05070a',
-              center: { x: 0.5, y: 0.35 },
-              radius: 1.1,
-              repeat: 1,
-              aspect: 1,
-              skewAngle: 0,
-              colorSpace: 'oklab'
-            }
-          },
-          {
-            type: 'DotGrid',
-            props: {
-              color: '#1B2733',
-              density: 42,
-              dotSize: 0.16,
-              offset: 0.5,
-              speed: 0.12,
-              speedVariance: 0.4,
-              twinkle: 0.4
-            }
-          },
-          {
-            type: 'CursorRipples',
-            props: {
-              intensity: 14,
-              decay: 6,
-              radius: 0.55,
-              chromaticSplit: 2.2,
-              edges: 'stretch'
-            }
-          },
-          {
-            type: 'Vignette',
-            props: {
-              color: '#05070a',
-              center: { x: 0.5, y: 0.4 },
-              radius: 0.45,
-              falloff: 0.6,
-              intensity: 0.8
-            }
-          },
-          {
-            type: 'FilmGrain',
-            props: { strength: 0.05 }
+    import('./assets/js/shader-loader.js').then(({ mountShader }) => mountShader('contact-hero-shader', {
+      components: [
+        {
+          type: 'RadialGradient',
+          props: {
+            colorA: '#101826',
+            colorB: '#05070a',
+            center: { x: 0.5, y: 0.35 },
+            radius: 1.1,
+            repeat: 1,
+            aspect: 1,
+            skewAngle: 0,
+            colorSpace: 'oklab'
           }
-        ]
-      });
-    }).then((shader) => {
+        },
+        {
+          type: 'DotGrid',
+          props: {
+            color: '#1B2733',
+            density: 42,
+            dotSize: 0.16,
+            offset: 0.5,
+            speed: 0.12,
+            speedVariance: 0.4,
+            twinkle: 0.4
+          }
+        },
+        {
+          type: 'CursorRipples',
+          props: {
+            intensity: 14,
+            decay: 6,
+            radius: 0.55,
+            chromaticSplit: 2.2,
+            edges: 'stretch'
+          }
+        },
+        {
+          type: 'Vignette',
+          props: {
+            color: '#05070a',
+            center: { x: 0.5, y: 0.4 },
+            radius: 0.45,
+            falloff: 0.6,
+            intensity: 0.8
+          }
+        },
+        {
+          type: 'FilmGrain',
+          props: { strength: 0.05 }
+        }
+      ]
+    }, {
+      onReady: () => { if (!this._unmounted) this.setState({ shaderReady: true }); },
+      onError: () => { if (!this._unmounted) this.setState({ shaderReady: false }); },
+    })).then((shader) => {
       if (this._unmounted) { shader?.destroy?.(); shader?.dispose?.(); return; }
       this._shader = shader;
     }).catch(() => {});
@@ -431,6 +459,8 @@ class Component extends DCLogic {
     return {
       t,
       waLink: this.props.waLink,
+      canvasClass: 'hero-shader' + (this.state.shaderReady ? ' is-ready' : ''),
+      fallbackClass: 'ct-fallback' + (this.state.shaderReady ? ' is-hidden' : ''),
       formName: this.state.formName, updateFormName: this.updateFormName,
       formEmail: this.state.formEmail, updateFormEmail: this.updateFormEmail,
       formCompany: this.state.formCompany, updateFormCompany: this.updateFormCompany,
