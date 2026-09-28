@@ -167,6 +167,11 @@ a:hover{color:#7FE6FF;}
 .nav-link{color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;}
 .nav-link.is-current{color:#2DD4FF;font-weight:600;}
 
+/* ---- Footer: barra inferior con enlace legal ---- */
+.footer-bottom{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;}
+.footer-legal-link{color:#7C8894;font-size:13px;transition:color .2s ease;}
+.footer-legal-link:hover,.footer-legal-link.is-current{color:#2DD4FF;}
+
 /* ---- Transición SPA entre rutas (fade + slide sutil) ---- */
 .route-content{transition:opacity .28s cubic-bezier(.22,.61,.30,1), transform .28s cubic-bezier(.22,.61,.30,1);}
 .route-content.is-transitioning{opacity:0;transform:translateY(10px);}
@@ -324,6 +329,9 @@ a:hover{color:#7FE6FF;}
     <sc-if value="{{ route === 'contacto' }}">
       <dc-import name="Structura V2 - Contacto Content" waLink="{{ waLink }}" lang="{{ lang }}"/>
     </sc-if>
+    <sc-if value="{{ route === 'privacidad' }}">
+      <dc-import name="Structura V2 - Privacidad Content" waLink="{{ waLink }}" lang="{{ lang }}"/>
+    </sc-if>
   </div>
 
 
@@ -354,7 +362,10 @@ a:hover{color:#7FE6FF;}
       <details style="border-top:1px solid #232B35;border-bottom:1px solid #232B35;padding:16px 0;"><summary style="cursor:pointer;font-size:15px;color:#E7ECEF;">{{ t.footer.faq[3].q }}</summary><p style="color:#7C8894;font-size:14px;line-height:1.6;margin:12px 0 0;">{{ t.footer.faq[3].a }}</p></details>
     </div>
 
-    <p style="max-width:1240px;margin:0 auto;color:#4a5560;font-size:13px;">{{ t.footer.copyright }}</p>
+    <div class="footer-bottom">
+      <p style="margin:0;color:#4a5560;font-size:13px;">{{ t.footer.copyright }}</p>
+      <a href="Structura V2 - Privacidad.dc.html" onClick="{{ navigateToPrivacidad }}" class="{{ footerPrivacidadClass }}">{{ t.footer.privacidad }}</a>
+    </div>
   </footer>
 
 </div>
@@ -438,6 +449,7 @@ const DICT = {
         { q: '¿El código fuente es mío?', a: 'Sí, el código fuente es tuyo una vez que se complete el proyecto.' },
         { q: '¿Dan soporte después del lanzamiento?', a: 'Sí, ofrecemos soporte post-lanzamiento para garantizar el correcto funcionamiento de tu proyecto.' },
       ],
+      privacidad: 'Política de privacidad',
       copyright: '© 2026 structura. — soluciones digitales, Costa Rica',
     },
   },
@@ -517,6 +529,7 @@ const DICT = {
         { q: 'Is the source code mine?', a: 'Yes, the source code is yours once the project is completed.' },
         { q: 'Do you offer support after launch?', a: 'Yes, we offer post-launch support to ensure your project functions correctly.' },
       ],
+      privacidad: 'Privacy policy',
       copyright: '© 2026 structura. — digital solutions, Costa Rica',
     },
   },
@@ -529,6 +542,7 @@ function routeFromPathname(pathname) {
   if (/Precios\.dc\.html$/i.test(p)) return 'precios';
   if (/Trabajamos\.dc\.html$/i.test(p)) return 'comoTrabajamos';
   if (/Contacto\.dc\.html$/i.test(p)) return 'contacto';
+  if (/Privacidad\.dc\.html$/i.test(p)) return 'privacidad';
   return 'home';
 }
 
@@ -568,16 +582,20 @@ class Component extends DCLogic {
       const link = e.target.closest('a[href^="#"]');
       if (!link || link.id === 'logo-home') return;
       const hash = link.getAttribute('href');
-      if (this.state.route !== 'home') {
+      const target = document.querySelector(hash);
+      // Anchors not on the current route (e.g. #soluciones from Precios) live on home;
+      // ones that are (e.g. the privacy policy index) scroll in place.
+      if (!target && this.state.route !== 'home') {
         e.preventDefault();
         this._pendingScrollHash = hash;
         this.goToRoute('home', this._homeHref);
         return;
       }
-      const target = document.querySelector(hash);
       if (!target) return;
       e.preventDefault();
-      if (this._lenis) this._lenis.scrollTo(target, { duration: 1.2, easing: easeOutCubic });
+      // Lenis ignores CSS scroll-margin-top, so pass it through as an offset.
+      const offset = -(parseFloat(getComputedStyle(target).scrollMarginTop) || 0);
+      if (this._lenis) this._lenis.scrollTo(target, { offset, duration: 1.2, easing: easeOutCubic });
       else target.scrollIntoView({ behavior: 'smooth' });
     };
     document.addEventListener('click', this._onAnchorClick);
@@ -704,11 +722,13 @@ class Component extends DCLogic {
       navigateToPrecios: (e) => this.handleNavClick(e, 'precios', 'Structura V2 - Precios.dc.html'),
       navigateToComoTrabajamos: (e) => this.handleNavClick(e, 'comoTrabajamos', 'Structura V2 - Como Trabajamos.dc.html'),
       navigateToContacto: (e) => this.handleNavClick(e, 'contacto', 'Structura V2 - Contacto.dc.html'),
+      navigateToPrivacidad: (e) => this.handleNavClick(e, 'privacidad', 'Structura V2 - Privacidad.dc.html'),
       navigateToHome: (e) => this.handleNavClick(e, 'home', this._homeHref),
       navLinkPreciosClass: 'nav-link' + (route === 'precios' ? ' is-current' : ''),
       navSidebarPreciosClass: 'nav-sidebar-link' + (route === 'precios' ? ' is-current' : ''),
       navLinkComoTrabajamosClass: 'nav-link' + (route === 'comoTrabajamos' ? ' is-current' : ''),
       navSidebarComoTrabajamosClass: 'nav-sidebar-link' + (route === 'comoTrabajamos' ? ' is-current' : ''),
+      footerPrivacidadClass: 'footer-legal-link' + (route === 'privacidad' ? ' is-current' : ''),
     };
   }
 }
