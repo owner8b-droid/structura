@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<style>
+body{margin:0;background:#0A0E13;}
+a{color:#2DD4FF;text-decoration:none;}
+a:hover{color:#7FE6FF;}
+
+/* ---- Hero ---- */
+.privacy-hero{padding:120px 5% 64px;text-align:center;background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(45,212,255,0.09) 0%,rgba(10,14,19,0) 70%);}
+.privacy-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;letter-spacing:0.04em;text-transform:uppercase;margin:0 0 16px;}
+
+/* ---- Resumen ---- */
+.privacy-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 32px;background:linear-gradient(160deg,#161D26,#10161D);border:1px solid #232B35;border-radius:16px;padding:28px;}
+@media (max-width:640px){.privacy-summary{grid-template-columns:1fr;padding:22px;}}
+.privacy-summary__item{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.55;color:#C9CFD6;}
+.privacy-summary__item svg{flex-shrink:0;margin-top:3px;color:#2DD4FF;}
+
+/* ---- Índice ---- */
+.privacy-toc{display:grid;grid-template-columns:repeat(3,1fr);gap:0 24px;margin:0;padding:0;list-style:none;}
+@media (max-width:860px){.privacy-toc{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:520px){.privacy-toc{grid-template-columns:1fr;}}
+.privacy-toc a{display:flex;gap:12px;padding:9px 0;color:#C9CFD6;font-size:14px;line-height:1.45;transition:color .2s ease;}
+.privacy-toc a:hover{color:#2DD4FF;}
+.privacy-toc__num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#4a5560;padding-top:2px;}
+
+/* ---- Secciones (mismo ritmo numerado que Cómo trabajamos) ---- */
+.privacy-section{display:grid;grid-template-columns:80px 1fr;gap:28px;padding:40px 0;border-top:1px solid #232B35;scroll-margin-top:88px;}
+@media (max-width:640px){.privacy-section{grid-template-columns:1fr;gap:12px;padding:32px 0;}}
+.privacy-section__num{font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:700;color:#232B35;line-height:1;}
+@media (max-width:640px){.privacy-section__num{font-size:24px;}}
+.privacy-section h2{margin:0 0 14px;font-size:22px;font-weight:600;letter-spacing:-0.01em;}
+.privacy-section p{color:#C9CFD6;font-size:15px;line-height:1.75;margin:0 0 14px;max-width:640px;}
+.privacy-list{list-style:none;margin:0 0 14px;padding:0;max-width:640px;}
+.privacy-list li{position:relative;padding-left:22px;color:#C9CFD6;font-size:15px;line-height:1.75;margin-bottom:8px;}
+.privacy-list li::before{content:'';position:absolute;left:0;top:12px;width:9px;height:2px;border-radius:1px;background:#2DD4FF;}
+.privacy-list strong{color:#E7ECEF;font-weight:600;}
+.privacy-facts{margin:4px 0 14px;max-width:640px;border:1px solid #232B35;border-radius:12px;background:#10161D;}
+.privacy-facts__row{display:grid;grid-template-columns:140px 1fr;gap:16px;padding:12px 18px;border-top:1px solid #232B35;font-size:14.5px;}
+.privacy-facts__row:first-child{border-top:none;}
+@media (max-width:520px){.privacy-facts__row{grid-template-columns:1fr;gap:2px;}}
+.privacy-facts dt{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#7C8894;padding-top:2px;}
+.privacy-facts dd{margin:0;color:#E7ECEF;overflow-wrap:anywhere;}
+
+/* ---- Contacto ---- */
+.privacy-contact{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;margin-top:48px;background:linear-gradient(160deg,#161D26,#10161D);border:1px solid #232B35;border-radius:16px;padding:32px;}
+.privacy-contact__actions{display:flex;flex-wrap:wrap;gap:12px;}
+.privacy-btn{display:inline-flex;align-items:center;gap:8px;max-width:100%;box-sizing:border-box;font-family:'IBM Plex Mono',monospace;font-size:14px;padding:13px 20px;border-radius:8px;transition:background .2s ease, border-color .2s ease, transform .2s cubic-bezier(.34,1.4,.5,1);}
+.privacy-btn:active{transform:translateY(2px) scale(.97);}
+.privacy-btn--primary{background:#2DD4FF;color:#0A0E13;font-weight:600;}
+.privacy-btn--primary:hover{background:#0FA8CE;color:#0A0E13;}
+.privacy-btn--ghost{border:1px solid #232B35;color:#E7ECEF;}
+.privacy-btn--ghost:hover{border-color:#2DD4FF;background:rgba(45,212,255,0.08);color:#E7ECEF;}
+@media (max-width:520px){.privacy-contact{padding:24px;}.privacy-contact__actions,.privacy-btn{width:100%;justify-content:center;text-align:center;}}
+</style>
+</helmet>
+
+<div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
+
+  <section class="privacy-hero">
+    <div style="max-width:720px;margin:0 auto;">
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">{{ t.eyebrow }}</p>
+      <h1 style="font-size:clamp(32px,5vw,54px);font-weight:600;letter-spacing:-0.01em;margin:0 0 20px;">{{ t.title }}</h1>
+      <p style="color:#7C8894;font-size:17px;line-height:1.6;max-width:560px;margin:0 auto 22px;">{{ t.sub }}</p>
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#7C8894;margin:0;">{{ t.updatedLabel }} {{ t.updatedDate }}</p>
+    </div>
+  </section>
+
+  <div style="padding:0 5% 120px;max-width:900px;margin:0 auto;">
+
+    <p class="privacy-eyebrow">// {{ t.summaryTitle }}</p>
+    <div class="privacy-summary">
+      <sc-for list="{{ t.summary }}" as="point">
+        <div class="privacy-summary__item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>{{ point }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <nav aria-label="{{ t.tocTitle }}" style="margin:56px 0 48px;">
+      <p class="privacy-eyebrow">// {{ t.tocTitle }}</p>
+      <ol class="privacy-toc">
+        <sc-for list="{{ sections }}" as="s">
+          <li><a href="#{{ s.id }}"><span class="privacy-toc__num">{{ s.num }}</span><span>{{ s.title }}</span></a></li>
+        </sc-for>
+      </ol>
+    </nav>
+
+    <sc-for list="{{ sections }}" as="s">
+      <section id="{{ s.id }}" class="privacy-section">
+        <div class="privacy-section__num" aria-hidden="true">{{ s.num }}</div>
+        <div>
+          <h2>{{ s.title }}</h2>
+          <sc-for list="{{ s.intro }}" as="para">
+            <p>{{ para }}</p>
+          </sc-for>
+          <sc-if value="{{ s.facts.length }}">
+            <dl class="privacy-facts">
+              <sc-for list="{{ s.facts }}" as="f">
+                <div class="privacy-facts__row">
+                  <dt>{{ f.label }}</dt>
+                  <dd>
+                    <sc-if value="{{ f.href }}"><a href="{{ f.href }}">{{ f.value }}</a></sc-if>
+                    <sc-if value="{{ !f.href }}">{{ f.value }}</sc-if>
+                  </dd>
+                </div>
+              </sc-for>
+            </dl>
+          </sc-if>
+          <sc-if value="{{ s.items.length }}">
+            <ul class="privacy-list">
+              <sc-for list="{{ s.items }}" as="it">
+                <li><sc-if value="{{ it.label }}"><strong>{{ it.label }}</strong> </sc-if>{{ it.text }}</li>
+              </sc-for>
+            </ul>
+          </sc-if>
+          <sc-for list="{{ s.outro }}" as="para">
+            <p>{{ para }}</p>
+          </sc-for>
+        </div>
+      </section>
+    </sc-for>
+
+    <div class="privacy-contact">
+      <div style="max-width:460px;">
+        <h2 style="margin:0 0 8px;font-size:22px;font-weight:600;letter-spacing:-0.01em;">{{ t.contact.title }}</h2>
+        <p style="margin:0;color:#7C8894;font-size:15px;line-height:1.6;">{{ t.contact.sub }}</p>
+      </div>
+      <div class="privacy-contact__actions">
+        <a href="{{ mailtoLink }}" class="privacy-btn privacy-btn--primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          <span>{{ contactEmailUser }}@<wbr>{{ contactEmailDomain }}</span>
+        </a>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" class="privacy-btn privacy-btn--ghost">{{ t.contact.whatsapp }}</a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const CONTACT_EMAIL = 'soluciones@structuracr.com';
+
+// Cada sección: intro (párrafos) → facts (tabla clave/valor) → items (viñetas) → outro (párrafos).
+// Los ids no cambian entre idiomas para que el índice funcione igual en ES y EN.
+const DICT = {
+  es: {
+    eyebrow: '// PRIVACIDAD',
+    title: 'Política de privacidad',
+    sub: 'Qué datos recopilamos en structuracr.com, para qué los usamos y cómo podés ejercer tus derechos sobre ellos.',
+    updatedLabel: 'Última actualización:',
+    updatedDate: '27 de septiembre de 2026',
+    summaryTitle: 'En resumen',
+    summary: [
+      'Solo usamos los datos que vos decidís compartirnos por el chat, WhatsApp o correo.',
+      'No usamos cookies de rastreo ni herramientas de analítica o publicidad.',
+      'No vendemos, alquilamos ni cedemos tus datos a terceros con fines comerciales.',
+      'Podés pedirnos acceso, corrección o eliminación de tus datos cuando quieras.',
+    ],
+    tocTitle: 'Contenido',
+    sections: [
+      {
+        id: 'privacidad-responsable',
+        title: 'Responsable de tus datos',
+        intro: [
+          'Structura es un estudio de desarrollo de software con sede en Costa Rica. Los datos personales que nos compartís a través de este sitio y sus canales de contacto se incorporan a una base de datos bajo nuestra responsabilidad.',
+        ],
+        facts: [
+          { label: 'Responsable', value: 'Structura' },
+          { label: 'Sitio web', value: 'www.structuracr.com' },
+          { label: 'Correo', value: CONTACT_EMAIL, href: 'mailto:' + CONTACT_EMAIL },
+          { label: 'Ubicación', value: 'Costa Rica' },
+        ],
+      },
+      {
+        id: 'privacidad-datos',
+        title: 'Datos que recopilamos',
+        intro: ['Solo recopilamos los datos necesarios para atender tu consulta. Según cómo uses el sitio, pueden ser:'],
+        items: [
+          { label: 'Asistente virtual (chat).', text: 'Los mensajes que escribís y un identificador de sesión aleatorio generado en tu navegador. No te pedimos nombre, correo ni teléfono para usarlo.' },
+          { label: 'Formulario de contacto.', text: 'Nombre, correo, empresa (opcional), tipo de proyecto y descripción. El formulario no guarda nada en nuestros servidores: al enviarlo se abre WhatsApp con tu mensaje ya redactado, y solo nos llega si decidís enviarlo.' },
+          { label: 'WhatsApp y correo electrónico.', text: 'Tu número de teléfono o dirección de correo, tu nombre de perfil y el contenido de los mensajes que nos enviés.' },
+          { label: 'Datos técnicos.', text: 'Como en cualquier sitio web, al cargar la página tu navegador comparte tu dirección IP y datos básicos del dispositivo (tipo de navegador, sistema operativo) con los servicios que alojan el sitio y sus recursos. No usamos esa información para identificarte ni para crear perfiles.' },
+        ],
+        outro: ['No solicitamos datos sensibles, como origen racial o étnico, salud, creencias religiosas u orientación sexual. Te pedimos no compartirlos por el chat ni por otros canales.'],
+      },
+      {
+        id: 'privacidad-finalidades',
+        title: 'Para qué los usamos',
+        intro: ['Usamos tus datos únicamente para:'],
+        items: [
+          'Responder tus consultas y preparar propuestas o cotizaciones.',
+          'Operar el asistente virtual: generar respuestas con el contexto de tu conversación y, cuando no sabe algo, avisar a nuestro equipo para darte seguimiento.',
+          'Mejorar la información del sitio y del asistente a partir de las preguntas más frecuentes.',
+          'Gestionar la relación comercial y cumplir obligaciones legales, contables y tributarias si llegás a ser cliente.',
+        ],
+        outro: ['No usamos tus datos para enviarte publicidad sin tu autorización ni para tomar decisiones automatizadas que te afecten.'],
+      },
+      {
+        id: 'privacidad-consentimiento',
+        title: 'Consentimiento',
+        intro: [
+          'Tratamos tus datos con base en tu consentimiento, que otorgás al escribirnos por cualquiera de nuestros canales, y en la necesidad de atender tu solicitud o de ejecutar un contrato con vos.',
+          'Darnos tus datos es voluntario. Si preferís no hacerlo, la única consecuencia es que no podremos responderte ni preparar una propuesta. Podés retirar tu consentimiento en cualquier momento, sin efecto retroactivo.',
+        ],
+      },
+      {
+        id: 'privacidad-terceros',
+        title: 'Con quién los compartimos',
+        intro: ['Para operar el sitio trabajamos con proveedores que procesan datos en nuestro nombre, solo para prestarnos su servicio:'],
+        items: [
+          { label: 'Supabase:', text: 'almacena las conversaciones del asistente virtual.' },
+          { label: 'Google (Gemini API):', text: 'genera las respuestas del asistente a partir de tus mensajes.' },
+          { label: 'Resend:', text: 'envía a nuestro equipo un aviso por correo cuando el asistente no puede responder una pregunta.' },
+          { label: 'WhatsApp (Meta):', text: 'recibe los mensajes que nos enviás por WhatsApp, incluido el formulario de contacto.' },
+          { label: 'GitHub Pages:', text: 'aloja el sitio web.' },
+          { label: 'Google Fonts, jsDelivr y esm.sh:', text: 'sirven las tipografías y librerías que usa el sitio y reciben tu dirección IP al cargarlas.' },
+        ],
+        outro: ['Fuera de estos casos, solo compartiremos tus datos si una autoridad competente lo exige conforme a la ley. El sitio también enlaza a servicios de terceros, como WhatsApp, que se rigen por sus propias políticas de privacidad.'],
+      },
+      {
+        id: 'privacidad-transferencias',
+        title: 'Transferencias internacionales',
+        intro: ['Algunos de estos proveedores almacenan o procesan datos en servidores ubicados fuera de Costa Rica, principalmente en Estados Unidos. Al usar el chat o escribirnos por estos canales, consentís esa transferencia, que es necesaria para prestarte el servicio. Trabajamos con proveedores reconocidos que aplican medidas de seguridad acordes con estándares internacionales.'],
+      },
+      {
+        id: 'privacidad-cookies',
+        title: 'Cookies y almacenamiento local',
+        intro: ['Este sitio no instala cookies de rastreo ni usa herramientas de analítica o publicidad. Lo único que guarda en tu navegador son dos datos en el almacenamiento local (localStorage):'],
+        items: [
+          { label: 'structura_lang:', text: 'recuerda el idioma que elegiste (español o inglés).' },
+          { label: 'structura_chat_session:', text: 'identificador aleatorio que le permite al asistente mantener el contexto de tu conversación.' },
+        ],
+        outro: ['Estos datos permanecen en tu dispositivo hasta que los borrés desde la configuración de tu navegador. Si los eliminás, el sitio vuelve al idioma predeterminado y el asistente inicia una conversación nueva.'],
+      },
+      {
+        id: 'privacidad-conservacion',
+        title: 'Conservación',
+        intro: ['Conservamos tus datos solo mientras sean necesarios para las finalidades descritas: las conversaciones y mensajes, mientras sean útiles para darte seguimiento; y la información de clientes, durante la relación comercial y el plazo adicional que exija la legislación costarricense, por ejemplo en materia tributaria. Cuando dejan de ser necesarios, o cuando nos pedís eliminarlos, los borramos o anonimizamos.'],
+      },
+      {
+        id: 'privacidad-seguridad',
+        title: 'Seguridad',
+        intro: [
+          'Aplicamos medidas técnicas y organizativas razonables para proteger tu información contra pérdida, acceso no autorizado o alteración: conexiones cifradas (HTTPS), acceso restringido a las bases de datos y proveedores con estándares reconocidos de seguridad.',
+          'Ningún sistema es infalible. Si ocurriera un incidente de seguridad que afecte tus datos, te lo notificaremos a vos y a las autoridades competentes conforme a la normativa aplicable.',
+        ],
+      },
+      {
+        id: 'privacidad-derechos',
+        title: 'Tus derechos',
+        intro: ['De acuerdo con la Ley N.° 8968 de Protección de la Persona frente al Tratamiento de sus Datos Personales y su reglamento, tenés derecho a:'],
+        items: [
+          { label: 'Acceso:', text: 'saber si tenemos datos tuyos, para qué los usamos y obtener una copia.' },
+          { label: 'Rectificación:', text: 'corregir o actualizar datos inexactos o incompletos.' },
+          { label: 'Eliminación:', text: 'pedir que borremos tus datos cuando ya no sean necesarios o se hayan tratado de forma indebida.' },
+          { label: 'Revocación:', text: 'retirar tu consentimiento en cualquier momento.' },
+        ],
+        outro: [
+          'Para ejercerlos, escribinos a ' + CONTACT_EMAIL + ' con tu solicitud y algún dato que nos permita ubicar tu información, como el correo o número desde el que nos contactaste o la fecha aproximada de tu conversación con el asistente. La gestión es gratuita y te responderemos en un plazo máximo de cinco días hábiles.',
+          'Si considerás que no atendimos tu solicitud correctamente, podés acudir a la Agencia de Protección de Datos de los Habitantes (PRODHAB).',
+        ],
+      },
+      {
+        id: 'privacidad-menores',
+        title: 'Menores de edad',
+        intro: ['Este sitio está dirigido a empresas y personas mayores de edad. No recopilamos a sabiendas datos de menores; si sos madre, padre o tutor y creés que un menor nos compartió información, escribinos y la eliminaremos.'],
+      },
+      {
+        id: 'privacidad-cambios',
+        title: 'Cambios a esta política',
+        intro: ['Podemos actualizar esta política cuando cambien nuestros servicios, proveedores o la normativa aplicable. Publicaremos cualquier cambio en esta página e indicaremos la fecha de la última actualización.'],
+      },
+    ],
+    contact: {
+      title: '¿Dudas sobre tus datos?',
+      sub: 'Si tenés preguntas sobre esta política o querés ejercer tus derechos, escribinos.',
+      whatsapp: 'Escribir por WhatsApp',
+    },
+  },
+  en: {
+    eyebrow: '// PRIVACY',
+    title: 'Privacy policy',
+    sub: 'What data we collect on structuracr.com, what we use it for, and how you can exercise your rights over it.',
+    updatedLabel: 'Last updated:',
+    updatedDate: 'September 27, 2026',
+    summaryTitle: 'In short',
+    summary: [
+      'We only use the data you choose to share with us through the chat, WhatsApp, or email.',
+      'We do not use tracking cookies or analytics or advertising tools.',
+      'We do not sell, rent, or hand over your data to third parties for commercial purposes.',
+      'You can ask us to access, correct, or delete your data at any time.',
+    ],
+    tocTitle: 'Contents',
+    sections: [
+      {
+        id: 'privacidad-responsable',
+        title: 'Who is responsible for your data',
+        intro: [
+          'Structura is a software development studio based in Costa Rica. The personal data you share with us through this site and its contact channels is stored in a database under our responsibility.',
+        ],
+        facts: [
+          { label: 'Controller', value: 'Structura' },
+          { label: 'Website', value: 'www.structuracr.com' },
+          { label: 'Email', value: CONTACT_EMAIL, href: 'mailto:' + CONTACT_EMAIL },
+          { label: 'Location', value: 'Costa Rica' },
+        ],
+      },
+      {
+        id: 'privacidad-datos',
+        title: 'Data we collect',
+        intro: ['We only collect the data needed to handle your inquiry. Depending on how you use the site, it may include:'],
+        items: [
+          { label: 'Virtual assistant (chat).', text: 'The messages you type and a random session identifier generated in your browser. We do not ask for your name, email, or phone number to use it.' },
+          { label: 'Contact form.', text: 'Name, email, company (optional), project type, and description. The form does not store anything on our servers: submitting it opens WhatsApp with your message already drafted, and it only reaches us if you decide to send it.' },
+          { label: 'WhatsApp and email.', text: 'Your phone number or email address, your profile name, and the content of the messages you send us.' },
+          { label: 'Technical data.', text: 'As with any website, when the page loads your browser shares your IP address and basic device details (browser type, operating system) with the services that host the site and its resources. We do not use this information to identify you or build profiles.' },
+        ],
+        outro: ['We do not request sensitive data, such as racial or ethnic origin, health, religious beliefs, or sexual orientation. Please do not share it through the chat or any other channel.'],
+      },
+      {
+        id: 'privacidad-finalidades',
+        title: 'How we use it',
+        intro: ['We use your data only to:'],
+        items: [
+          'Answer your inquiries and prepare proposals or quotes.',
+          'Run the virtual assistant: generate replies with the context of your conversation and, when it does not know something, alert our team so we can follow up.',
+          'Improve the information on the site and in the assistant based on the most frequent questions.',
+          'Manage the business relationship and meet legal, accounting, and tax obligations if you become a client.',
+        ],
+        outro: ['We do not use your data to send you advertising without your permission or to make automated decisions that affect you.'],
+      },
+      {
+        id: 'privacidad-consentimiento',
+        title: 'Consent',
+        intro: [
+          'We process your data based on your consent, which you give when you contact us through any of our channels, and on the need to handle your request or perform a contract with you.',
+          'Giving us your data is voluntary. If you prefer not to, the only consequence is that we will not be able to reply or prepare a proposal. You can withdraw your consent at any time, without retroactive effect.',
+        ],
+      },
+      {
+        id: 'privacidad-terceros',
+        title: 'Who we share it with',
+        intro: ['To run the site we work with providers that process data on our behalf, only to provide their service to us:'],
+        items: [
+          { label: 'Supabase:', text: 'stores the virtual assistant conversations.' },
+          { label: 'Google (Gemini API):', text: 'generates the assistant replies from your messages.' },
+          { label: 'Resend:', text: 'sends our team an email alert when the assistant cannot answer a question.' },
+          { label: 'WhatsApp (Meta):', text: 'receives the messages you send us on WhatsApp, including the contact form.' },
+          { label: 'GitHub Pages:', text: 'hosts the website.' },
+          { label: 'Google Fonts, jsDelivr, and esm.sh:', text: 'serve the fonts and libraries the site uses and receive your IP address when they load.' },
+        ],
+        outro: ['Beyond these cases, we will only share your data if a competent authority requires it under the law. The site also links to third-party services, such as WhatsApp, which are governed by their own privacy policies.'],
+      },
+      {
+        id: 'privacidad-transferencias',
+        title: 'International transfers',
+        intro: ['Some of these providers store or process data on servers outside Costa Rica, mainly in the United States. By using the chat or contacting us through these channels, you consent to that transfer, which is necessary to provide the service. We work with established providers that apply security measures in line with international standards.'],
+      },
+      {
+        id: 'privacidad-cookies',
+        title: 'Cookies and local storage',
+        intro: ['This site does not set tracking cookies or use analytics or advertising tools. The only things it saves in your browser are two entries in local storage (localStorage):'],
+        items: [
+          { label: 'structura_lang:', text: 'remembers the language you chose (Spanish or English).' },
+          { label: 'structura_chat_session:', text: 'a random identifier that lets the assistant keep the context of your conversation.' },
+        ],
+        outro: ['These entries stay on your device until you clear them in your browser settings. If you delete them, the site goes back to the default language and the assistant starts a new conversation.'],
+      },
+      {
+        id: 'privacidad-conservacion',
+        title: 'Retention',
+        intro: ['We keep your data only as long as needed for the purposes described: conversations and messages, while they are useful to follow up with you; and client information, for the duration of the business relationship plus any additional period required by Costa Rican law, for example for tax purposes. When data is no longer needed, or when you ask us to delete it, we erase or anonymize it.'],
+      },
+      {
+        id: 'privacidad-seguridad',
+        title: 'Security',
+        intro: [
+          'We apply reasonable technical and organizational measures to protect your information against loss, unauthorized access, or alteration: encrypted connections (HTTPS), restricted access to databases, and providers with recognized security standards.',
+          'No system is infallible. If a security incident affecting your data occurs, we will notify you and the competent authorities as required by applicable regulations.',
+        ],
+      },
+      {
+        id: 'privacidad-derechos',
+        title: 'Your rights',
+        intro: ['Under Law No. 8968 of Costa Rica on the Protection of Individuals with Regard to the Processing of their Personal Data and its regulations, you have the right to:'],
+        items: [
+          { label: 'Access:', text: 'know whether we hold data about you, what we use it for, and get a copy.' },
+          { label: 'Rectification:', text: 'correct or update inaccurate or incomplete data.' },
+          { label: 'Deletion:', text: 'ask us to delete your data when it is no longer needed or has been processed improperly.' },
+          { label: 'Withdrawal:', text: 'withdraw your consent at any time.' },
+        ],
+        outro: [
+          'To exercise them, email ' + CONTACT_EMAIL + ' with your request and some detail that helps us locate your information, such as the email or number you contacted us from or the approximate date of your conversation with the assistant. It is free of charge and we will reply within five business days at most.',
+          'If you believe we did not handle your request properly, you can turn to the Data Protection Agency of Costa Rica (PRODHAB).',
+        ],
+      },
+      {
+        id: 'privacidad-menores',
+        title: 'Minors',
+        intro: ['This site is intended for businesses and adults. We do not knowingly collect data from minors; if you are a parent or guardian and believe a minor has shared information with us, write to us and we will delete it.'],
+      },
+      {
+        id: 'privacidad-cambios',
+        title: 'Changes to this policy',
+        intro: ['We may update this policy when our services, providers, or applicable regulations change. We will post any changes on this page and show the date of the last update.'],
+      },
+    ],
+    contact: {
+      title: 'Questions about your data?',
+      sub: 'If you have questions about this policy or want to exercise your rights, write to us.',
+      whatsapp: 'Message on WhatsApp',
+    },
+  },
+};
+
+class Component extends DCLogic {
+  renderVals() {
+    const lang = this.props.lang === 'en' ? 'en' : 'es';
+    const t = DICT[lang];
+    // En pantallas angostas el correo solo puede partirse después de la @.
+    const [contactEmailUser, contactEmailDomain] = CONTACT_EMAIL.split('@');
+    // Normaliza cada sección para que la plantilla nunca lea un campo indefinido.
+    const sections = t.sections.map((s, i) => ({
+      id: s.id,
+      num: String(i + 1).padStart(2, '0'),
+      title: s.title,
+      intro: s.intro || [],
+      facts: (s.facts || []).map((f) => ({ label: f.label, value: f.value, href: f.href || '' })),
+      items: (s.items || []).map((it) => (typeof it === 'string' ? { label: '', text: it } : it)),
+      outro: s.outro || [],
+    }));
+    return {
+      t,
+      sections,
+      waLink: this.props.waLink,
+      contactEmailUser,
+      contactEmailDomain,
+      mailtoLink: 'mailto:' + CONTACT_EMAIL,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
