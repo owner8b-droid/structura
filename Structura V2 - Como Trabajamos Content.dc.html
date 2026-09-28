@@ -20,6 +20,21 @@ a:hover{color:#7FE6FF;}
   .hero-touch-lock{touch-action:none;}
 }
 
+/* ---- Hero: el shader WebGPU entra en fundido sobre un fondo CSS animado, que queda
+   de respaldo donde no hay WebGPU (p. ej. el navegador interno de Instagram) ---- */
+.hero-shader{opacity:0;transition:opacity .8s ease;}
+.hero-shader.is-ready{opacity:1;}
+.hero-grain{position:absolute;inset:-50%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");opacity:.06;animation:heroGrain 1.2s steps(6) infinite;}
+@keyframes heroGrain{to{transform:translate(-8%,6%);}}
+.cw-fallback{position:absolute;inset:0;overflow:hidden;background:#0A0E13;}
+.cw-fallback.is-hidden{visibility:hidden;transition:visibility 0s linear .8s;}
+.cw-fallback__glow{position:absolute;inset:-35%;background:radial-gradient(closest-side at 32% 42%,rgba(45,212,255,0.13),rgba(45,212,255,0)),radial-gradient(closest-side at 70% 58%,rgba(15,168,206,0.11),rgba(15,168,206,0)),radial-gradient(closest-side at 50% 30%,#101720,rgba(16,23,32,0));animation:cwGlow 16s ease-in-out infinite alternate;}
+@keyframes cwGlow{from{transform:translate3d(-8%,-4%,0) rotate(-6deg);}to{transform:translate3d(8%,5%,0) rotate(8deg) scale(1.08);}}
+/* estrías a 31° como el FlutedGlass del shader; 51.33px = un periodo (44px) / cos(31°) */
+.cw-fallback__ribs{position:absolute;top:0;bottom:0;left:-60px;right:-60px;background:repeating-linear-gradient(121deg,rgba(255,255,255,0.035) 0,rgba(255,255,255,0) 4px,rgba(255,255,255,0) 36px,rgba(0,0,0,0.16) 43px,rgba(255,255,255,0.035) 44px);animation:cwRibs 8s linear infinite;}
+@keyframes cwRibs{from{transform:translate3d(0,0,0);}to{transform:translate3d(51.33px,0,0);}}
+@media (prefers-reduced-motion: reduce){.cw-fallback *{animation:none;}}
+
 /* ---- Nav móvil: hamburguesa + sidebar desplegable ---- */
 .nav-burger{display:none;background:none;border:none;cursor:pointer;padding:8px;width:36px;height:36px;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;}
 .nav-burger span{display:block;width:20px;height:2px;background:#E7ECEF;border-radius:2px;}
@@ -49,9 +64,14 @@ a:hover{color:#7FE6FF;}
 
 <div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
 
-  <section class="hero-touch-lock" style="position:relative;overflow:hidden;padding:100px 5% 80px;text-align:center;">
+  <section class="{{ heroClass }}" style="position:relative;overflow:hidden;padding:100px 5% 80px;text-align:center;">
     <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;">
-      <canvas id="cw-hero-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+      <div class="{{ fallbackClass }}">
+        <div class="cw-fallback__glow"></div>
+        <div class="cw-fallback__ribs"></div>
+        <div class="hero-grain"></div>
+      </div>
+      <canvas id="cw-hero-shader" class="{{ canvasClass }}" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
     </div>
     <div style="position:relative;z-index:1;max-width:900px;margin:0 auto;">
       <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">{{ t.eyebrow }}</p>
@@ -153,51 +173,52 @@ const DICT = {
 };
 
 class Component extends DCLogic {
+  state = { shaderReady: false };
+
   componentDidMount() {
     this._unmounted = false;
-    import('https://esm.sh/shaders@3.0.445/js').then(({ createShader, isWebGPUSupported }) => {
-      const canvas = document.getElementById('cw-hero-shader');
-      if (this._unmounted || !canvas || !isWebGPUSupported()) return null;
-      return createShader(canvas, {
-        components: [
-          {
-            type: 'Swirl',
-            props: { colorA: '#0A0E13', colorB: '#101720', detail: 1.7 }
-          },
-          {
-            type: 'ChromaFlow',
-            props: {
-              baseColor: '#0A0E13',
-              downColor: '#2DD4FF',
-              leftColor: '#56c2fc',
-              rightColor: '#0FA8CE',
-              upColor: '#7FE6FF',
-              momentum: 13,
-              radius: 3.5
-            }
-          },
-          {
-            type: 'FlutedGlass',
-            props: {
-              aberration: 0.61,
-              angle: 31,
-              frequency: 8,
-              highlight: 0.12,
-              highlightSoftness: 0,
-              lightAngle: -90,
-              refraction: 4,
-              shape: 'rounded',
-              softness: 1,
-              speed: 0.15
-            }
-          },
-          {
-            type: 'FilmGrain',
-            props: { strength: 0.05 }
+    import('./assets/js/shader-loader.js').then(({ mountShader }) => mountShader('cw-hero-shader', {
+      components: [
+        {
+          type: 'Swirl',
+          props: { colorA: '#0A0E13', colorB: '#101720', detail: 1.7 }
+        },
+        {
+          type: 'ChromaFlow',
+          props: {
+            baseColor: '#0A0E13',
+            downColor: '#2DD4FF',
+            leftColor: '#56c2fc',
+            rightColor: '#0FA8CE',
+            upColor: '#7FE6FF',
+            momentum: 13,
+            radius: 3.5
           }
-        ]
-      });
-    }).then((shader) => {
+        },
+        {
+          type: 'FlutedGlass',
+          props: {
+            aberration: 0.61,
+            angle: 31,
+            frequency: 8,
+            highlight: 0.12,
+            highlightSoftness: 0,
+            lightAngle: -90,
+            refraction: 4,
+            shape: 'rounded',
+            softness: 1,
+            speed: 0.15
+          }
+        },
+        {
+          type: 'FilmGrain',
+          props: { strength: 0.05 }
+        }
+      ]
+    }, {
+      onReady: () => { if (!this._unmounted) this.setState({ shaderReady: true }); },
+      onError: () => { if (!this._unmounted) this.setState({ shaderReady: false }); },
+    })).then((shader) => {
       if (this._unmounted) { shader?.destroy?.(); shader?.dispose?.(); return; }
       this._shader = shader;
     }).catch(() => {});
@@ -210,7 +231,15 @@ class Component extends DCLogic {
 
   renderVals() {
     const lang = this.props.lang === 'en' ? 'en' : 'es';
-    return { waLink: this.props.waLink, t: DICT[lang] };
+    const ready = this.state.shaderReady;
+    return {
+      waLink: this.props.waLink,
+      t: DICT[lang],
+      // Sin shader no hay nada con qué interactuar, así que el hero deja hacer scroll táctil.
+      heroClass: ready ? 'hero-touch-lock' : '',
+      canvasClass: 'hero-shader' + (ready ? ' is-ready' : ''),
+      fallbackClass: 'cw-fallback' + (ready ? ' is-hidden' : ''),
+    };
   }
 }
 
