@@ -1,0 +1,38 @@
+---
+// Provisoria de la Fase 1, para que el esqueleto tenga / y /en/. La home real
+// se porta en la Fase 2 desde legacy/Structura V2 - Home Content.dc.html.
+import Base from '../../layouts/Base.astro';
+import { t, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const d = t(lang);
+---
+<Base lang={lang} route="home" title={d.seo.home.title} description={d.seo.home.description}>
+  <section class="provisoria">
+    <h1>structura<span>.</span></h1>
+    <p>{d.home.hero.text}</p>
+  </section>
+</Base>
+
+<style>
+  .provisoria {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 120px 24px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: #C9CFD6;
+  }
+  h1 {
+    margin: 0 0 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 56px;
+    color: #E7ECEF;
+  }
+  h1 span {
+    color: #2DD4FF;
+  }
+</style>

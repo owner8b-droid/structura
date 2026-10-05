@@ -1,0 +1,11 @@
+---
+// JSON-LD (ProfessionalService, WebSite y, según la página, Service y
+// BreadcrumbList). Se arma en la Fase 6 con los datos de config/site.ts;
+// hasta entonces no emite nada para no publicar datos de negocio a medias.
+import type { Lang, RouteKey } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  route?: RouteKey;
+}
+---
