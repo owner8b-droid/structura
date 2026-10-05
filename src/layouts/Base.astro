@@ -13,6 +13,8 @@ import '@fontsource/ibm-plex-mono/latin-700.css';
 import monoBold from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-700-normal.woff2?url';
 import '../styles/global.css';
 import '../styles/movimiento.css';
+import type { ComponentProps } from 'astro/types';
+import type Breadcrumbs from '../components/Breadcrumbs.astro';
 import SEO from '../components/SEO.astro';
 import Schema from '../components/Schema.astro';
 import Nav from '../components/Nav.astro';
@@ -29,9 +31,11 @@ interface Props {
   description: string;
   ogImage?: string;
   noindex?: boolean;
+  // Las mismas migas que la página muestra: van al JSON-LD (BreadcrumbList).
+  breadcrumbs?: ComponentProps<typeof Breadcrumbs>['items'];
 }
 
-const { lang, route, ...seo } = Astro.props;
+const { lang, route, breadcrumbs, ...seo } = Astro.props;
 // Como en el sitio viejo, la burbuja del chat solo aparece en la home.
 const showChat = site.showChatBubble && route === 'home';
 ---
@@ -42,7 +46,7 @@ const showChat = site.showChatBubble && route === 'home';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="preload" href={monoBold} as="font" type="font/woff2" crossorigin />
     <SEO lang={lang} route={route} {...seo} />
-    <Schema lang={lang} route={route} />
+    <Schema lang={lang} route={route} breadcrumbs={breadcrumbs} />
   </head>
   <body>
     <a class="skip-link" href="#main">{t(lang).nav.skipToContent}</a>

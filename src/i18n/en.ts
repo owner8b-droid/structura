@@ -218,7 +218,7 @@ export const en: Dict = {
     essential: {
       title: "Basic Plan",
       desc: "For businesses that need a solid, fast digital presence.",
-      priceFigure: "$175",
+      priceFigure: "$240",
       priceSuffix: "one-time payment",
       features: [
         "Complete landing page (1 page)",
@@ -234,7 +234,7 @@ export const en: Dict = {
       title: "Pro Plan",
       badge: "MOST POPULAR",
       desc: "For businesses that want to stand out and show up on Google from day one.",
-      priceFigure: "$250",
+      priceFigure: "$300",
       priceSuffix: "one-time payment",
       features: [
         "Includes everything in the Basic Plan",
@@ -550,6 +550,7 @@ export const en: Dict = {
     procesoLink: "See how we work",
     precioTitle: "Price",
     precioLink: "See pricing",
+    portafolioLink: "See portfolio",
   },
   // Borradores de las páginas de servicio (Fase 3), armados solo con textos
   // que ya estaban en el sitio. REVISAR antes de pasar draft a false en
@@ -567,8 +568,8 @@ export const en: Dict = {
         "Basic SEO and Google Analytics integrated",
         "Own domain included for 1 year on the Pro Plan",
       ],
-      precio: "From $175",
-      precioNota: "Basic Plan, one-time payment. The Pro Plan ($250) adds basic SEO, Google Analytics, and your own domain.",
+      precio: "From $240",
+      precioNota: "Basic Plan, one-time payment. The Pro Plan ($300) adds basic SEO, Google Analytics, and your own domain.",
     },
     ecommerce: {
       title: "E-commerce",
@@ -631,43 +632,45 @@ export const en: Dict = {
     text: "The page you are looking for does not exist or has moved.",
     cta: "Go to the home page",
   },
-  // Provisorio, armado con textos que ya existían. Se reescribe en la Fase 6 (REVISAR).
+  // Fase 6: títulos (hasta ~60 caracteres con " | Structura") y descripciones
+  // (~140-160) con las búsquedas objetivo: desarrollo web, páginas web y
+  // diseño web en Costa Rica / web development, website, Costa Rica. REVISAR.
   seo: {
     home: {
-      title: "Structura — Software studio in Costa Rica",
-      description: "Software studio in Costa Rica. We design, develop, and operate custom sites, apps, and systems.",
+      title: "Web Design & Development in Costa Rica | Structura",
+      description: "Custom websites, online stores, hosting, and AI automation, designed and built in Costa Rica. Plans from $240, one-time payment. We reply within 24 hours.",
     },
     comoTrabajamos: {
-      title: "How we work",
-      description: "A clear five-step process. You know what happens at every stage, who does it, and what you get.",
+      title: "How We Work: Our Web Development Process",
+      description: "How we build your website or system: discovery, design, development, launch, and support. A clear five-step process, in Costa Rica or remotely.",
     },
     precios: {
-      title: "Pricing",
-      description: "Two fixed-price packages to launch fast, and a custom plan for when your project needs more.",
+      title: "Website Pricing in Costa Rica",
+      description: "Website plans in Costa Rica: Basic $240 and Pro $300 as one-time payments, or a custom plan for online stores, integrations, and automation.",
     },
     contacto: {
-      title: "Contact",
-      description: "Tell us about your project and we will reply within 24 hours.",
+      title: "Contact Us: Get a Website Quote",
+      description: "Tell us about your web development, e-commerce, or automation project and we will reply within 24 hours on WhatsApp or by email. Costa Rica and remote.",
     },
     privacidad: {
       title: "Privacy policy",
       description: "What data we collect on structuracr.com, what we use it for, and how you can exercise your rights over it.",
     },
     webMovil: {
-      title: "Web & Mobile Development",
-      description: "Custom sites and apps, fast and with their own identity — from landing pages to multi-page platforms.",
+      title: "Web & App Development in Costa Rica",
+      description: "Custom websites and mobile apps in Costa Rica: landing pages, multi-page sites, and responsive design. Plans from $240, one-time payment.",
     },
     ecommerce: {
-      title: "E-commerce",
-      description: "Online stores with inventory, payments, and e-invoicing ready for Costa Rica.",
+      title: "E-commerce Development in Costa Rica",
+      description: "Online stores with inventory, payments, and e-invoicing ready for Costa Rica, plus integrations with your CRM or Stripe. Quoted based on your project.",
     },
     hosting: {
-      title: "Hosting & Servers",
-      description: "Our own infrastructure with monitoring and backups — your platform available at all times.",
+      title: "Hosting & Servers in Costa Rica",
+      description: "Our own infrastructure with monitoring and backups, so your website or system is available at all times. Hosting tailored to your project in Costa Rica.",
     },
     iaAutomatizacion: {
-      title: "AI & Automation",
-      description: "Chatbots, agents, and integrations that remove manual work and speed up your operation.",
+      title: "AI & Business Automation in Costa Rica",
+      description: "Chatbots, AI agents, and integrations that remove manual work and speed up your operation. Custom automation for businesses in Costa Rica.",
     },
   },
 };

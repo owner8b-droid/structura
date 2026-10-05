@@ -1,11 +1,130 @@
 ---
-// JSON-LD (ProfessionalService, WebSite y, según la página, Service y
-// BreadcrumbList). Se arma en la Fase 6 con los datos de config/site.ts;
-// hasta entonces no emite nada para no publicar datos de negocio a medias.
-import type { Lang, RouteKey } from '../i18n/routes';
+// JSON-LD de cada página, en un solo @graph armado con config/site.ts:
+// - todas: ProfessionalService (#org) y WebSite (#website);
+// - servicios: Service, y en cualquier página con breadcrumbs, un
+//   BreadcrumbList con la misma ruta que se ve arriba;
+// - precios: los planes con precio publicado (Básico y Pro) como OfferCatalog;
+// - home: FAQPage con las preguntas del footer. Se ven en todas las páginas,
+//   pero Google pide marcar una sola instancia por sitio.
+// Lo que site.ts deja vacío (redes, Google Business Profile) no se emite.
+// Los tipos de schema-dts validan la forma en `astro check`.
+import type { ComponentProps } from 'astro/types';
+import type { BreadcrumbList, FAQPage, Graph, Offer, ProfessionalService, Service, Thing, WebSite } from 'schema-dts';
+import type Breadcrumbs from './Breadcrumbs.astro';
+import { site } from '../config/site';
+import { servicios, type ServicioKey } from '../config/servicios';
+import { t, path, type Lang, type RouteKey } from '../i18n';
 
 interface Props {
   lang: Lang;
   route?: RouteKey;
+  breadcrumbs?: ComponentProps<typeof Breadcrumbs>['items'];
 }
+
+const { lang, route, breadcrumbs } = Astro.props;
+const d = t(lang);
+const b = site.business;
+const abs = (p: string) => new URL(p, Astro.site).href;
+const raiz = abs('/');
+const actual = abs(Astro.url.pathname);
+const org = { '@id': `${raiz}#org` };
+const zona = { '@type': 'Country', name: b.areaServed } as const;
+const perfiles = [...b.socials, b.googleBusinessProfile].filter(Boolean);
+
+// "$240" -> 240; los planes que se cotizan ("Cotizar") quedan afuera.
+// Los precios del sitio están en USD (nota al pie de Precios).
+const planes = [d.precios.essential, d.precios.scale].flatMap((plan): Offer[] => {
+  const precio = Number(plan.priceFigure.replace(/[^\d.]/g, ''));
+  if (!precio) return [];
+  return [{
+    '@type': 'Offer',
+    name: plan.title,
+    description: plan.desc,
+    price: precio,
+    priceCurrency: 'USD',
+    url: abs(path('precios', lang)),
+    itemOffered: { '@type': 'Service', name: plan.title, provider: org },
+  }];
+});
+
+const negocio: ProfessionalService = {
+  '@type': 'ProfessionalService',
+  ...org,
+  name: site.name,
+  url: raiz,
+  logo: abs('/logo.png'),
+  image: abs('/og/default.png'),
+  description: d.footer.blurb,
+  email: b.email,
+  telephone: b.phone,
+  address: { '@type': 'PostalAddress', addressCountry: b.country },
+  areaServed: zona,
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: [...b.openingHours.days],
+    opens: b.openingHours.opens,
+    closes: b.openingHours.closes,
+  },
+  knowsLanguage: ['es', 'en'],
+  ...(perfiles.length ? { sameAs: perfiles } : {}),
+  ...(route === 'precios' && planes.length
+    ? { hasOfferCatalog: { '@type': 'OfferCatalog', name: d.precios.title, itemListElement: planes } }
+    : {}),
+};
+
+const sitio: WebSite = {
+  '@type': 'WebSite',
+  '@id': `${raiz}#website`,
+  url: raiz,
+  name: site.name,
+  inLanguage: ['es-CR', 'en'],
+  publisher: org,
+};
+
+const nodos: Thing[] = [negocio, sitio];
+
+if (route && route in servicios) {
+  const s = d.servicios[route as ServicioKey];
+  nodos.push({
+    '@type': 'Service',
+    '@id': `${actual}#service`,
+    name: s.title,
+    serviceType: s.title,
+    description: s.lede,
+    url: actual,
+    provider: org,
+    areaServed: zona,
+  } satisfies Service);
+}
+
+if (breadcrumbs?.length) {
+  nodos.push({
+    '@type': 'BreadcrumbList',
+    '@id': `${actual}#breadcrumb`,
+    itemListElement: breadcrumbs.map((miga, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: miga.label,
+      item: miga.href ? abs(miga.href) : actual,
+    })),
+  } satisfies BreadcrumbList);
+}
+
+if (route === 'home') {
+  nodos.push({
+    '@type': 'FAQPage',
+    '@id': `${actual}#faq`,
+    inLanguage: lang === 'es' ? 'es-CR' : 'en',
+    mainEntity: d.footer.faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  } satisfies FAQPage);
+}
+
+const grafo: Graph = { '@context': 'https://schema.org', '@graph': nodos };
+// "<" escapado: ningún texto puede cerrar el <script> antes de tiempo.
+const json = JSON.stringify(grafo).replace(/</g, '\\u003c');
 ---
+<script type="application/ld+json" set:html={json} />
