@@ -14,10 +14,14 @@ export const es = {
     contactar: "Contactar",
     // Nuevo (link "saltar al contenido" del layout).
     skipToContent: "Saltar al contenido",
+    openMenu: "Abrir menú",
+    closeMenu: "Cerrar menú",
   },
   home: {
     hero: {
       text: "Construimos software propio — desde landing pages hasta plataformas completas. Sin plantillas genéricas, sin código innecesario.",
+      // Nuevo: alt de la foto del hero.
+      imgAlt: "Volcán entre nubes",
     },
     ticker: [
       "Desarrollo Web",
@@ -60,6 +64,8 @@ export const es = {
       title: "El nivel que podemos alcanzar",
       sub: "Estilos y estándares de diseño que podemos construir para tu marca — marcas y proyectos con los que ya trabajamos.",
       previewSoon: "VIDEO PRÓXIMAMENTE",
+      // Nuevo: alt de los logos del carrusel; {name} es el cliente.
+      logoAlt: "Logo de {name}",
     },
     experiencia: {
       eyebrow: "// EXPERIENCIA POR SECTOR",
@@ -71,31 +77,37 @@ export const es = {
           title: "Legal",
           desc: "Sitios corporativos y portales para firmas y asociaciones legales.",
           tags: ["Sitio corporativo", "Multilenguaje"],
+          imgAlt: "Abogado firmando un documento junto a un mazo de juez y una balanza de la justicia",
         },
         {
           title: "Bienes Raíces & Hospitalidad",
           desc: "Portales con buscador de propiedades y fichas por proyecto.",
           tags: ["Buscador", "Fichas"],
+          imgAlt: "Maqueta de una casa sobre planos, junto a un casco de obra y una laptop",
         },
         {
           title: "Agro & Sostenibilidad",
           desc: "Sitios y plataformas para operaciones agrícolas y proyectos sostenibles.",
           tags: ["Trazabilidad", "Catálogo"],
+          imgAlt: "Agricultores trabajando entre hileras de lechugas al atardecer",
         },
         {
           title: "Creativos & Marca",
           desc: "Portafolios de alto impacto para estudios y marcas visuales.",
           tags: ["Galerías", "Video"],
+          imgAlt: "Estudio de fotografía con luces, fondo blanco y un sillón listo para una sesión",
         },
         {
           title: "Servicios Profesionales",
           desc: "Sitios y sistemas internos para firmas de consultoría y servicios.",
           tags: ["Reservas", "Portales de cliente"],
+          imgAlt: "Tres profesionales revisando documentos en una reunión",
         },
         {
           title: "Retail & E-commerce",
           desc: "Tiendas en línea con inventario y facturación electrónica.",
           tags: ["Inventario", "Facturación"],
+          imgAlt: "Carrito de compras en miniatura junto a una laptop que muestra cajas de envío",
         },
       ],
       alsoWorkedIn: "También hemos trabajado en",

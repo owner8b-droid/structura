@@ -1,0 +1,33 @@
+---
+// Menú lateral móvil portado de legacy/Structura V2.dc.html, cerrado. inert
+// evita que el teclado entre a los links mientras está fuera de pantalla;
+// abrirlo y cerrarlo (con Esc y foco atrapado) es de la Fase 4.
+import LangToggle from './LangToggle.astro';
+import { t, path, type Lang, type RouteKey } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  route?: RouteKey;
+}
+
+const { lang, route } = Astro.props;
+const d = t(lang);
+const home = path('home', lang);
+const sidebarLink = (r: RouteKey) => `nav-sidebar-link${route === r ? ' is-current' : ''}`;
+---
+<div class="mobile-sidebar-backdrop" id="mobile-sidebar-backdrop"></div>
+<aside class="mobile-sidebar" id="mobile-sidebar" aria-hidden="true" inert>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid #232B35;">
+    <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:18px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
+    <button type="button" class="nav-sidebar-close" aria-label={d.nav.closeMenu}>&times;</button>
+  </div>
+  <div style="display:flex;flex-direction:column;padding:16px;gap:2px;">
+    <a href={`${home}#soluciones`} class="nav-sidebar-link">{d.nav.soluciones}</a>
+    <a href={`${home}#portafolio`} class="nav-sidebar-link">{d.nav.portafolio}</a>
+    <a href={`${home}#experiencia`} class="nav-sidebar-link">{d.nav.experiencia}</a>
+    <a href={path('comoTrabajamos', lang)} class={sidebarLink('comoTrabajamos')}>{d.nav.comoTrabajamos}</a>
+    <a href={path('precios', lang)} class={sidebarLink('precios')}>{d.nav.precios}</a>
+    <LangToggle lang={lang} style="margin-top:10px;align-self:flex-start;" />
+    <a href={path('contacto', lang)} class="nav-sidebar-cta">{d.nav.contactar}</a>
+  </div>
+</aside>

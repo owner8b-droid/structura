@@ -1,0 +1,17 @@
+---
+// Siguen siendo <button> para verse igual que hoy (heredan la fuente por
+// defecto del navegador); en la Fase 4 pasan a ser links a la misma página
+// en el otro idioma.
+import type { Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  style?: string;
+}
+
+const { lang, style } = Astro.props;
+---
+<div class="lang-toggle" style={style}>
+  <button type="button" class={`lang-btn${lang === 'es' ? ' is-active' : ''}`}>ES</button>
+  <button type="button" class={`lang-btn${lang === 'en' ? ' is-active' : ''}`}>EN</button>
+</div>

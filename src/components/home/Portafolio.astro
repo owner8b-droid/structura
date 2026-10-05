@@ -1,0 +1,42 @@
+---
+// Carrusel de logos, portado de legacy/Structura V2 - Home Content.dc.html.
+// La vista previa con video al pasar el mouse es de la Fase 4: cada logo ya
+// trae su nombre y su video en data-*. La segunda vuelta repite los logos
+// para que el marquee no tenga corte, y queda oculta para lectores de
+// pantalla.
+import { t, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const d = t(lang).home.portafolio;
+
+const clientes = [
+  { img: '/assets/folio/haus.png', name: 'Haus', video: '/assets/folio/videos/haus.mp4' },
+  { img: '/assets/folio/hesa.png', name: 'Hesa', video: '/assets/folio/videos/hesa.mp4' },
+  { img: '/assets/folio/aaec.png', name: 'AAEC', video: '/assets/folio/videos/aaec.mp4' },
+  { img: '/assets/folio/rloria.png', name: 'R. Loría Abogados', video: '/assets/folio/videos/rloria.mp4' },
+  { img: '/assets/folio/alturaraiz.png', name: 'Altura Raíz', video: '/assets/folio/videos/alturaraiz.mp4' },
+  { img: '/assets/folio/evoke.png', name: 'Evoke', video: '/assets/folio/videos/evoke.mp4' },
+  { img: '/assets/folio/pastoarca.png', name: 'Pasto Arca', video: '/assets/folio/videos/pastoarca.mp4' },
+  { img: '/assets/folio/zacate.png', name: 'Zacate Tierra Fértil', video: '/assets/folio/videos/zacate.mp4' },
+];
+---
+<section id="portafolio" style="padding:0 0 120px;">
+  <div style="padding:0 5%;max-width:1240px;margin:0 auto;">
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 14px;">{d.eyebrow}</p>
+    <h2 style="font-size:clamp(28px,4vw,44px);font-weight:600;letter-spacing:-0.01em;margin:0 0 16px;max-width:640px;">{d.title}</h2>
+    <p style="color:#7C8894;font-size:17px;max-width:600px;line-height:1.6;margin:0 0 56px;">{d.sub}</p>
+  </div>
+  <div class="folio-track">
+    <div class="folio-marquee" style="display:inline-flex;align-items:center;gap:76px;">
+      {[false, true].flatMap((copia) => clientes.map((c) => (
+        <span class="folio-logo-wrap" data-name={c.name} data-video={c.video} aria-hidden={copia ? 'true' : undefined}>
+          <img src={c.img} alt={copia ? '' : d.logoAlt.replace('{name}', c.name)} class="folio-logo" />
+        </span>
+      )))}
+    </div>
+  </div>
+</section>

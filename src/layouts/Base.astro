@@ -13,6 +13,7 @@ import '../styles/global.css';
 import SEO from '../components/SEO.astro';
 import Schema from '../components/Schema.astro';
 import Nav from '../components/Nav.astro';
+import MobileSidebar from '../components/MobileSidebar.astro';
 import Footer from '../components/Footer.astro';
 import ChatWidget from '../components/ChatWidget.astro';
 import { site } from '../config/site';
@@ -28,6 +29,8 @@ interface Props {
 }
 
 const { lang, route, ...seo } = Astro.props;
+// Como en el sitio viejo, la burbuja del chat solo aparece en la home.
+const showChat = site.showChatBubble && route === 'home';
 ---
 <!doctype html>
 <html lang={lang === 'es' ? 'es-CR' : 'en'}>
@@ -39,10 +42,13 @@ const { lang, route, ...seo } = Astro.props;
   </head>
   <body>
     <a class="skip-link" href="#main">{t(lang).nav.skipToContent}</a>
-    <Nav lang={lang} route={route} />
-    <main id="main"><slot /></main>
-    <Footer lang={lang} />
-    {site.showChatBubble && <ChatWidget lang={lang} />}
+    <div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
+      <Nav lang={lang} route={route} />
+      <MobileSidebar lang={lang} route={route} />
+      <main id="main"><slot /></main>
+      {showChat && <ChatWidget lang={lang} />}
+      <Footer lang={lang} route={route} />
+    </div>
   </body>
 </html>
 

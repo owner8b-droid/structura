@@ -14,10 +14,14 @@ export const en: Dict = {
     contactar: "Contact",
     // Nuevo (link "saltar al contenido" del layout). REVISAR traducción.
     skipToContent: "Skip to content",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
   },
   home: {
     hero: {
       text: "We build software that does not look like a template. Custom design and development, made to sell, scale, and last.",
+      // Nuevo: alt de la foto del hero (REVISAR traducción).
+      imgAlt: "Volcano above the clouds",
     },
     ticker: [
       "Web Development",
@@ -60,6 +64,8 @@ export const en: Dict = {
       title: "The level we can reach",
       sub: "Design styles and standards we can build for your brand — brands and projects we have already worked with.",
       previewSoon: "VIDEO COMING SOON",
+      // Nuevo: alt de los logos del carrusel; {name} es el cliente.
+      logoAlt: "{name} logo",
     },
     experiencia: {
       eyebrow: "// EXPERIENCE BY INDUSTRY",
@@ -71,31 +77,37 @@ export const en: Dict = {
           title: "Legal",
           desc: "Corporate sites and portals for law firms and legal associations.",
           tags: ["Corporate site", "Multi-language"],
+          imgAlt: "Lawyer signing a document next to a judge gavel and the scales of justice",
         },
         {
           title: "Real Estate & Hospitality",
           desc: "Portals with property search and per-project listings.",
           tags: ["Search", "Listings"],
+          imgAlt: "House model on blueprints next to a hard hat and a laptop",
         },
         {
           title: "Agro & Sustainability",
           desc: "Sites and platforms for agricultural operations and sustainable projects.",
           tags: ["Traceability", "Catalog"],
+          imgAlt: "Farmers working among rows of lettuce at sunset",
         },
         {
           title: "Creative & Branding",
           desc: "High-impact portfolios for studios and visual brands.",
           tags: ["Galleries", "Video"],
+          imgAlt: "Photo studio with lights, a white backdrop, and an armchair set up for a shoot",
         },
         {
           title: "Professional Services",
           desc: "Sites and internal systems for consulting and service firms.",
           tags: ["Bookings", "Client portals"],
+          imgAlt: "Three professionals reviewing documents in a meeting",
         },
         {
           title: "Retail & E-commerce",
           desc: "Online stores with inventory and e-invoicing.",
           tags: ["Inventory", "Invoicing"],
+          imgAlt: "Miniature shopping cart next to a laptop showing shipping boxes",
         },
       ],
       alsoWorkedIn: "We have also worked on",

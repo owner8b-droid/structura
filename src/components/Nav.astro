@@ -1,11 +1,69 @@
 ---
-// El nav (logo, links, dropdown de soluciones, selector ES/EN y menú móvil)
-// se porta desde legacy/Structura V2.dc.html en la Fase 2; su
-// interactividad, en la Fase 4.
-import type { Lang, RouteKey } from '../i18n/routes';
+// Nav portado de legacy/Structura V2.dc.html en su estado inicial: arriba de
+// todo (fondo según navVariant con scroll 0) y el dropdown de soluciones
+// cerrado. El fondo según el scroll, el dropdown y el micro-bounce del logo
+// se activan en la Fase 4.
+import LangToggle from './LangToggle.astro';
+import { site } from '../config/site';
+import { t, path, type Lang, type RouteKey } from '../i18n';
 
 interface Props {
   lang: Lang;
   route?: RouteKey;
 }
+
+const { lang, route } = Astro.props;
+const d = t(lang);
+const home = path('home', lang);
+const navBg = site.navVariant === 'solid'
+  ? '#0A0E13'
+  : 'linear-gradient(180deg, rgba(10,14,19,0.15) 0%, rgba(10,14,19,0) 100%)';
+const navLink = (r: RouteKey) => `nav-link${route === r ? ' is-current' : ''}`;
 ---
+<nav style={`position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 5%;background:${navBg};backdrop-filter:blur(10px);`}>
+  <a href={home} id="logo-home" class="nav__logo" style="display:flex;align-items:center;gap:10px;">
+    <svg class="nav__mark" width="30" height="30" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
+      <rect x="18" y="18" width="14" height="14" fill="#2DD4FF"/>
+      <rect x="18" y="2" width="14" height="14" fill="none" stroke="#7C8894" stroke-width="1.5"/>
+    </svg>
+    <span style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:19px;color:#F2F0EA;">structura<span style="color:#2DD4FF;">.</span></span>
+  </a>
+
+  <div class="desktop-nav">
+    <div style="position:relative;">
+      <span style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;">{d.nav.soluciones}
+        <svg width="10" height="10" viewBox="0 0 10 10" style="transform:rotate(0deg);transition:transform .2s;" aria-hidden="true"><path d="M1 3 L5 7 L9 3" stroke="#7C8894" stroke-width="1.4" fill="none"/></svg>
+      </span>
+      <div class="nav-dropdown" hidden style="position:absolute;top:28px;left:50%;transform:translateX(-50%);width:260px;background:#10161D;border:1px solid #232B35;border-radius:10px;padding:8px;box-shadow:0 20px 50px rgba(0,0,0,0.45);">
+        {d.nav.dropdown.map((item) => <a href={`${home}#soluciones`} class="nav-dropdown-link">{item}</a>)}
+      </div>
+    </div>
+    <a href={`${home}#portafolio`} style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{d.nav.portafolio}</a>
+    <a href={`${home}#experiencia`} style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{d.nav.experiencia}</a>
+    <a href={path('comoTrabajamos', lang)} class={navLink('comoTrabajamos')}>{d.nav.comoTrabajamos}</a>
+    <a href={path('precios', lang)} class={navLink('precios')}>{d.nav.precios}</a>
+    <LangToggle lang={lang} />
+    <a href={path('contacto', lang)} style="background:#2DD4FF;color:#0A0E13;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;">{d.nav.contactar}</a>
+  </div>
+
+  <button type="button" class="nav-burger" aria-label={d.nav.openMenu} aria-expanded="false" aria-controls="mobile-sidebar">
+    <span></span><span></span>
+  </button>
+</nav>
+
+<style>
+  /* Antes era un style-hover del runtime viejo; el estilo base pasa acá
+     porque una regla :hover no le gana a un style inline. */
+  .nav-dropdown-link {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 7px;
+    font-size: 14px;
+    color: #E7ECEF;
+  }
+  .nav-dropdown-link:hover {
+    background: rgba(45,212,255,0.1);
+    color: #2DD4FF;
+  }
+</style>

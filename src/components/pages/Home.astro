@@ -1,7 +1,14 @@
 ---
-// Provisoria de la Fase 1, para que el esqueleto tenga / y /en/. La home real
-// se porta en la Fase 2 desde legacy/Structura V2 - Home Content.dc.html.
+// Home (ES y EN). El hero vivía en el shell del sitio viejo y el resto en
+// "Structura V2 - Home Content.dc.html", que tenía su propio contenedor; se
+// mantienen los dos para que el CSS se aplique igual.
 import Base from '../../layouts/Base.astro';
+import Hero from '../home/Hero.astro';
+import Ticker from '../home/Ticker.astro';
+import Soluciones from '../home/Soluciones.astro';
+import Portafolio from '../home/Portafolio.astro';
+import Experiencia from '../home/Experiencia.astro';
+import ContactoCTA from '../home/ContactoCTA.astro';
 import { t, type Lang } from '../../i18n';
 
 interface Props {
@@ -12,27 +19,12 @@ const { lang } = Astro.props;
 const d = t(lang);
 ---
 <Base lang={lang} route="home" title={d.seo.home.title} description={d.seo.home.description}>
-  <section class="provisoria">
-    <h1>structura<span>.</span></h1>
-    <p>{d.home.hero.text}</p>
-  </section>
+  <Hero lang={lang} />
+  <div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
+    <Ticker lang={lang} />
+    <Soluciones lang={lang} />
+    <Portafolio lang={lang} />
+    <Experiencia lang={lang} />
+    <ContactoCTA lang={lang} />
+  </div>
 </Base>
-
-<style>
-  .provisoria {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 120px 24px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    color: #C9CFD6;
-  }
-  h1 {
-    margin: 0 0 16px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 56px;
-    color: #E7ECEF;
-  }
-  h1 span {
-    color: #2DD4FF;
-  }
-</style>
