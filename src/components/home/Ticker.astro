@@ -11,7 +11,7 @@ interface Props {
 const { lang } = Astro.props;
 const items = t(lang).home.ticker;
 ---
-<div style="border-top:1px solid #232B35;border-bottom:1px solid #232B35;padding:18px 0;overflow:hidden;white-space:nowrap;">
+<div data-animado style="border-top:1px solid #232B35;border-bottom:1px solid #232B35;padding:18px 0;overflow:hidden;white-space:nowrap;">
   <div style="display:inline-flex;animation:marquee 32s linear infinite;">
     {[false, true].map((copia) => (
       <div style="display:inline-flex;align-items:center;gap:14px;padding-right:14px;" aria-hidden={copia ? 'true' : undefined}>

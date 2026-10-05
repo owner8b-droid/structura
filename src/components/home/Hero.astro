@@ -1,8 +1,7 @@
 ---
 // Hero portado de legacy/Structura V2.dc.html (vivía en el shell, solo en la
-// ruta home). La imagen arranca con el transform de scroll 0; el parallax es
-// de la Fase 4. El wordmark gigante pasó de <div> a <h1>, con margin:0 para
-// que no cambie de tamaño.
+// ruta home), con el mismo parallax de la imagen al hacer scroll. El wordmark
+// gigante pasó de <div> a <h1>, con margin:0 para que no cambie de tamaño.
 import { t, type Lang } from '../../i18n';
 
 interface Props {
@@ -13,7 +12,7 @@ const { lang } = Astro.props;
 const d = t(lang).home.hero;
 ---
 <section style="position:relative;min-height:100vh;overflow:hidden;">
-  <div style="position:absolute;inset:0;transform:translateY(0px) scale(1.05);">
+  <div data-parallax style="position:absolute;inset:0;transform:translateY(0px) scale(1.05);">
     <img src="/assets/hero-mountain.avif" alt={d.imgAlt} style="width:100%;height:115%;object-fit:cover;object-position:center 35%;" />
     <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,14,19,0.25) 0%, rgba(10,14,19,0.15) 30%, rgba(10,14,19,0.65) 78%, rgba(10,14,19,0.94) 100%);"></div>
   </div>
@@ -56,3 +55,20 @@ const d = t(lang).home.hero;
     </div>
   </div>
 </section>
+
+<script>
+  // Parallax de la imagen del hero, misma fórmula que el sitio viejo. Con
+  // movimiento reducido la imagen queda quieta.
+  const fondo = document.querySelector<HTMLElement>('[data-parallax]');
+  if (fondo && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let pendiente = false;
+    addEventListener('scroll', () => {
+      if (pendiente) return;
+      pendiente = true;
+      requestAnimationFrame(() => {
+        pendiente = false;
+        fondo.style.transform = `translateY(${scrollY * 0.15}px) scale(1.05)`;
+      });
+    }, { passive: true });
+  }
+</script>

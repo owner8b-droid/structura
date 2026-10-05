@@ -56,3 +56,58 @@ const ultimo = c.steps.length - 1;
 
   </div>
 </Base>
+
+<script>
+  import { montarShader } from '../../scripts/shader';
+
+  // Shader WebGPU del hero (mismo preset que el sitio viejo). Cuando está en
+  // pantalla se oculta el fondo de respaldo y el hero toma los toques (el
+  // shader reacciona al dedo) en vez de dejar hacer scroll táctil.
+  const canvas = document.querySelector<HTMLCanvasElement>('#cw-hero-shader');
+  const respaldo = document.querySelector('.cw-fallback');
+  const hero = canvas?.closest('section');
+  const listo = (si: boolean) => {
+    canvas?.classList.toggle('is-ready', si);
+    respaldo?.classList.toggle('is-hidden', si);
+    hero?.classList.toggle('hero-touch-lock', si);
+  };
+  montarShader(canvas, {
+      components: [
+        {
+          type: 'Swirl',
+          props: { colorA: '#0A0E13', colorB: '#101720', detail: 1.7 }
+        },
+        {
+          type: 'ChromaFlow',
+          props: {
+            baseColor: '#0A0E13',
+            downColor: '#2DD4FF',
+            leftColor: '#56c2fc',
+            rightColor: '#0FA8CE',
+            upColor: '#7FE6FF',
+            momentum: 13,
+            radius: 3.5
+          }
+        },
+        {
+          type: 'FlutedGlass',
+          props: {
+            aberration: 0.61,
+            angle: 31,
+            frequency: 8,
+            highlight: 0.12,
+            highlightSoftness: 0,
+            lightAngle: -90,
+            refraction: 4,
+            shape: 'rounded',
+            softness: 1,
+            speed: 0.15
+          }
+        },
+        {
+          type: 'FilmGrain',
+          props: { strength: 0.05 }
+        }
+      ]
+    }, { listo: () => listo(true), error: () => listo(false) });
+</script>

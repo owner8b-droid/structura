@@ -210,3 +210,69 @@ const etiquetas = JSON.stringify({
     window.open(`${form.dataset.wa}?text=${encodeURIComponent(lineas)}`, '_blank', 'noopener');
   });
 </script>
+
+<script>
+  import { montarShader } from '../../scripts/shader';
+
+  // Shader WebGPU del hero (mismo preset que el sitio viejo). Cuando está en
+  // pantalla se oculta el fondo de respaldo.
+  const canvas = document.querySelector<HTMLCanvasElement>('#contact-hero-shader');
+  const respaldo = document.querySelector('.ct-fallback');
+  const listo = (si: boolean) => {
+    canvas?.classList.toggle('is-ready', si);
+    respaldo?.classList.toggle('is-hidden', si);
+  };
+  montarShader(canvas, {
+      components: [
+        {
+          type: 'RadialGradient',
+          props: {
+            colorA: '#101826',
+            colorB: '#05070a',
+            center: { x: 0.5, y: 0.35 },
+            radius: 1.1,
+            repeat: 1,
+            aspect: 1,
+            skewAngle: 0,
+            colorSpace: 'oklab'
+          }
+        },
+        {
+          type: 'DotGrid',
+          props: {
+            color: '#1B2733',
+            density: 42,
+            dotSize: 0.16,
+            offset: 0.5,
+            speed: 0.12,
+            speedVariance: 0.4,
+            twinkle: 0.4
+          }
+        },
+        {
+          type: 'CursorRipples',
+          props: {
+            intensity: 14,
+            decay: 6,
+            radius: 0.55,
+            chromaticSplit: 2.2,
+            edges: 'stretch'
+          }
+        },
+        {
+          type: 'Vignette',
+          props: {
+            color: '#05070a',
+            center: { x: 0.5, y: 0.4 },
+            radius: 0.45,
+            falloff: 0.6,
+            intensity: 0.8
+          }
+        },
+        {
+          type: 'FilmGrain',
+          props: { strength: 0.05 }
+        }
+      ]
+    }, { listo: () => listo(true), error: () => listo(false) });
+</script>

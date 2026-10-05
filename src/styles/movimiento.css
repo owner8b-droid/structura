@@ -1,0 +1,24 @@
+/* Movimiento: lo que agrega la Fase 4 sobre los estilos del sitio viejo. */
+
+/* src/scripts/animaciones.ts marca las secciones que no están en pantalla:
+   sus animaciones (marquesinas, mockups, fondos) se pausan hasta que vuelven
+   a verse. */
+.anim-pausada,
+.anim-pausada * {
+  animation-play-state: paused !important;
+}
+
+/* Con movimiento reducido, animaciones y transiciones terminan al instante
+   (en su estado final, no a medias) y no hay scroll suave. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}

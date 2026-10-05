@@ -332,7 +332,8 @@ export const en: Dict = {
     title: "Privacy policy",
     sub: "What data we collect on structuracr.com, what we use it for, and how you can exercise your rights over it.",
     updatedLabel: "Last updated:",
-    updatedDate: "September 27, 2026",
+    // REVISAR: fecha del cambio de la Fase 4 (sin Google Fonts ni CDN, idioma en la URL).
+    updatedDate: "October 5, 2026",
     summaryTitle: "In short",
     summary: [
       "We only use the data you choose to share with us through the chat, WhatsApp, or email.",
@@ -445,10 +446,6 @@ export const en: Dict = {
             label: "GitHub Pages:",
             text: "hosts the website.",
           },
-          {
-            label: "Google Fonts, jsDelivr, and esm.sh:",
-            text: "serve the fonts and libraries the site uses and receive your IP address when they load.",
-          },
         ],
         outro: [
           "Beyond these cases, we will only share your data if a competent authority requires it under the law. The site also links to third-party services, such as WhatsApp, which are governed by their own privacy policies.",
@@ -465,20 +462,16 @@ export const en: Dict = {
         id: "privacidad-cookies",
         title: "Cookies and local storage",
         intro: [
-          "This site does not set tracking cookies or use analytics or advertising tools. The only things it saves in your browser are two entries in local storage (localStorage):",
+          "This site does not set tracking cookies or use analytics or advertising tools. The only thing it saves in your browser is one entry in local storage (localStorage):",
         ],
         items: [
-          {
-            label: "structura_lang:",
-            text: "remembers the language you chose (Spanish or English).",
-          },
           {
             label: "structura_chat_session:",
             text: "a random identifier that lets the assistant keep the context of your conversation.",
           },
         ],
         outro: [
-          "These entries stay on your device until you clear them in your browser settings. If you delete them, the site goes back to the default language and the assistant starts a new conversation.",
+          "This entry stays on your device until you clear it in your browser settings. If you delete it, the assistant starts a new conversation.",
         ],
       },
       {

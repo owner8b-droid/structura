@@ -1,9 +1,8 @@
 ---
 // Carrusel de logos, portado de legacy/Structura V2 - Home Content.dc.html.
-// La vista previa con video al pasar el mouse es de la Fase 4: cada logo ya
-// trae su nombre y su video en data-*. La segunda vuelta repite los logos
-// para que el marquee no tenga corte, y queda oculta para lectores de
-// pantalla.
+// Al pasar el mouse por un logo aparece encima una vista previa con el video
+// del proyecto (data-video). La segunda vuelta repite los logos para que el
+// marquee no tenga corte, y queda oculta para lectores de pantalla.
 import { t, type Lang } from '../../i18n';
 
 interface Props {
@@ -39,4 +38,69 @@ const clientes = [
       )))}
     </div>
   </div>
+
+  <div class="folio-preview" aria-hidden="true" hidden>
+    <div style="display:flex;gap:5px;padding:8px 10px;border-bottom:1px solid #232B35;">
+      <span style="width:6px;height:6px;border-radius:50%;background:#FF5F57;"></span>
+      <span style="width:6px;height:6px;border-radius:50%;background:#FEBC2E;"></span>
+      <span style="width:6px;height:6px;border-radius:50%;background:#28C840;"></span>
+    </div>
+    <div class="folio-preview__viewport">
+      <video muted loop playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+      <div class="folio-preview__pronto" hidden>
+        <div class="folio-preview__scroll">
+          <div style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;border-radius:4px;background:#232B35;"></span><span style="height:6px;width:38%;background:#232B35;border-radius:3px;"></span></div>
+          <span style="height:7px;width:70%;background:#232B35;border-radius:4px;"></span>
+          <span style="height:7px;width:50%;background:#232B35;border-radius:4px;"></span>
+          <div style="display:flex;gap:6px;"><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i></div>
+          <span style="height:6px;width:60%;background:#232B35;border-radius:3px;"></span>
+          <div style="display:flex;gap:6px;"><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i><i style="flex:1;height:26px;background:#161D26;border:1px solid #232B35;border-radius:6px;"></i></div>
+        </div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,14,19,0.35);">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.03em;color:#7C8894;background:#10161D;border:1px solid #232B35;padding:4px 9px;border-radius:20px;">{d.previewSoon}</span>
+        </div>
+      </div>
+    </div>
+    <div class="folio-preview__nombre" style="padding:10px 12px;font-size:12.5px;font-weight:600;color:#E7ECEF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+  </div>
 </section>
+
+<script>
+  // Vista previa del proyecto al pasar el mouse por un logo, como en el sitio
+  // viejo: aparece encima del logo y reproduce su video (o el aviso de
+  // "video próximamente" si no tiene).
+  const preview = document.querySelector<HTMLElement>('.folio-preview');
+  const video = preview?.querySelector('video');
+  const pronto = preview?.querySelector<HTMLElement>('.folio-preview__pronto');
+  const nombre = preview?.querySelector<HTMLElement>('.folio-preview__nombre');
+  if (preview && video && pronto && nombre) {
+    let activo: HTMLElement | null = null;
+    const ocultar = () => {
+      activo?.classList.remove('is-active');
+      activo = null;
+      preview.hidden = true;
+      video.pause();
+    };
+    document.querySelectorAll<HTMLElement>('.folio-logo-wrap').forEach((logo) => {
+      logo.addEventListener('mouseenter', () => {
+        activo?.classList.remove('is-active');
+        activo = logo;
+        logo.classList.add('is-active');
+        const r = logo.getBoundingClientRect();
+        preview.style.transform = `translate(-50%,-100%) translate(${r.left + r.width / 2}px, ${r.top - 16}px)`;
+        nombre.textContent = logo.dataset.name ?? '';
+        const src = logo.dataset.video;
+        pronto.hidden = Boolean(src);
+        video.hidden = !src;
+        if (src) {
+          // Al saltar de un logo a otro sin salir, el video arranca de cero.
+          if (video.getAttribute('src') !== src) video.src = src;
+          video.currentTime = 0;
+          video.play().catch(() => {});
+        }
+        preview.hidden = false;
+      });
+      logo.addEventListener('mouseleave', ocultar);
+    });
+  }
+</script>

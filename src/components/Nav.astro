@@ -1,8 +1,9 @@
 ---
-// Nav portado de legacy/Structura V2.dc.html en su estado inicial: arriba de
-// todo (fondo según navVariant con scroll 0) y el dropdown de soluciones
-// cerrado. El fondo según el scroll, el dropdown y el micro-bounce del logo
-// se activan en la Fase 4.
+// Nav portado de legacy/Structura V2.dc.html. El HTML sale en su estado
+// inicial (arriba de todo, dropdown cerrado); el script de abajo actualiza el
+// fondo según el scroll con la fórmula del sitio viejo, abre el dropdown de
+// soluciones (hover como antes, o click/teclado) y hace el micro-bounce del
+// logo.
 import LangToggle from './LangToggle.astro';
 import { site } from '../config/site';
 import { t, path, type Lang, type RouteKey } from '../i18n';
@@ -20,7 +21,7 @@ const navBg = site.navVariant === 'solid'
   : 'linear-gradient(180deg, rgba(10,14,19,0.15) 0%, rgba(10,14,19,0) 100%)';
 const navLink = (r: RouteKey) => `nav-link${route === r ? ' is-current' : ''}`;
 ---
-<nav style={`position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 5%;background:${navBg};backdrop-filter:blur(10px);`}>
+<nav data-variante={site.navVariant} style={`position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:22px 5%;background:${navBg};backdrop-filter:blur(10px);`}>
   <a href={home} id="logo-home" class="nav__logo" style="display:flex;align-items:center;gap:10px;">
     <svg class="nav__mark" width="30" height="30" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <rect x="2" y="2" width="14" height="14" fill="none" stroke="#2DD4FF" stroke-width="2"/>
@@ -31,11 +32,11 @@ const navLink = (r: RouteKey) => `nav-link${route === r ? ' is-current' : ''}`;
   </a>
 
   <div class="desktop-nav">
-    <div style="position:relative;">
-      <span style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;">{d.nav.soluciones}
+    <div class="nav-soluciones" style="position:relative;">
+      <button type="button" aria-expanded="false" aria-controls="nav-dropdown" style="color:rgba(231,236,239,0.88);font:inherit;font-size:14.5px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;background:none;border:none;padding:0;">{d.nav.soluciones}
         <svg width="10" height="10" viewBox="0 0 10 10" style="transform:rotate(0deg);transition:transform .2s;" aria-hidden="true"><path d="M1 3 L5 7 L9 3" stroke="#7C8894" stroke-width="1.4" fill="none"/></svg>
-      </span>
-      <div class="nav-dropdown" hidden style="position:absolute;top:28px;left:50%;transform:translateX(-50%);width:260px;background:#10161D;border:1px solid #232B35;border-radius:10px;padding:8px;box-shadow:0 20px 50px rgba(0,0,0,0.45);">
+      </button>
+      <div class="nav-dropdown" id="nav-dropdown" hidden style="position:absolute;top:28px;left:50%;transform:translateX(-50%);width:260px;background:#10161D;border:1px solid #232B35;border-radius:10px;padding:8px;box-shadow:0 20px 50px rgba(0,0,0,0.45);">
         {d.nav.dropdown.map((item) => <a href={`${home}#soluciones`} class="nav-dropdown-link">{item}</a>)}
       </div>
     </div>
@@ -43,7 +44,7 @@ const navLink = (r: RouteKey) => `nav-link${route === r ? ' is-current' : ''}`;
     <a href={`${home}#experiencia`} style="color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;">{d.nav.experiencia}</a>
     <a href={path('comoTrabajamos', lang)} class={navLink('comoTrabajamos')}>{d.nav.comoTrabajamos}</a>
     <a href={path('precios', lang)} class={navLink('precios')}>{d.nav.precios}</a>
-    <LangToggle lang={lang} />
+    <LangToggle lang={lang} route={route} />
     <a href={path('contacto', lang)} style="background:#2DD4FF;color:#0A0E13;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:600;">{d.nav.contactar}</a>
   </div>
 
@@ -67,3 +68,69 @@ const navLink = (r: RouteKey) => `nav-link${route === r ? ' is-current' : ''}`;
     color: #2DD4FF;
   }
 </style>
+
+<script>
+  import { scrollA } from '../scripts/lenis';
+
+  const nav = document.querySelector<HTMLElement>('nav[data-variante]');
+
+  // Fondo según el scroll (variante glass), misma fórmula que el sitio viejo.
+  if (nav?.dataset.variante === 'glass') {
+    let pendiente = false;
+    const pintar = () => {
+      pendiente = false;
+      const alfa = Math.min(0.15 + scrollY / 600, 0.9);
+      nav.style.background = `linear-gradient(180deg, rgba(10,14,19,${alfa}) 0%, rgba(10,14,19,0) 100%)`;
+    };
+    addEventListener('scroll', () => {
+      if (!pendiente) {
+        pendiente = true;
+        requestAnimationFrame(pintar);
+      }
+    }, { passive: true });
+    pintar();
+  }
+
+  // Dropdown de soluciones: con mouse se abre al pasar por encima, como antes;
+  // con teclado o tacto, con click. Esc, un click afuera o sacar el foco del
+  // grupo lo cierran.
+  const grupo = document.querySelector<HTMLElement>('.nav-soluciones');
+  const boton = grupo?.querySelector('button');
+  const menu = document.getElementById('nav-dropdown');
+  if (grupo && boton && menu) {
+    const chevron = boton.querySelector('svg');
+    const mostrar = (abierto: boolean) => {
+      menu.hidden = !abierto;
+      boton.setAttribute('aria-expanded', String(abierto));
+      if (chevron) chevron.style.transform = abierto ? 'rotate(180deg)' : 'rotate(0deg)';
+    };
+    boton.addEventListener('click', (e) => mostrar((e as PointerEvent).pointerType === 'mouse' || Boolean(menu.hidden)));
+    grupo.addEventListener('mouseenter', () => mostrar(true));
+    grupo.addEventListener('mouseleave', () => mostrar(false));
+    grupo.addEventListener('focusout', (e) => {
+      if (!grupo.contains(e.relatedTarget as Node | null)) mostrar(false);
+    });
+    document.addEventListener('click', (e) => {
+      if (!grupo.contains(e.target as Node)) mostrar(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        mostrar(false);
+        boton.focus();
+      }
+    });
+  }
+
+  // Micro-bounce del logo; en la home además vuelve arriba deslizando.
+  const logo = document.getElementById('logo-home');
+  if (logo instanceof HTMLAnchorElement) {
+    logo.addEventListener('click', (e) => {
+      logo.classList.add('is-clicked');
+      setTimeout(() => logo.classList.remove('is-clicked'), 500);
+      if (new URL(logo.href).pathname === location.pathname) {
+        e.preventDefault();
+        scrollA('tope');
+      }
+    });
+  }
+</script>

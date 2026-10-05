@@ -332,7 +332,8 @@ export const es = {
     title: "Política de privacidad",
     sub: "Qué datos recopilamos en structuracr.com, para qué los usamos y cómo podés ejercer tus derechos sobre ellos.",
     updatedLabel: "Última actualización:",
-    updatedDate: "27 de septiembre de 2026",
+    // REVISAR: fecha del cambio de la Fase 4 (sin Google Fonts ni CDN, idioma en la URL).
+    updatedDate: "5 de octubre de 2026",
     summaryTitle: "En resumen",
     summary: [
       "Solo usamos los datos que vos decidís compartirnos por el chat, WhatsApp o correo.",
@@ -445,10 +446,6 @@ export const es = {
             label: "GitHub Pages:",
             text: "aloja el sitio web.",
           },
-          {
-            label: "Google Fonts, jsDelivr y esm.sh:",
-            text: "sirven las tipografías y librerías que usa el sitio y reciben tu dirección IP al cargarlas.",
-          },
         ],
         outro: [
           "Fuera de estos casos, solo compartiremos tus datos si una autoridad competente lo exige conforme a la ley. El sitio también enlaza a servicios de terceros, como WhatsApp, que se rigen por sus propias políticas de privacidad.",
@@ -465,20 +462,16 @@ export const es = {
         id: "privacidad-cookies",
         title: "Cookies y almacenamiento local",
         intro: [
-          "Este sitio no instala cookies de rastreo ni usa herramientas de analítica o publicidad. Lo único que guarda en tu navegador son dos datos en el almacenamiento local (localStorage):",
+          "Este sitio no instala cookies de rastreo ni usa herramientas de analítica o publicidad. Lo único que guarda en tu navegador es un dato en el almacenamiento local (localStorage):",
         ],
         items: [
-          {
-            label: "structura_lang:",
-            text: "recuerda el idioma que elegiste (español o inglés).",
-          },
           {
             label: "structura_chat_session:",
             text: "identificador aleatorio que le permite al asistente mantener el contexto de tu conversación.",
           },
         ],
         outro: [
-          "Estos datos permanecen en tu dispositivo hasta que los borrés desde la configuración de tu navegador. Si los eliminás, el sitio vuelve al idioma predeterminado y el asistente inicia una conversación nueva.",
+          "Este dato permanece en tu dispositivo hasta que lo borrés desde la configuración de tu navegador. Si lo eliminás, el asistente inicia una conversación nueva.",
         ],
       },
       {

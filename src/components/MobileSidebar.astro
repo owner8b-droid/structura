@@ -1,7 +1,8 @@
 ---
-// Menú lateral móvil portado de legacy/Structura V2.dc.html, cerrado. inert
-// evita que el teclado entre a los links mientras está fuera de pantalla;
-// abrirlo y cerrarlo (con Esc y foco atrapado) es de la Fase 4.
+// Menú lateral móvil portado de legacy/Structura V2.dc.html. Arranca cerrado
+// e inert (el teclado no entra a los links fuera de pantalla). Abierto,
+// bloquea el scroll del fondo y atrapa el foco; Esc, el fondo oscuro o elegir
+// un link lo cierran.
 import LangToggle from './LangToggle.astro';
 import { t, path, type Lang, type RouteKey } from '../i18n';
 
@@ -27,7 +28,65 @@ const sidebarLink = (r: RouteKey) => `nav-sidebar-link${route === r ? ' is-curre
     <a href={`${home}#experiencia`} class="nav-sidebar-link">{d.nav.experiencia}</a>
     <a href={path('comoTrabajamos', lang)} class={sidebarLink('comoTrabajamos')}>{d.nav.comoTrabajamos}</a>
     <a href={path('precios', lang)} class={sidebarLink('precios')}>{d.nav.precios}</a>
-    <LangToggle lang={lang} style="margin-top:10px;align-self:flex-start;" />
+    <LangToggle lang={lang} route={route} style="margin-top:10px;align-self:flex-start;" />
     <a href={path('contacto', lang)} class="nav-sidebar-cta">{d.nav.contactar}</a>
   </div>
 </aside>
+
+<script>
+  import { lenis } from '../scripts/lenis';
+
+  const aside = document.getElementById('mobile-sidebar');
+  const fondo = document.getElementById('mobile-sidebar-backdrop');
+  const burger = document.querySelector<HTMLButtonElement>('[aria-controls="mobile-sidebar"]');
+
+  if (aside && fondo && burger) {
+    const enfocables = () => [...aside.querySelectorAll<HTMLElement>('a[href], button')];
+    let abierto = false;
+
+    const poner = (abrir: boolean, devolverFoco = true) => {
+      abierto = abrir;
+      aside.classList.toggle('is-open', abrir);
+      fondo.classList.toggle('is-open', abrir);
+      aside.setAttribute('aria-hidden', String(!abrir));
+      aside.inert = !abrir;
+      burger.setAttribute('aria-expanded', String(abrir));
+      document.body.style.overflow = abrir ? 'hidden' : '';
+      if (abrir) {
+        lenis?.stop();
+        enfocables()[0]?.focus();
+      } else {
+        lenis?.start();
+        if (devolverFoco) burger.focus();
+      }
+    };
+
+    burger.addEventListener('click', () => poner(!abierto));
+    fondo.addEventListener('click', () => poner(false));
+    aside.querySelector('.nav-sidebar-close')?.addEventListener('click', () => poner(false));
+    // Elegir un link cierra el menú; la navegación o el scroll al ancla siguen.
+    aside.addEventListener('click', (e) => {
+      if ((e.target as Element).closest('a')) poner(false, false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!abierto) return;
+      if (e.key === 'Escape') {
+        poner(false);
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      // Foco atrapado: Tab y Shift+Tab dan la vuelta dentro del menú.
+      const lista = enfocables();
+      const primero = lista[0];
+      const ultimo = lista[lista.length - 1];
+      if (e.shiftKey && document.activeElement === primero) {
+        e.preventDefault();
+        ultimo.focus();
+      } else if (!e.shiftKey && document.activeElement === ultimo) {
+        e.preventDefault();
+        primero.focus();
+      }
+    });
+  }
+</script>
