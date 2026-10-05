@@ -1,0 +1,19 @@
+---
+import Servicio from '../../../components/pages/Servicio.astro';
+import { servicios, type ServicioKey } from '../../../config/servicios';
+import { routes } from '../../../i18n/routes';
+
+interface Props {
+  servicio: ServicioKey;
+}
+
+export function getStaticPaths() {
+  return (Object.keys(servicios) as ServicioKey[]).map((servicio) => ({
+    params: { slug: routes[servicio].en.split('/').filter(Boolean).at(-1) },
+    props: { servicio },
+  }));
+}
+
+const { servicio } = Astro.props;
+---
+<Servicio lang="en" servicio={servicio} />

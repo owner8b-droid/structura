@@ -22,3 +22,5 @@ export const site = {
     googleBusinessProfile: '',
   },
 };
+
+export const waLink = `https://wa.me/${site.whatsappNumber.replace(/\D/g, '')}`;

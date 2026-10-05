@@ -300,6 +300,8 @@ export const en: Dict = {
       description: "Project description",
       descriptionPh: "Tell us what you need, goals, timeline...",
       submit: "Send message",
+      // Nuevo: aviso para quien navega sin JavaScript (Fase 3).
+      noscript: "If the form does not work in your browser, message us directly on WhatsApp:",
     },
     hero: {
       eyebrow: "CONTACT",
@@ -542,6 +544,79 @@ export const en: Dict = {
       title: "Questions about your data?",
       sub: "If you have questions about this policy or want to exercise your rights, write to us.",
       whatsapp: "Message on WhatsApp",
+    },
+  },
+  // Nuevo (Fase 3): textos comunes de las páginas de servicio.
+  servicio: {
+    breadcrumbLabel: "Breadcrumb",
+    breadcrumbHome: "Home",
+    problemaTitle: "What it solves",
+    entregablesTitle: "What is included",
+    procesoTitle: "How we do it",
+    procesoSub: "The same five-step process on every project.",
+    procesoLink: "See how we work",
+    precioTitle: "Price",
+    precioLink: "See pricing",
+  },
+  // Borradores de las páginas de servicio (Fase 3), armados solo con textos
+  // que ya estaban en el sitio. REVISAR antes de pasar draft a false en
+  // src/config/servicios.ts.
+  servicios: {
+    webMovil: {
+      title: "Web & Mobile Development",
+      lede: "Custom sites and apps, fast and with their own identity — from landing pages to multi-page platforms.",
+      problema: "Your business needs a site or an app that feels like your own, loads fast, and grows with you, not a generic template everyone uses.",
+      entregables: [
+        "Landing pages and multi-page sites",
+        "Mobile apps",
+        "Modern, responsive design",
+        "WhatsApp button and contact form",
+        "Basic SEO and Google Analytics integrated",
+        "Own domain included for 1 year on the Pro Plan",
+      ],
+      precio: "From $175",
+      precioNota: "Basic Plan, one-time payment. The Pro Plan ($250) adds basic SEO, Google Analytics, and your own domain.",
+    },
+    ecommerce: {
+      title: "E-commerce",
+      lede: "Online stores with inventory, payments, and e-invoicing ready for Costa Rica.",
+      problema: "Selling online takes more than a catalog: up-to-date inventory, reliable payments, and e-invoicing that complies in Costa Rica.",
+      entregables: [
+        "Online store with a product catalog",
+        "Inventory management",
+        "Online payments",
+        "E-invoicing ready for Costa Rica",
+        "Integrations with CRMs, Stripe, and other tools",
+      ],
+      precio: "Get a quote",
+      precioNota: "Custom Plan: quoted based on the scope of your store.",
+    },
+    hosting: {
+      title: "Hosting & Servers",
+      lede: "Our own infrastructure with monitoring and backups — your platform available at all times.",
+      problema: "If your site or system goes down, your business stops. You need infrastructure that someone watches and backs up for you.",
+      entregables: [
+        "Our own infrastructure",
+        "Monitoring of your platform",
+        "Backups",
+        "Custom hosting for your project",
+        "Ongoing support after launch",
+      ],
+      precio: "Get a quote",
+      precioNota: "Quoted based on the scope of your project.",
+    },
+    iaAutomatizacion: {
+      title: "AI & Automation",
+      lede: "Chatbots, agents, and integrations that remove manual work and speed up your operation.",
+      problema: "If your team spends hours on repetitive tasks or answering the same questions, that time can go back to your business.",
+      entregables: [
+        "Chatbots and assistants",
+        "AI agents",
+        "Integrations between your tools (CRMs, Stripe, etc.)",
+        "Complex automations",
+      ],
+      precio: "Get a quote",
+      precioNota: "Custom Plan: quoted based on scope.",
     },
   },
   // REVISAR: traducción nueva; el widget viejo solo estaba en español.

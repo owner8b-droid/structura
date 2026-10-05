@@ -300,6 +300,8 @@ export const es = {
       description: "Descripción del proyecto",
       descriptionPh: "Contanos qué necesitás, objetivos, plazos...",
       submit: "Enviar mensaje",
+      // Nuevo: aviso para quien navega sin JavaScript (Fase 3).
+      noscript: "Si el formulario no funciona en tu navegador, escribinos directo por WhatsApp:",
     },
     hero: {
       eyebrow: "CONTACTO",
@@ -542,6 +544,79 @@ export const es = {
       title: "¿Dudas sobre tus datos?",
       sub: "Si tenés preguntas sobre esta política o querés ejercer tus derechos, escribinos.",
       whatsapp: "Escribir por WhatsApp",
+    },
+  },
+  // Nuevo (Fase 3): textos comunes de las páginas de servicio.
+  servicio: {
+    breadcrumbLabel: "Ruta de navegación",
+    breadcrumbHome: "Inicio",
+    problemaTitle: "Qué resuelve",
+    entregablesTitle: "Qué incluye",
+    procesoTitle: "Cómo lo hacemos",
+    procesoSub: "El mismo proceso de cinco pasos en todos nuestros proyectos.",
+    procesoLink: "Ver cómo trabajamos",
+    precioTitle: "Precio",
+    precioLink: "Ver precios",
+  },
+  // Borradores de las páginas de servicio (Fase 3), armados solo con textos
+  // que ya estaban en el sitio. REVISAR antes de pasar draft a false en
+  // src/config/servicios.ts.
+  servicios: {
+    webMovil: {
+      title: "Desarrollo Web y Móvil",
+      lede: "Sitios y apps a medida, rápidas y con identidad propia — desde landings hasta plataformas multi-página.",
+      problema: "Tu negocio necesita un sitio o una app que se vea propia, cargue rápido y crezca con vos, no una plantilla genérica que usan todos.",
+      entregables: [
+        "Landing pages y sitios multi-página",
+        "Apps móviles",
+        "Diseño moderno y responsive",
+        "Botón de WhatsApp y formulario de contacto",
+        "SEO básico y Google Analytics integrado",
+        "Dominio propio incluido por 1 año en el Plan Pro",
+      ],
+      precio: "Desde $175",
+      precioNota: "Plan Básico, pago único. El Plan Pro ($250) suma SEO básico, Google Analytics y dominio propio.",
+    },
+    ecommerce: {
+      title: "E-commerce",
+      lede: "Tiendas en línea con inventario, pagos y facturación electrónica lista para Costa Rica.",
+      problema: "Vender en línea es más que un catálogo: inventario al día, cobros confiables y facturación electrónica que cumpla en Costa Rica.",
+      entregables: [
+        "Tienda en línea con catálogo de productos",
+        "Control de inventario",
+        "Pagos en línea",
+        "Facturación electrónica lista para Costa Rica",
+        "Integraciones con CRMs, Stripe y otras herramientas",
+      ],
+      precio: "Cotizar",
+      precioNota: "Plan a Tu Medida: se cotiza según el alcance de la tienda.",
+    },
+    hosting: {
+      title: "Hosting & Servidores",
+      lede: "Infraestructura propia con monitoreo y respaldos — tu plataforma disponible todo el tiempo.",
+      problema: "Si tu sitio o tu sistema se cae, tu negocio se detiene. Necesitás infraestructura que alguien vigile y respalde por vos.",
+      entregables: [
+        "Infraestructura propia",
+        "Monitoreo de tu plataforma",
+        "Respaldos",
+        "Hosting personalizado según tu proyecto",
+        "Soporte continuo después del lanzamiento",
+      ],
+      precio: "Cotizar",
+      precioNota: "Se cotiza según el alcance de tu proyecto.",
+    },
+    iaAutomatizacion: {
+      title: "IA y Automatización",
+      lede: "Chatbots, agentes e integraciones que eliminan trabajo manual y aceleran tu operación.",
+      problema: "Si tu equipo pasa horas en tareas repetitivas o respondiendo siempre las mismas preguntas, ese tiempo puede volver a tu negocio.",
+      entregables: [
+        "Chatbots y asistentes",
+        "Agentes de IA",
+        "Integraciones entre tus herramientas (CRMs, Stripe, etc.)",
+        "Automatizaciones complejas",
+      ],
+      precio: "Cotizar",
+      precioNota: "Plan a Tu Medida: se cotiza según el alcance.",
     },
   },
   // Textos que estaban fijos en el HTML/JS del widget de chat.

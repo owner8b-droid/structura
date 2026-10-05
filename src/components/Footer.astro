@@ -1,6 +1,8 @@
 ---
-// Footer portado de legacy/Structura V2.dc.html. Las preguntas frecuentes
-// son <details> y funcionan sin JavaScript.
+// Footer portado de legacy/Structura V2.dc.html, con una columna nueva que
+// enlaza las páginas de servicio (así el footer llega a todas las rutas del
+// idioma). Las preguntas frecuentes son <details> y funcionan sin JavaScript.
+import { servicios, type ServicioKey } from '../config/servicios';
 import { t, path, type Lang, type RouteKey } from '../i18n';
 
 interface Props {
@@ -12,9 +14,10 @@ const { lang, route } = Astro.props;
 const d = t(lang);
 const home = path('home', lang);
 const ultima = d.footer.faq.length - 1;
+const servicioKeys = Object.keys(servicios) as ServicioKey[];
 ---
 <footer style="border-top:1px solid #232B35;padding:64px 5% 40px;">
-  <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr;gap:48px;margin-bottom:56px;">
+  <div class="footer-top" style="max-width:1240px;margin:0 auto;display:grid;gap:48px;margin-bottom:56px;">
     <div>
       <div style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:20px;color:#F2F0EA;margin-bottom:14px;">structura<span style="color:#2DD4FF;">.</span></div>
       <p style="color:#7C8894;font-size:14px;line-height:1.6;max-width:320px;">{d.footer.blurb}</p>
@@ -27,6 +30,12 @@ const ultima = d.footer.faq.length - 1;
         <a href={path('comoTrabajamos', lang)} style="color:#C9CFD6;font-size:14px;">{d.footer.comoTrabajamos}</a>
         <a href={path('precios', lang)} style="color:#C9CFD6;font-size:14px;">{d.footer.precios}</a>
         <a href={path('contacto', lang)} style="color:#C9CFD6;font-size:14px;">{d.footer.contacto}</a>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:13px;color:#7C8894;margin:0 0 14px;">{d.nav.soluciones}</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        {servicioKeys.map((k) => <a href={path(k, lang)} style="color:#C9CFD6;font-size:14px;">{d.servicios[k].title}</a>)}
       </div>
     </div>
   </div>
@@ -43,3 +52,16 @@ const ultima = d.footer.faq.length - 1;
     <a href={path('privacidad', lang)} class={`footer-legal-link${route === 'privacidad' ? ' is-current' : ''}`}>{d.footer.privacidad}</a>
   </div>
 </footer>
+
+<style>
+  /* Antes eran dos columnas inline (1.4fr 1fr); en celular la de soluciones
+     baja a una segunda fila para no apretar tres columnas en 390 px. */
+  .footer-top {
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+  @media (max-width: 640px) {
+    .footer-top {
+      grid-template-columns: 1.4fr 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,171 @@
+---
+// Página de servicio (ES y EN), una por clave de src/config/servicios.ts.
+// Mientras el servicio sea borrador lleva noindex y queda fuera del sitemap.
+// Solo muestra secciones con contenido real: proyectos relacionados y
+// preguntas frecuentes se agregan cuando haya datos (Pregunta 6 del plan).
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../Breadcrumbs.astro';
+import { servicios, type ServicioKey } from '../../config/servicios';
+import { waLink } from '../../config/site';
+import { t, path, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+  servicio: ServicioKey;
+}
+
+const { lang, servicio } = Astro.props;
+const d = t(lang);
+const s = d.servicios[servicio];
+const comun = d.servicio;
+const home = path('home', lang);
+---
+<Base lang={lang} route={servicio} title={d.seo[servicio].title} description={d.seo[servicio].description} noindex={servicios[servicio].draft}>
+  <div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
+
+    <section style="padding:100px 5% 60px;text-align:center;">
+      <div style="max-width:720px;margin:0 auto;">
+        <Breadcrumbs label={comun.breadcrumbLabel} items={[
+          { href: home, label: comun.breadcrumbHome },
+          { href: `${home}#soluciones`, label: d.nav.soluciones },
+          { label: s.title },
+        ]} />
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">{d.home.soluciones.eyebrow}</p>
+        <h1 style="font-size:clamp(32px,5vw,54px);font-weight:600;letter-spacing:-0.01em;margin:0 0 20px;">{s.title}</h1>
+        <p style="color:#7C8894;font-size:17px;line-height:1.6;max-width:560px;margin:0 auto;">{s.lede}</p>
+      </div>
+    </section>
+
+    <div class="servicio" style="padding:0 5% 120px;max-width:900px;margin:0 auto;">
+      <section>
+        <h2>{comun.problemaTitle}</h2>
+        <p class="texto">{s.problema}</p>
+      </section>
+
+      <section>
+        <h2>{comun.entregablesTitle}</h2>
+        <ul role="list" class="lista">
+          {s.entregables.map((e) => (
+            <li><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="#2DD4FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>{e}</span></li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2>{comun.procesoTitle}</h2>
+        <p class="texto">{comun.procesoSub}</p>
+        <ol role="list" class="pasos">
+          {d.comoTrabajamos.steps.map((paso, i) => (
+            <li><span class="num">{String(i + 1).padStart(2, '0')}</span><span class="paso">{paso.title}</span><span class="fase">{paso.phase}</span></li>
+          ))}
+        </ol>
+        <a href={path('comoTrabajamos', lang)} class="mas">{comun.procesoLink} →</a>
+      </section>
+
+      <section>
+        <h2>{comun.precioTitle}</h2>
+        <p class="precio">{s.precio}</p>
+        <p class="texto">{s.precioNota}</p>
+        <a href={path('precios', lang)} class="mas">{comun.precioLink} →</a>
+      </section>
+    </div>
+
+    <section style="padding:0 5% 120px;text-align:center;max-width:760px;margin:0 auto;">
+      <h2 style="font-size:clamp(26px,3.6vw,38px);font-weight:600;letter-spacing:-0.01em;margin:0 0 18px;">{d.comoTrabajamos.ctaTitle}</h2>
+      <p style="color:#7C8894;font-size:16px;line-height:1.6;margin:0 0 32px;">{d.comoTrabajamos.ctaSub}</p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;">
+        <a href={waLink} target="_blank" rel="noopener" style="display:inline-flex;background:#2DD4FF;color:#0A0E13;padding:17px 36px;border-radius:8px;font-size:16px;font-weight:600;">{d.comoTrabajamos.ctaBtn}</a>
+        <a href={path('contacto', lang)} style="display:inline-flex;border:1px solid #232B35;color:#E7ECEF;padding:17px 36px;border-radius:8px;font-size:16px;font-weight:600;">{d.nav.contactar} →</a>
+      </div>
+    </section>
+
+  </div>
+</Base>
+
+<style>
+  /* Mismo ritmo que los pasos de Cómo trabajamos: bloques separados por líneas. */
+  .servicio section {
+    padding: 36px 0;
+    border-top: 1px solid #232B35;
+  }
+  .servicio section:last-child {
+    border-bottom: 1px solid #232B35;
+  }
+  h2 {
+    margin: 0 0 14px;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .texto {
+    max-width: 640px;
+    margin: 0;
+    color: #7C8894;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 14.5px;
+    color: #C9CFD6;
+  }
+  .lista li {
+    display: flex;
+    gap: 12px;
+  }
+  .lista svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .pasos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pasos li {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 16px;
+    background: #10161D;
+    border: 1px solid #232B35;
+    border-radius: 10px;
+  }
+  .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #2DD4FF;
+  }
+  .paso {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .fase {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #7C8894;
+  }
+  .precio {
+    margin: 0 0 8px;
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .mas {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #E7ECEF;
+  }
+  .mas:hover {
+    color: #2DD4FF;
+  }
+</style>
