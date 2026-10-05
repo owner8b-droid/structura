@@ -443,7 +443,7 @@ export const en: Dict = {
             text: "receives the messages you send us on WhatsApp, including the contact form.",
           },
           {
-            label: "GitHub Pages:",
+            label: "Cloudflare Pages:",
             text: "hosts the website.",
           },
         ],

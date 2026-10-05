@@ -1,0 +1,17 @@
+# URLs del sitio anterior (los .dc.html de GitHub Pages) hacia sus rutas
+# nuevas. Cloudflare Pages aplica estas reglas antes de servir archivos; si
+# alguna no coincidiera por los espacios, responde la página puente que tiene
+# el mismo nombre en public/.
+/index.html                                                /                  301
+/Structura%20V2.dc.html                                    /                  301
+/Structura%20V2%20-%20Precios.dc.html                      /precios/          301
+/Structura%20V2%20-%20Contacto.dc.html                     /contacto/         301
+/Structura%20V2%20-%20Como%20Trabajamos.dc.html            /como-trabajamos/  301
+/Structura%20V2%20-%20Privacidad.dc.html                   /privacidad/       301
+
+# Los fragmentos que esas páginas cargaban (sin página puente).
+/Structura%20V2%20-%20Home%20Content.dc.html               /                  301
+/Structura%20V2%20-%20Precios%20Content.dc.html            /precios/          301
+/Structura%20V2%20-%20Contacto%20Content.dc.html           /contacto/         301
+/Structura%20V2%20-%20Como%20Trabajamos%20Content.dc.html  /como-trabajamos/  301
+/Structura%20V2%20-%20Privacidad%20Content.dc.html         /privacidad/       301

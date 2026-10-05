@@ -443,7 +443,7 @@ export const es = {
             text: "recibe los mensajes que nos enviás por WhatsApp, incluido el formulario de contacto.",
           },
           {
-            label: "GitHub Pages:",
+            label: "Cloudflare Pages:",
             text: "aloja el sitio web.",
           },
         ],

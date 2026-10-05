@@ -1,7 +1,8 @@
 // Revisa el SEO de cada página de dist/ (correr después de `astro build`):
 // title y description únicos, canonical a sí misma, los 3 hreflang hacia
 // páginas que existen, og:image absoluta que apunta a un PNG de 1200×630 y
-// JSON-LD que parsea, con los tipos que le tocan a cada página.
+// JSON-LD que parsea, con los tipos que le tocan a cada página. También que
+// las páginas puente y los destinos de _redirects lleven a páginas que existen.
 // Corre con Node directo, sin compilar, igual que check-i18n.ts.
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -12,6 +13,7 @@ const paginas = readdirSync(dist, { recursive: true, encoding: 'utf8' })
   .sort();
 
 const problemas: string[] = [];
+let puentes = 0;
 const titulos = new Map<string, string>();
 const descripciones = new Map<string, string>();
 
@@ -42,6 +44,17 @@ const tamanoPng = (archivo: string) => {
 for (const pagina of paginas) {
   const html = readFileSync(join(dist, pagina), 'utf8');
   const mal = (msg: string) => problemas.push(`${pagina}: ${msg}`);
+
+  // Páginas puente del sitio anterior (public/*.dc.html): solo redirigen.
+  const refresco = tags(html, 'meta').find((m) => m['http-equiv'] === 'refresh')?.content;
+  if (refresco) {
+    const destino = `${origen}${refresco.match(/url=(.+)$/)?.[1]}`;
+    const canonical = tags(html, 'link').find((l) => l.rel === 'canonical')?.href;
+    if (canonical !== destino) mal(`puente con canonical ${canonical} (esperaba ${destino})`);
+    if (!existsSync(archivoDe(destino))) mal(`puente hacia ${destino}, que no existe`);
+    puentes++;
+    continue;
+  }
   const es404 = pagina === '404.html';
   const ruta = `/${pagina.replace(/index\.html$/, '')}`;
 
@@ -94,9 +107,21 @@ for (const pagina of paginas) {
   }
 }
 
+// Cada destino de _redirects tiene que existir en dist/.
+const reglas = join(dist, '_redirects');
+if (existsSync(reglas)) {
+  for (const linea of readFileSync(reglas, 'utf8').split('\n')) {
+    const [desde, hacia] = linea.trim().split(/\s+/);
+    if (!desde || desde.startsWith('#')) continue;
+    if (!existsSync(archivoDe(`${origen}${hacia}`))) problemas.push(`_redirects: ${desde} apunta a ${hacia}, que no existe`);
+  }
+}
+
 if (problemas.length) {
   console.error(`SEO con ${problemas.length} problemas:\n  ${problemas.join('\n  ')}`);
   process.exit(1);
 }
 
-console.log(`SEO OK: ${paginas.length} páginas con title, description, canonical, hreflang, og:image de 1200×630 y JSON-LD.`);
+console.log(
+  `SEO OK: ${paginas.length - puentes} páginas con title, description, canonical, hreflang, og:image de 1200×630 y JSON-LD; ${puentes} páginas puente y _redirects con destinos que existen.`,
+);
