@@ -307,7 +307,7 @@ a:hover{color:#7FE6FF;}
         <div class="ai-widget-msg ai-widget-msg--bot">Hola, soy el asistente de Structura. ¿En qué te puedo ayudar?</div>
       </div>
       <form id="ai-widget-form" class="ai-widget-form">
-        <input id="ai-widget-input" type="text" placeholder="Escribí tu mensaje..." autocomplete="off" />
+        <input id="ai-widget-input" type="text" placeholder="Escribí tu mensaje..." autocomplete="off" maxlength="1000" />
         <button type="submit" aria-label="Enviar">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
@@ -743,15 +743,22 @@ class Component extends DCLogic {
   var SESSION_KEY = 'structura_chat_session';
   var sending = false;
 
+  function newSessionId() {
+    return crypto.randomUUID ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(16).slice(2));
+  }
+
   function getSessionId() {
     try {
       var existing = localStorage.getItem(SESSION_KEY);
       if (existing) return existing;
-      var id = (crypto.randomUUID ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(16).slice(2)));
+      var id = newSessionId();
       localStorage.setItem(SESSION_KEY, id);
       return id;
     } catch (e) {
-      return 'anon-' + Date.now();
+      // Sin localStorage la sesión dura lo que dura la página, pero igual
+      // tiene que ser impredecible: con un timestamp cualquiera podría
+      // adivinarla y pedirle a la IA el historial de otro visitante.
+      return newSessionId();
     }
   }
   var sessionId = getSessionId();
