@@ -2,6 +2,8 @@
 // Hero portado de legacy/Structura V2.dc.html (vivía en el shell, solo en la
 // ruta home), con el mismo parallax de la imagen al hacer scroll. El wordmark
 // gigante pasó de <div> a <h1>, con margin:0 para que no cambie de tamaño.
+import { Picture } from 'astro:assets';
+import hero from '../../assets/hero-mountain.avif';
 import { t, type Lang } from '../../i18n';
 
 interface Props {
@@ -13,7 +15,23 @@ const d = t(lang).home.hero;
 ---
 <section style="position:relative;min-height:100vh;overflow:hidden;">
   <div data-parallax style="position:absolute;inset:0;transform:translateY(0px) scale(1.05);">
-    <img src="/assets/hero-mountain.avif" alt={d.imgAlt} style="width:100%;height:115%;object-fit:cover;object-position:center 35%;" />
+    {/* La foto es vertical (3:4) y se recorta con object-fit: cover. En
+        pantallas más angostas que 69/80 se ve más ancha que el viewport
+        (115vh × 0,75 ≈ 87vh), así que se pide según el alto. No hay versión
+        de 2400 px: la original mide 1600. Calidad 45: la de 1600 px queda en
+        ~131 KB (con la de defecto, 50, eran 213) sin diferencia visible. */}
+    <Picture
+      src={hero}
+      formats={['avif', 'webp']}
+      fallbackFormat="jpg"
+      widths={[640, 1024, 1280, 1600]}
+      quality={45}
+      sizes="(max-aspect-ratio: 69/80) 87vh, 100vw"
+      loading="eager"
+      alt={d.imgAlt}
+      style="width:100%;height:115%;object-fit:cover;object-position:center 35%;"
+      pictureAttributes={{ style: 'display:contents' }}
+    />
     <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,14,19,0.25) 0%, rgba(10,14,19,0.15) 30%, rgba(10,14,19,0.65) 78%, rgba(10,14,19,0.94) 100%);"></div>
   </div>
 

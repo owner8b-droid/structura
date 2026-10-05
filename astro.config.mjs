@@ -15,7 +15,9 @@ const borradores = Object.entries(servicios)
 export default defineConfig({
   site,
   trailingSlash: 'always',
-  build: { format: 'directory' },
+  // El CSS (~8 KB comprimido) va dentro del HTML: así el primer render no
+  // espera otra descarga, que en celular era lo que más demoraba el LCP.
+  build: { format: 'directory', inlineStylesheets: 'always' },
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en'],

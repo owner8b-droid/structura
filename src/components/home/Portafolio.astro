@@ -3,6 +3,15 @@
 // Al pasar el mouse por un logo aparece encima una vista previa con el video
 // del proyecto (data-video). La segunda vuelta repite los logos para que el
 // marquee no tenga corte, y queda oculta para lectores de pantalla.
+import { Picture } from 'astro:assets';
+import haus from '../../assets/folio/haus.png';
+import hesa from '../../assets/folio/hesa.png';
+import aaec from '../../assets/folio/aaec.png';
+import rloria from '../../assets/folio/rloria.png';
+import alturaraiz from '../../assets/folio/alturaraiz.png';
+import evoke from '../../assets/folio/evoke.png';
+import pastoarca from '../../assets/folio/pastoarca.png';
+import zacate from '../../assets/folio/zacate.png';
 import { t, type Lang } from '../../i18n';
 
 interface Props {
@@ -13,14 +22,14 @@ const { lang } = Astro.props;
 const d = t(lang).home.portafolio;
 
 const clientes = [
-  { img: '/assets/folio/haus.png', name: 'Haus', video: '/assets/folio/videos/haus.mp4' },
-  { img: '/assets/folio/hesa.png', name: 'Hesa', video: '/assets/folio/videos/hesa.mp4' },
-  { img: '/assets/folio/aaec.png', name: 'AAEC', video: '/assets/folio/videos/aaec.mp4' },
-  { img: '/assets/folio/rloria.png', name: 'R. Loría Abogados', video: '/assets/folio/videos/rloria.mp4' },
-  { img: '/assets/folio/alturaraiz.png', name: 'Altura Raíz', video: '/assets/folio/videos/alturaraiz.mp4' },
-  { img: '/assets/folio/evoke.png', name: 'Evoke', video: '/assets/folio/videos/evoke.mp4' },
-  { img: '/assets/folio/pastoarca.png', name: 'Pasto Arca', video: '/assets/folio/videos/pastoarca.mp4' },
-  { img: '/assets/folio/zacate.png', name: 'Zacate Tierra Fértil', video: '/assets/folio/videos/zacate.mp4' },
+  { img: haus, name: 'Haus', video: '/assets/folio/videos/haus.mp4' },
+  { img: hesa, name: 'Hesa', video: '/assets/folio/videos/hesa.mp4' },
+  { img: aaec, name: 'AAEC', video: '/assets/folio/videos/aaec.mp4' },
+  { img: rloria, name: 'R. Loría Abogados', video: '/assets/folio/videos/rloria.mp4' },
+  { img: alturaraiz, name: 'Altura Raíz', video: '/assets/folio/videos/alturaraiz.mp4' },
+  { img: evoke, name: 'Evoke', video: '/assets/folio/videos/evoke.mp4' },
+  { img: pastoarca, name: 'Pasto Arca', video: '/assets/folio/videos/pastoarca.mp4' },
+  { img: zacate, name: 'Zacate Tierra Fértil', video: '/assets/folio/videos/zacate.mp4' },
 ];
 ---
 <section id="portafolio" style="padding:0 0 120px;">
@@ -33,7 +42,8 @@ const clientes = [
     <div class="folio-marquee" style="display:inline-flex;align-items:center;gap:76px;">
       {[false, true].flatMap((copia) => clientes.map((c) => (
         <span class="folio-logo-wrap" data-name={c.name} data-video={c.video} aria-hidden={copia ? 'true' : undefined}>
-          <img src={c.img} alt={copia ? '' : d.logoAlt.replace('{name}', c.name)} class="folio-logo" />
+          {/* Se muestran a 56 px de alto (.folio-logo): versión 1× y 2×. */}
+          <Picture src={c.img} formats={['avif', 'webp']} fallbackFormat="png" height={56} densities={[1, 2]} loading="lazy" decoding="async" alt={copia ? '' : d.logoAlt.replace('{name}', c.name)} class="folio-logo" pictureAttributes={{ style: 'display:contents' }} />
         </span>
       )))}
     </div>

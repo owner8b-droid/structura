@@ -1,14 +1,16 @@
 ---
-// Mismas familias y pesos que cargaba Google Fonts en el sitio viejo; la
-// Fase 5 recorta pesos y subsets.
-import '@fontsource/ibm-plex-sans/400.css';
-import '@fontsource/ibm-plex-sans/500.css';
-import '@fontsource/ibm-plex-sans/600.css';
-import '@fontsource/ibm-plex-sans/700.css';
-import '@fontsource/ibm-plex-mono/400.css';
-import '@fontsource/ibm-plex-mono/500.css';
-import '@fontsource/ibm-plex-mono/600.css';
-import '@fontsource/ibm-plex-mono/700.css';
+// Solo el subset latin (alcanza para español e inglés) y los pesos que de
+// verdad se renderizan en el sitio: Sans 400-700 y Mono 400, 600 y 700 (el
+// Mono 500 que cargaba Google Fonts no se usaba). El Mono 700 se precarga: es
+// el del logo y el del "structura." gigante del hero, el LCP de la home.
+import '@fontsource/ibm-plex-sans/latin-400.css';
+import '@fontsource/ibm-plex-sans/latin-500.css';
+import '@fontsource/ibm-plex-sans/latin-600.css';
+import '@fontsource/ibm-plex-sans/latin-700.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '@fontsource/ibm-plex-mono/latin-600.css';
+import '@fontsource/ibm-plex-mono/latin-700.css';
+import monoBold from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-700-normal.woff2?url';
 import '../styles/global.css';
 import '../styles/movimiento.css';
 import SEO from '../components/SEO.astro';
@@ -38,6 +40,7 @@ const showChat = site.showChatBubble && route === 'home';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href={monoBold} as="font" type="font/woff2" crossorigin />
     <SEO lang={lang} route={route} {...seo} />
     <Schema lang={lang} route={route} />
   </head>

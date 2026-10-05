@@ -7,7 +7,26 @@ import 'lenis/dist/lenis.css';
 const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
-export const lenis = reducido ? null : new Lenis({ duration: 1.1, easing: easeOutCubic, autoRaf: true });
+export const lenis = reducido ? null : new Lenis({ duration: 1.1, easing: easeOutCubic });
+
+// Lenis avanza con requestAnimationFrame solo mientras hay un scroll suave en
+// curso. Con autoRaf corría un cuadro tras otro aunque nadie scrolleara y,
+// junto con las animaciones CSS de la home, el navegador recalculaba el
+// layout en cada cuadro (unas 60 veces por segundo, en reposo).
+let cuadro = 0;
+function avanzar(t: number) {
+  if (!lenis) return;
+  lenis.raf(t);
+  cuadro = lenis.isScrolling === 'smooth' ? requestAnimationFrame(avanzar) : 0;
+}
+function despertar() {
+  if (!lenis || cuadro) return;
+  // Sin esto, el primer cuadro mediría el tiempo desde el último scroll y la
+  // animación saltaría directo al final.
+  lenis.time = 0;
+  cuadro = requestAnimationFrame(avanzar);
+}
+if (lenis) addEventListener('wheel', despertar, { passive: true });
 
 /** Desliza hasta un elemento (o al tope de la página). */
 export function scrollA(destino: HTMLElement | 'tope') {
@@ -15,12 +34,14 @@ export function scrollA(destino: HTMLElement | 'tope') {
   if (destino === 'tope') {
     if (lenis) lenis.scrollTo(0, { duration: 1.2, easing: easeOutCubic });
     else window.scrollTo({ top: 0, behavior });
+    despertar();
     return;
   }
   // Lenis ignora scroll-margin-top, así que se lo pasamos como offset.
   const offset = -(parseFloat(getComputedStyle(destino).scrollMarginTop) || 0);
   if (lenis) lenis.scrollTo(destino, { offset, duration: 1.2, easing: easeOutCubic });
   else destino.scrollIntoView({ behavior });
+  despertar();
 }
 
 // Links a un ancla de esta misma página (#soluciones en la home, el índice de
