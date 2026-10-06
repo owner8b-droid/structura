@@ -333,7 +333,7 @@ export const en: Dict = {
     sub: "What data we collect on structuracr.com, what we use it for, and how you can exercise your rights over it.",
     updatedLabel: "Last updated:",
     // REVISAR: fecha del último cambio (Fase 8: estadísticas de uso con Umami).
-    updatedDate: "October 5, 2026",
+    updatedDate: "October 6, 2026",
     summaryTitle: "In short",
     summary: [
       "We only use the data you choose to share with us through the chat, WhatsApp, or email.",

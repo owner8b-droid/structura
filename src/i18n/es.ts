@@ -333,7 +333,7 @@ export const es = {
     sub: "Qué datos recopilamos en structuracr.com, para qué los usamos y cómo podés ejercer tus derechos sobre ellos.",
     updatedLabel: "Última actualización:",
     // REVISAR: fecha del último cambio (Fase 8: estadísticas de uso con Umami).
-    updatedDate: "5 de octubre de 2026",
+    updatedDate: "6 de octubre de 2026",
     summaryTitle: "En resumen",
     summary: [
       "Solo usamos los datos que vos decidís compartirnos por el chat, WhatsApp o correo.",
