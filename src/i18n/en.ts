@@ -332,12 +332,12 @@ export const en: Dict = {
     title: "Privacy policy",
     sub: "What data we collect on structuracr.com, what we use it for, and how you can exercise your rights over it.",
     updatedLabel: "Last updated:",
-    // REVISAR: fecha del cambio de la Fase 4 (sin Google Fonts ni CDN, idioma en la URL).
+    // REVISAR: fecha del último cambio (Fase 8: estadísticas de uso con Umami).
     updatedDate: "October 5, 2026",
     summaryTitle: "In short",
     summary: [
       "We only use the data you choose to share with us through the chat, WhatsApp, or email.",
-      "We do not use tracking cookies or analytics or advertising tools.",
+      "We do not use tracking cookies or advertising; we measure site usage with anonymous statistics.",
       "We do not sell, rent, or hand over your data to third parties for commercial purposes.",
       "You can ask us to access, correct, or delete your data at any time.",
     ],
@@ -392,6 +392,10 @@ export const en: Dict = {
             label: "Technical data.",
             text: "As with any website, when the page loads your browser shares your IP address and basic device details (browser type, operating system) with the services that host the site and its resources. We do not use this information to identify you or build profiles.",
           },
+          {
+            label: "Usage statistics.",
+            text: "We count visits and clicks with Umami: which pages are viewed, the country, the device and browser type, the site you came from, and whether you tap the WhatsApp, contact form, or chat buttons. Umami does not use cookies or store data that identifies you, and it respects the \"Do Not Track\" setting of your browser.",
+          },
         ],
         outro: [
           "We do not request sensitive data, such as racial or ethnic origin, health, religious beliefs, or sexual orientation. Please do not share it through the chat or any other channel.",
@@ -404,7 +408,7 @@ export const en: Dict = {
         items: [
           "Answer your inquiries and prepare proposals or quotes.",
           "Run the virtual assistant: generate replies with the context of your conversation and, when it does not know something, alert our team so we can follow up.",
-          "Improve the information on the site and in the assistant based on the most frequent questions.",
+          "Improve the site and the assistant based on the most frequent questions and on site usage statistics.",
           "Manage the business relationship and meet legal, accounting, and tax obligations if you become a client.",
         ],
         outro: [
@@ -446,6 +450,10 @@ export const en: Dict = {
             label: "Cloudflare Pages:",
             text: "hosts the website.",
           },
+          {
+            label: "Umami:",
+            text: "counts site visits and clicks anonymously, without cookies.",
+          },
         ],
         outro: [
           "Beyond these cases, we will only share your data if a competent authority requires it under the law. The site also links to third-party services, such as WhatsApp, which are governed by their own privacy policies.",
@@ -462,7 +470,7 @@ export const en: Dict = {
         id: "privacidad-cookies",
         title: "Cookies and local storage",
         intro: [
-          "This site does not set tracking cookies or use analytics or advertising tools. The only thing it saves in your browser is one entry in local storage (localStorage):",
+          "This site does not set cookies, not even for usage statistics, and does not use advertising tools. The only thing it saves in your browser is one entry in local storage (localStorage):",
         ],
         items: [
           {

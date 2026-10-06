@@ -332,12 +332,12 @@ export const es = {
     title: "Política de privacidad",
     sub: "Qué datos recopilamos en structuracr.com, para qué los usamos y cómo podés ejercer tus derechos sobre ellos.",
     updatedLabel: "Última actualización:",
-    // REVISAR: fecha del cambio de la Fase 4 (sin Google Fonts ni CDN, idioma en la URL).
+    // REVISAR: fecha del último cambio (Fase 8: estadísticas de uso con Umami).
     updatedDate: "5 de octubre de 2026",
     summaryTitle: "En resumen",
     summary: [
       "Solo usamos los datos que vos decidís compartirnos por el chat, WhatsApp o correo.",
-      "No usamos cookies de rastreo ni herramientas de analítica o publicidad.",
+      "No usamos cookies de rastreo ni publicidad; medimos el uso del sitio con estadísticas anónimas.",
       "No vendemos, alquilamos ni cedemos tus datos a terceros con fines comerciales.",
       "Podés pedirnos acceso, corrección o eliminación de tus datos cuando quieras.",
     ],
@@ -392,6 +392,10 @@ export const es = {
             label: "Datos técnicos.",
             text: "Como en cualquier sitio web, al cargar la página tu navegador comparte tu dirección IP y datos básicos del dispositivo (tipo de navegador, sistema operativo) con los servicios que alojan el sitio y sus recursos. No usamos esa información para identificarte ni para crear perfiles.",
           },
+          {
+            label: "Estadísticas de uso.",
+            text: "Contamos visitas y clics con Umami: qué páginas se ven, el país, el tipo de dispositivo y navegador, desde qué sitio llegaste y si tocás los botones de WhatsApp, el formulario o el chat. Umami no usa cookies ni guarda datos que te identifiquen, y respeta la opción \"Do Not Track\" de tu navegador.",
+          },
         ],
         outro: [
           "No solicitamos datos sensibles, como origen racial o étnico, salud, creencias religiosas u orientación sexual. Te pedimos no compartirlos por el chat ni por otros canales.",
@@ -404,7 +408,7 @@ export const es = {
         items: [
           "Responder tus consultas y preparar propuestas o cotizaciones.",
           "Operar el asistente virtual: generar respuestas con el contexto de tu conversación y, cuando no sabe algo, avisar a nuestro equipo para darte seguimiento.",
-          "Mejorar la información del sitio y del asistente a partir de las preguntas más frecuentes.",
+          "Mejorar el sitio y el asistente a partir de las preguntas más frecuentes y de las estadísticas de uso.",
           "Gestionar la relación comercial y cumplir obligaciones legales, contables y tributarias si llegás a ser cliente.",
         ],
         outro: [
@@ -446,6 +450,10 @@ export const es = {
             label: "Cloudflare Pages:",
             text: "aloja el sitio web.",
           },
+          {
+            label: "Umami:",
+            text: "cuenta las visitas y los clics del sitio de forma anónima, sin cookies.",
+          },
         ],
         outro: [
           "Fuera de estos casos, solo compartiremos tus datos si una autoridad competente lo exige conforme a la ley. El sitio también enlaza a servicios de terceros, como WhatsApp, que se rigen por sus propias políticas de privacidad.",
@@ -462,7 +470,7 @@ export const es = {
         id: "privacidad-cookies",
         title: "Cookies y almacenamiento local",
         intro: [
-          "Este sitio no instala cookies de rastreo ni usa herramientas de analítica o publicidad. Lo único que guarda en tu navegador es un dato en el almacenamiento local (localStorage):",
+          "Este sitio no instala cookies, ni siquiera para las estadísticas de uso, y no usa herramientas de publicidad. Lo único que guarda en tu navegador es un dato en el almacenamiento local (localStorage):",
         ],
         items: [
           {

@@ -1,8 +1,9 @@
 // Revisa el SEO de cada página de dist/ (correr después de `astro build`):
-// title y description únicos, canonical a sí misma, los 3 hreflang hacia
-// páginas que existen, og:image absoluta que apunta a un PNG de 1200×630 y
-// JSON-LD que parsea, con los tipos que le tocan a cada página. También que
-// las páginas puente y los destinos de _redirects lleven a páginas que existen.
+// un solo <h1>, title y description únicos, canonical a sí misma, los 3
+// hreflang hacia páginas que existen, og:image absoluta que apunta a un PNG
+// de 1200×630 y JSON-LD que parsea, con los tipos que le tocan a cada
+// página. También que las páginas puente y los destinos de _redirects lleven
+// a páginas que existen.
 // Corre con Node directo, sin compilar, igual que check-i18n.ts.
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -57,6 +58,9 @@ for (const pagina of paginas) {
   }
   const es404 = pagina === '404.html';
   const ruta = `/${pagina.replace(/index\.html$/, '')}`;
+
+  const h1 = html.match(/<h1\b/g)?.length ?? 0;
+  if (h1 !== 1) mal(`${h1} <h1> (tiene que haber uno)`);
 
   const titulo = html.match(/<title>([^<]*)<\/title>/)?.[1];
   if (!titulo) mal('sin <title>');

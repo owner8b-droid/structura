@@ -38,6 +38,9 @@ interface Props {
 const { lang, route, breadcrumbs, ...seo } = Astro.props;
 // Como en el sitio viejo, la burbuja del chat solo aparece en la home.
 const showChat = site.showChatBubble && route === 'home';
+// Umami cuenta solo en el dominio real: ni localhost, ni pages.dev, ni el
+// Lighthouse de CI.
+const umami = site.analytics.umamiWebsiteId;
 ---
 <!doctype html>
 <html lang={lang === 'es' ? 'es-CR' : 'en'}>
@@ -47,6 +50,7 @@ const showChat = site.showChatBubble && route === 'home';
     <link rel="preload" href={monoBold} as="font" type="font/woff2" crossorigin />
     <SEO lang={lang} route={route} {...seo} />
     <Schema lang={lang} route={route} breadcrumbs={breadcrumbs} />
+    {umami && <script is:inline defer src="https://cloud.umami.is/script.js" data-website-id={umami} data-domains={Astro.site!.host} data-do-not-track="true"></script>}
   </head>
   <body>
     <a class="skip-link" href="#main">{t(lang).nav.skipToContent}</a>
@@ -61,10 +65,14 @@ const showChat = site.showChatBubble && route === 'home';
 </html>
 
 <script>
-  // En todas las páginas: scroll suave (Lenis) con anclas que se deslizan, y
-  // animaciones CSS en pausa mientras no están en pantalla.
+  // En todas las páginas: scroll suave (Lenis) con anclas que se deslizan,
+  // animaciones CSS en pausa mientras no están en pantalla y el evento de
+  // los clics a WhatsApp.
   import '../scripts/lenis';
   import '../scripts/animaciones';
+  import { escucharWhatsApp } from '../scripts/eventos';
+
+  escucharWhatsApp();
 </script>
 
 <style>

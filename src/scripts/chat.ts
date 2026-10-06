@@ -2,6 +2,8 @@
 // ChatWidget.astro). Mismo endpoint, business_id y sesión que el sitio viejo;
 // ahora también manda el idioma de la página. Los textos vienen en data-* del
 // panel, en el idioma de la página.
+import { registrar } from './eventos';
+
 const AI_CHAT_URL = 'https://ftpoicnwpnurvptmkdoo.supabase.co/functions/v1/ai-chat';
 const AI_CHAT_ANON_KEY = 'sb_publishable_3CoeGLx9VVsZ6-c8bkyGyg_xnWWL5t_';
 const BUSINESS_ID = '19b3ff71-b46c-41f1-8e57-19fe2a5259ed';
@@ -49,6 +51,7 @@ export function iniciarChat() {
   };
 
   const abrir = (abierto: boolean) => {
+    if (abierto && !panel.classList.contains('is-open')) registrar('chat-abierto');
     panel.classList.toggle('is-open', abierto);
     panel.setAttribute('aria-hidden', String(!abierto));
     toggle.setAttribute('aria-expanded', String(abierto));

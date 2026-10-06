@@ -25,6 +25,12 @@ export const site = {
     socials: [] as string[],
     googleBusinessProfile: '',
   },
+
+  // Analítica (Fase 8): Umami Cloud, sin cookies. Hasta que se ponga el
+  // Website ID (umami.is → Settings → Websites) no se carga ningún script.
+  analytics: {
+    umamiWebsiteId: '',
+  },
 };
 
 export const waLink = `https://wa.me/${site.whatsappNumber.replace(/\D/g, '')}`;
