@@ -1,0 +1,278 @@
+---
+// Contacto (ES y EN), portado de legacy/Structura V2 - Contacto Content.dc.html.
+// El hero arranca con el fondo CSS animado de respaldo; el shader WebGPU de
+// encima es de la Fase 4. Las opciones de tipo e interés pasaron de botones
+// con estado en JS a radios nativos (funcionan con teclado y respetan el *
+// de obligatorio). Enviar arma el mismo mensaje de antes y abre WhatsApp;
+// sin JavaScript queda el link directo.
+import Base from '../../layouts/Base.astro';
+import { waLink } from '../../config/site';
+import { t, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const d = t(lang);
+const c = d.contacto;
+const f = c.form;
+
+// Íconos de las opciones, tal cual estaban en el sitio viejo.
+const iconos: Record<string, string> = {
+  "web": "<path d=\"M8 6L3 12l5 6M16 6l5 6-5 6\"/>",
+  "movil": "<rect x=\"7\" y=\"2\" width=\"10\" height=\"20\" rx=\"2\"/><line x1=\"11\" y1=\"18\" x2=\"13\" y2=\"18\"/>",
+  "ia": "<rect x=\"6\" y=\"6\" width=\"12\" height=\"12\" rx=\"2\"/><line x1=\"9\" y1=\"2\" x2=\"9\" y2=\"6\"/><line x1=\"15\" y1=\"2\" x2=\"15\" y2=\"6\"/><line x1=\"9\" y1=\"18\" x2=\"9\" y2=\"22\"/><line x1=\"15\" y1=\"18\" x2=\"15\" y2=\"22\"/><line x1=\"2\" y1=\"9\" x2=\"6\" y2=\"9\"/><line x1=\"2\" y1=\"15\" x2=\"6\" y2=\"15\"/><line x1=\"18\" y1=\"9\" x2=\"22\" y2=\"9\"/><line x1=\"18\" y1=\"15\" x2=\"22\" y2=\"15\"/>",
+  "ecommerce": "<circle cx=\"9\" cy=\"20\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"18\" cy=\"20\" r=\"1.3\" fill=\"currentColor\" stroke=\"none\"/><path d=\"M2 3h2l2.4 12.2a2 2 0 002 1.8h8.2a2 2 0 002-1.8L21 7H6\"/>",
+  "automatizacion": "<path d=\"M13 2L4 14h6l-1 8 9-12h-6l1-8z\"/>",
+  "hosting": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"6\" rx=\"1.5\"/><rect x=\"3\" y=\"14\" width=\"18\" height=\"6\" rx=\"1.5\"/><circle cx=\"7\" cy=\"7\" r=\"0.8\" fill=\"currentColor\" stroke=\"none\"/><circle cx=\"7\" cy=\"17\" r=\"0.8\" fill=\"currentColor\" stroke=\"none\"/>",
+  "otro": "<path d=\"M9 18h6M10 22h4M12 2a6 6 0 00-3.5 10.9c.6.5 1 1.2 1.1 2.1h4.8c.1-.9.5-1.6 1.1-2.1A6 6 0 0012 2z\"/>",
+  "landing": "<rect x=\"5\" y=\"2\" width=\"14\" height=\"20\" rx=\"1.5\"/><line x1=\"8\" y1=\"7\" x2=\"16\" y2=\"7\"/><line x1=\"8\" y1=\"11\" x2=\"16\" y2=\"11\"/><line x1=\"8\" y1=\"15\" x2=\"13\" y2=\"15\"/>",
+  "multipagina": "<rect x=\"6\" y=\"3\" width=\"12\" height=\"16\" rx=\"1.3\"/><path d=\"M3 7v13a1.5 1.5 0 001.5 1.5H16\" opacity=\"0.6\"/>",
+  "consultoria": "<path d=\"M4 4h16v12H8l-4 4V4z\"/><line x1=\"8\" y1=\"9\" x2=\"16\" y2=\"9\"/>",
+  "noseguro": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9.5 9a2.5 2.5 0 114 2c-.9.7-1.5 1.2-1.5 2.5\"/><circle cx=\"12\" cy=\"17\" r=\"0.4\" fill=\"currentColor\" stroke=\"none\"/>"
+};
+const grupos = [
+  { name: 'tipo', label: f.projectType, opciones: ["web","movil","ia","ecommerce","automatizacion","hosting","otro"].map((k) => ({ k, label: f.projectTypeOptions[k as keyof typeof f.projectTypeOptions] })) },
+  { name: 'interes', label: f.interest, opciones: ["landing","multipagina","ecommerce","movil","automatizacion","hosting","consultoria","noseguro"].map((k) => ({ k, label: f.interestOptions[k as keyof typeof f.interestOptions] })) },
+];
+const etiquetas = JSON.stringify({
+  name: f.name, email: f.email, company: f.company,
+  projectType: f.projectType, interest: f.interest, description: f.description,
+});
+---
+<Base lang={lang} route="contacto" title={d.seo.contacto.title} description={d.seo.contacto.description}>
+  <div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
+
+    <section class="hero-contact">
+      <div aria-hidden="true" style="position:absolute;inset:0;z-index:0;">
+        <div class="ct-fallback">
+          <div class="ct-fallback__dots"></div>
+          <div class="ct-fallback__twinkle"></div>
+          <div class="ct-fallback__twinkle ct-fallback__twinkle--b"></div>
+          <div class="ct-fallback__ripple"></div>
+          <div class="ct-fallback__ripple ct-fallback__ripple--b"></div>
+          <div class="ct-fallback__vignette"></div>
+          <div class="hero-grain"></div>
+        </div>
+        <canvas id="contact-hero-shader" class="hero-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+      </div>
+      <div style="position:relative;z-index:1;max-width:720px;margin:0 auto;">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;"><span class="hero-contact__dot"></span>{c.hero.eyebrow}</p>
+        <h1 style="font-size:clamp(32px,5.4vw,56px);font-weight:700;letter-spacing:-0.01em;line-height:1.1;margin:0 0 14px;">{c.hero.title}</h1>
+        <p style="font-family:'IBM Plex Mono',monospace;color:#2DD4FF;font-size:16px;margin:0 0 20px;">{c.hero.tagline}</p>
+        <p style="color:#7C8894;font-size:17px;line-height:1.6;max-width:520px;margin:0 auto;">{c.hero.sub}</p>
+      </div>
+    </section>
+
+    <div id="form" class="contact-grid">
+      <form id="contacto-form" data-wa={waLink} data-etiquetas={etiquetas}>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label" for="contacto-nombre">{f.name} <span class="form-required" aria-hidden="true">*</span></label>
+            <input class="form-input" id="contacto-nombre" name="nombre" type="text" required placeholder={f.namePh} autocomplete="name" />
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="contacto-email">{f.email} <span class="form-required" aria-hidden="true">*</span></label>
+            <input class="form-input" id="contacto-email" name="email" type="email" required placeholder={f.emailPh} autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="contacto-empresa">{f.company}</label>
+          <input class="form-input" id="contacto-empresa" name="empresa" type="text" placeholder={f.companyPh} autocomplete="organization" />
+        </div>
+
+        {grupos.map((g) => (
+          <div class="form-field">
+            <span class="form-label" id={`contacto-${g.name}-label`}>{g.label} <span class="form-required" aria-hidden="true">*</span></span>
+            <div class="option-grid" role="radiogroup" aria-labelledby={`contacto-${g.name}-label`}>
+              {g.opciones.map((o) => (
+                <label class="option-card">
+                  <input class="option-input" type="radio" name={g.name} value={o.label} required />
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" set:html={iconos[o.k]} />
+                  <span>{o.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div class="form-field">
+          <label class="form-label" for="contacto-descripcion">{f.description} <span class="form-required" aria-hidden="true">*</span></label>
+          <textarea class="form-input" id="contacto-descripcion" name="descripcion" required placeholder={f.descriptionPh}></textarea>
+        </div>
+
+        <noscript><p class="form-noscript">{f.noscript} <a href={waLink}>{c.side.whatsappBtn}</a></p></noscript>
+        <button type="submit" class="form-submit">{f.submit}</button>
+      </form>
+
+        <div class="contact-side">
+          <p style="font-size:13px;color:#7C8894;margin:0 0 20px;">{c.side.title}</p>
+
+          <div class="contact-side__row">
+            <div class="contact-side__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg></div>
+            <div>
+              <div style="color:#E7ECEF;font-size:14.5px;font-weight:500;">{c.side.whatsapp}</div>
+              <div style="color:#7C8894;font-size:12.5px;margin-top:2px;">{c.side.whatsappNote}</div>
+            </div>
+          </div>
+
+          <div class="contact-side__row">
+            <div class="contact-side__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+            <div>
+              <div style="color:#E7ECEF;font-size:14.5px;font-weight:500;">{c.side.hoursValue}</div>
+              <div style="color:#7C8894;font-size:12.5px;margin-top:2px;">{c.side.hoursNote}</div>
+            </div>
+          </div>
+
+          <div class="contact-side__row" style="margin-bottom:0;">
+            <div class="contact-side__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg></div>
+            <div>
+              <div style="color:#E7ECEF;font-size:14.5px;font-weight:500;">{c.side.reachValue}</div>
+              <div style="color:#7C8894;font-size:12.5px;margin-top:2px;">{c.side.reachNote}</div>
+            </div>
+          </div>
+
+          <div class="why-box">
+            <p style="font-size:13.5px;color:#E7ECEF;font-weight:600;margin:0 0 14px;">{c.side.whyTitle}</p>
+            <div class="why-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span>{c.side.why[0]}</span></div>
+            <div class="why-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span>{c.side.why[1]}</span></div>
+            <div class="why-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span>{c.side.why[2]}</span></div>
+            <div class="why-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span>{c.side.why[3]}</span></div>
+          </div>
+
+          <a href={waLink} target="_blank" rel="noopener" class="form-submit" style="text-decoration:none;">{c.side.whatsappBtn}</a>
+        </div>
+    </div>
+
+      <a href={waLink} target="_blank" rel="noopener" aria-label={c.side.whatsappBtn} class="chat-bubble" style="position:fixed;right:24px;bottom:24px;z-index:150;width:56px;height:56px;border-radius:50%;background:#2DD4FF;color:#0A0E13;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(45,212,255,0.35);">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+
+  </div>
+</Base>
+
+<style>
+  /* Las opciones eran <button>; ahora el estado elegido sale del radio en vez
+     de la clase is-selected (la fuente ya la fija .option-card en global.css). */
+  .option-card {
+    position: relative;
+  }
+  .option-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .option-card:has(.option-input:checked) {
+    border-color: #2DD4FF;
+    background: rgba(45,212,255,0.08);
+    color: #E7ECEF;
+  }
+  .option-card:has(.option-input:checked) svg {
+    color: #2DD4FF;
+  }
+  .option-card:has(.option-input:focus-visible) {
+    outline: 2px solid #2DD4FF;
+    outline-offset: 2px;
+  }
+  .form-noscript {
+    margin: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #C9CFD6;
+  }
+</style>
+
+<script>
+  // Arma el mensaje con lo que completó el visitante y abre WhatsApp, igual
+  // que el sitio viejo. Las etiquetas vienen del idioma de la página.
+  const form = document.querySelector<HTMLFormElement>('#contacto-form');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const etiquetas = JSON.parse(form.dataset.etiquetas ?? '{}');
+    const datos = new FormData(form);
+    const valor = (campo: string) => String(datos.get(campo) ?? '').trim();
+    const lineas = [
+      `${etiquetas.name}: ${valor('nombre')}`,
+      `${etiquetas.email}: ${valor('email')}`,
+      valor('empresa') && `${etiquetas.company}: ${valor('empresa')}`,
+      valor('tipo') && `${etiquetas.projectType}: ${valor('tipo')}`,
+      valor('interes') && `${etiquetas.interest}: ${valor('interes')}`,
+      `${etiquetas.description}: ${valor('descripcion')}`,
+    ].filter(Boolean).join('\n');
+    window.open(`${form.dataset.wa}?text=${encodeURIComponent(lineas)}`, '_blank', 'noopener');
+  });
+</script>
+
+<script>
+  import { montarShader } from '../../scripts/shader';
+
+  // Shader WebGPU del hero (mismo preset que el sitio viejo). Cuando está en
+  // pantalla se oculta el fondo de respaldo.
+  const canvas = document.querySelector<HTMLCanvasElement>('#contact-hero-shader');
+  const respaldo = document.querySelector('.ct-fallback');
+  const listo = (si: boolean) => {
+    canvas?.classList.toggle('is-ready', si);
+    respaldo?.classList.toggle('is-hidden', si);
+  };
+  montarShader(canvas, {
+      components: [
+        {
+          type: 'RadialGradient',
+          props: {
+            colorA: '#101826',
+            colorB: '#05070a',
+            center: { x: 0.5, y: 0.35 },
+            radius: 1.1,
+            repeat: 1,
+            aspect: 1,
+            skewAngle: 0,
+            colorSpace: 'oklab'
+          }
+        },
+        {
+          type: 'DotGrid',
+          props: {
+            color: '#1B2733',
+            density: 42,
+            dotSize: 0.16,
+            offset: 0.5,
+            speed: 0.12,
+            speedVariance: 0.4,
+            twinkle: 0.4
+          }
+        },
+        {
+          type: 'CursorRipples',
+          props: {
+            intensity: 14,
+            decay: 6,
+            radius: 0.55,
+            chromaticSplit: 2.2,
+            edges: 'stretch'
+          }
+        },
+        {
+          type: 'Vignette',
+          props: {
+            color: '#05070a',
+            center: { x: 0.5, y: 0.4 },
+            radius: 0.45,
+            falloff: 0.6,
+            intensity: 0.8
+          }
+        },
+        {
+          type: 'FilmGrain',
+          props: { strength: 0.05 }
+        }
+      ]
+    }, { listo: () => listo(true), error: () => listo(false) });
+</script>

@@ -1,0 +1,42 @@
+---
+// Selector de idioma: dos links a la misma página en cada idioma (en la 404,
+// a cada inicio). Antes eran <button> que cambiaban el idioma con JS y
+// localStorage; ahora navegan, así que funcionan sin JavaScript y los
+// buscadores ven las dos versiones.
+import { routes, type Lang, type RouteKey } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  route?: RouteKey;
+  style?: string;
+}
+
+const { lang, route = 'home', style } = Astro.props;
+const idiomas = [
+  { code: 'es', label: 'ES', hreflang: 'es-CR' },
+  { code: 'en', label: 'EN', hreflang: 'en' },
+] as const;
+---
+<div class="lang-toggle" style={style}>
+  {idiomas.map((i) => (
+    <a
+      href={routes[route][i.code]}
+      hreflang={i.hreflang}
+      lang={i.code}
+      class={`lang-btn${lang === i.code ? ' is-active' : ''}`}
+      aria-current={lang === i.code ? 'true' : undefined}
+    >{i.label}</a>
+  ))}
+</div>
+
+<style>
+  /* Eran <button>: conservan la fuente de control del navegador (los botones
+     no heredaban la de .lang-toggle) y no cambian de color con el hover
+     global de los links. */
+  .lang-btn {
+    font: -webkit-small-control;
+  }
+  .lang-btn:not(.is-active):hover {
+    color: #7C8894;
+  }
+</style>

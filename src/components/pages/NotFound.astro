@@ -1,0 +1,52 @@
+---
+// 404 bilingüe: Astro genera una sola 404 para todo el sitio, así que lleva
+// los dos idiomas, links al inicio de cada uno y noindex.
+import Base from '../../layouts/Base.astro';
+import { t, path } from '../../i18n';
+
+const es = t('es').notFound;
+const en = t('en').notFound;
+---
+<Base lang="es" title={`${es.title} · ${en.title}`} description={`${es.text} ${en.text}`} noindex>
+  <section class="not-found">
+    <div>
+      <h1>{es.title}</h1>
+      <p>{es.text}</p>
+      <a href={path('home', 'es')}>{es.cta} →</a>
+    </div>
+    <div lang="en">
+      <h2>{en.title}</h2>
+      <p>{en.text}</p>
+      <a href={path('home', 'en')} hreflang="en">{en.cta} →</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .not-found {
+    display: grid;
+    gap: 48px;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 140px 24px 120px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: #7C8894;
+  }
+  h1,
+  h2 {
+    margin: 0 0 12px;
+    color: #E7ECEF;
+    font-size: 32px;
+    font-weight: 600;
+  }
+  p {
+    margin: 0 0 20px;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+  }
+</style>

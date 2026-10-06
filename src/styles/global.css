@@ -1,0 +1,304 @@
+/*
+ * Estilos del sitio, copiados tal cual de los <helmet><style> de legacy/
+ * (Fase 1 del plan): primero el shell (nav, footer, chat) y después cada
+ * página. Se omitieron las reglas idénticas repetidas entre archivos. Cuando
+ * otra página redefinía distinto un selector del shell, quedó la versión del
+ * shell: eran copias viejas del nav (ver comentario al final).
+ * 'IBM Plex Sans' e 'IBM Plex Mono' vienen de Fontsource (layouts/Base.astro)
+ * con el mismo nombre de familia que tenían en Google Fonts.
+ */
+
+/* ===== legacy/Structura V2.dc.html ===== */
+body{margin:0;background:#0A0E13;}
+@keyframes flow1{0%{transform:translate(-5%,-2%) rotate(0deg) scale(1);}50%{transform:translate(3%,4%) rotate(3deg) scale(1.06);}100%{transform:translate(-5%,-2%) rotate(0deg) scale(1);}}
+@keyframes flow2{0%{transform:translate(4%,3%) rotate(0deg) scale(1.04);}50%{transform:translate(-4%,-3%) rotate(-4deg) scale(0.98);}100%{transform:translate(4%,3%) rotate(0deg) scale(1.04);}}
+@keyframes grainShift{0%{transform:translate(0,0);}100%{transform:translate(-4%,3%);}}
+@keyframes livePulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+@keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+a{color:#2DD4FF;text-decoration:none;}
+a:hover{color:#7FE6FF;}
+/* ---- Icono homepage (chat bubble) — hover + click, extraído de Structura v1 ---- */
+.chat-bubble{transition:transform .2s cubic-bezier(.34,1.4,.5,1);}
+.chat-bubble:hover{transform:scale(1.08);}
+.chat-bubble:active{transform:scale(.94);}
+/* ---- Logo nav — micro-bounce al hacer click + retorno con scroll fluido (v1) ---- */
+.nav__mark{transition:transform .5s cubic-bezier(.34,1.4,.5,1);}
+.nav__logo.is-clicked .nav__mark{transform:scale(1.15) rotate(-6deg);}
+/* ---- Soluciones card animations (extraídas de Structura v1) ---- */
+@keyframes mockCursorMove{0%{top:50px;left:120px;opacity:0;transform:scale(1);}7%{opacity:1;}11%{top:70px;left:72px;opacity:1;transform:scale(1);}13%{transform:scale(.6);}15%{transform:scale(1);}22%{opacity:1;top:70px;left:72px;}27%{opacity:0;top:70px;left:72px;}100%{opacity:0;top:50px;left:120px;}}
+@keyframes mockPillPress{0%,10%{transform:scale(1);filter:brightness(1);}13%{transform:scale(.86);filter:brightness(1.4);}16%,100%{transform:scale(1);filter:brightness(1);}}
+@keyframes mockScroll{0%,12%{transform:translateY(0);}38%,50%{transform:translateY(-48px);}76%,88%{transform:translateY(-92px);}100%{transform:translateY(0);}}
+@keyframes rowAdd{0%,8%{opacity:0;transform:translateY(8px);}22%,66%{opacity:1;transform:translateY(0);}82%,100%{opacity:0;transform:translateY(8px);}}
+@keyframes toastPop{0%,26%{opacity:0;transform:translateY(6px) scale(.95);}34%,60%{opacity:1;transform:translateY(0) scale(1);}74%,100%{opacity:0;transform:translateY(6px) scale(.95);}}
+/* núcleo mini-hub (IA y Automatización) — ciclo de energía fijo tipo red neuronal, sin hover */
+@keyframes hubMiniDash{to{stroke-dashoffset:-20;}}
+@keyframes hubMiniEnergy{from{stroke-dashoffset:60;}to{stroke-dashoffset:-60;}}
+@keyframes hubMiniCore{0%,100%{filter:drop-shadow(0 0 2px #2DD4FF);}50%{filter:drop-shadow(0 0 7px #2DD4FF);}}
+@keyframes hubMiniNode{0%,100%{opacity:.55;}50%{opacity:1;}}
+.hub-mini-base{animation:hubMiniDash 1.2s linear infinite;}
+.hub-mini-energy{stroke-dasharray:8 34;stroke-dashoffset:60;filter:drop-shadow(0 0 3px #2DD4FF);animation:hubMiniEnergy 1.3s linear infinite;}
+.hub-mini-core{animation:hubMiniCore 2.4s ease-in-out infinite;}
+.hub-mini-node{animation:hubMiniNode 2s ease-in-out infinite;filter:drop-shadow(0 0 2.5px #2DD4FF);}
+/* Desarrollo Web y Móvil — panel de app móvil (splash del logo al abrir) */
+.phone-mock{width:62px;height:110px;background:#0A0E13;border:2px solid #232B35;border-radius:14px;position:relative;overflow:hidden;}
+.phone-mock__notch{position:absolute;top:5px;left:50%;transform:translateX(-50%);width:18px;height:4px;border-radius:3px;background:#232B35;z-index:2;}
+.phone-mock__screen{position:absolute;inset:4px;border-radius:10px;background:linear-gradient(160deg,#161D26,#0A0E13);display:flex;align-items:center;justify-content:center;}
+@keyframes phoneIconTap{0%,7%{transform:scale(1);}10%{transform:scale(.8);}14%,100%{transform:scale(1);}}
+@keyframes phoneIconFade{0%,11%{opacity:1;}17%,90%{opacity:0;}100%{opacity:1;}}
+.phone-app-icon{position:absolute;width:16px;height:16px;border-radius:5px;background:#1B222B;border:1px solid #2A323C;display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:3px;animation:phoneIconTap 4.4s cubic-bezier(.34,1.4,.5,1) infinite, phoneIconFade 4.4s ease infinite;}
+.phone-app-icon i{border-radius:1px;background:#7C8894;}
+.phone-app-icon i:first-child{background:#2DD4FF;}
+@keyframes phoneSplashIn{0%,15%{opacity:0;transform:scale(.4);}26%,76%{opacity:1;transform:scale(1);}88%,100%{opacity:0;transform:scale(1.2);}}
+@keyframes phoneSplashGlow{0%,15%{filter:drop-shadow(0 0 0 rgba(45,212,255,0));}32%,70%{filter:drop-shadow(0 0 7px #2DD4FF);}88%,100%{filter:drop-shadow(0 0 0 rgba(45,212,255,0));}}
+.phone-splash-logo{position:absolute;width:26px;height:26px;animation:phoneSplashIn 4.4s cubic-bezier(.22,.61,.30,1) infinite, phoneSplashGlow 4.4s ease infinite;}
+/* mini esquema de conexión BD → sistema (Hosting & Servidores) */
+@keyframes dbEnergy{from{stroke-dashoffset:100;}to{stroke-dashoffset:-100;}}
+@keyframes dbPing{0%{opacity:.8;r:9;}70%{opacity:0;r:17;}100%{opacity:0;r:17;}}
+.db-mini-energy{stroke-dasharray:8 40;stroke-dashoffset:100;animation:dbEnergy 1.6s linear infinite;filter:drop-shadow(0 0 3px #2DD4FF);}
+.db-ping{animation:dbPing 1.6s ease-out infinite;}
+.sol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;}
+@media (max-width:720px){.sol-grid{grid-template-columns:1fr;}}
+.sol-card{transition:transform .3s cubic-bezier(.22,.61,.30,1), border-color .3s ease, box-shadow .3s ease;}
+.sol-card:hover{transform:translateY(-4px);border-color:#2DD4FF;box-shadow:0 16px 34px rgba(0,0,0,0.35);}
+.sol-visual{height:136px;background:#161D26;border-radius:14px;margin-bottom:24px;overflow:hidden;position:relative;border:1px solid #232B35;box-shadow:0 14px 30px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.05);}
+.mock-cursor{animation:mockCursorMove 7s cubic-bezier(.22,.61,.30,1) infinite;}
+.mini-pill{animation:mockPillPress 7s cubic-bezier(.22,.61,.30,1) infinite;}
+.browser-mock__scroll{animation:mockScroll 7s cubic-bezier(.22,.61,.30,1) infinite;}
+.svc-visual--web:hover .mock-cursor{animation-duration:3s;}
+.svc-visual--web:hover .mini-pill{animation-duration:3s;}
+.svc-visual--web:hover .browser-mock__scroll{animation-duration:3s;}
+.dash-row--new{animation:rowAdd 3.6s cubic-bezier(.22,.61,.30,1) infinite;}
+.dash-toast{animation:toastPop 3.6s cubic-bezier(.22,.61,.30,1) infinite;}
+.svc-visual--saas:hover .dash-row--new{animation-duration:1.6s;}
+.svc-visual--saas:hover .dash-toast{animation-duration:1.6s;}
+/* ---- Selector de idioma ---- */
+.lang-toggle{display:flex;align-items:center;background:#161D26;border:1px solid #232B35;border-radius:9px;padding:2px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;}
+.lang-btn{background:none;border:none;border-radius:7px;padding:6px 10px;color:#7C8894;cursor:pointer;transition:background .2s ease, color .2s ease;}
+.lang-btn.is-active{background:#E7ECEF;color:#0A0E13;}
+.lang-btn:not(.is-active):hover{color:#E7ECEF;}
+/* ---- Banner CTA de contacto (enlaza a la página de contacto dedicada) ---- */
+.cta-grid{display:grid;grid-template-columns:1fr 0.9fr;gap:48px;align-items:center;}
+@media (max-width:860px){.cta-grid{grid-template-columns:1fr;}}
+.btn-cta-primary{display:inline-flex;align-items:center;gap:8px;background:#2DD4FF;color:#0A0E13;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14.5px;padding:15px 26px;border-radius:8px;transition:background .2s ease, transform .2s cubic-bezier(.34,1.4,.5,1);}
+.btn-cta-primary:hover{background:#0FA8CE;color:#0A0E13;}
+.btn-cta-primary:active{transform:translateY(2px) scale(.97);}
+.btn-cta-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid #232B35;color:#E7ECEF;font-family:'IBM Plex Mono',monospace;font-size:14.5px;padding:14px 24px;border-radius:8px;transition:border-color .2s ease, background .2s ease, transform .2s cubic-bezier(.34,1.4,.5,1);}
+.btn-cta-ghost:hover{border-color:#2DD4FF;background:rgba(45,212,255,0.08);color:#E7ECEF;}
+.btn-cta-ghost:active{transform:translateY(2px) scale(.97);}
+.cta-benefit-card{background:linear-gradient(160deg,#161D26,#10161D);border:1px solid #232B35;border-radius:14px;padding:24px;transition:border-color .3s ease, transform .3s cubic-bezier(.22,.61,.30,1);}
+.cta-benefit-card:hover{border-color:#2DD4FF;transform:translateY(-2px);}
+/* ---- Carrusel de referencias (portafolio) — logos + mini preview on hover/tap (v1) ---- */
+.folio-track{overflow:hidden;white-space:nowrap;padding:44px 0;border-top:1px solid #232B35;border-bottom:1px solid #232B35;}
+.folio-marquee{animation:marquee 40s linear infinite;}
+.folio-track:hover .folio-marquee{animation-play-state:paused;}
+.folio-logo-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:10px 0;cursor:pointer;}
+.folio-logo{height:56px;width:auto;filter:brightness(0) invert(1);opacity:0.55;transition:opacity .25s ease, filter .25s ease, transform .3s cubic-bezier(.22,.61,.30,1);}
+.folio-logo-wrap:hover .folio-logo,.folio-logo-wrap.is-active .folio-logo{opacity:1;filter:none;transform:scale(1.06);}
+/* single top-level popover (rendered once, mounted only while a logo is hovered); JS sets its viewport coords via transform */
+.folio-preview{position:fixed;top:0;left:0;width:230px;background:#10161D;border:1px solid #232B35;border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,0.5);overflow:hidden;z-index:9999;white-space:normal;pointer-events:none;}
+.folio-preview__viewport{height:126px;overflow:hidden;position:relative;background:#0A0E13;}
+@keyframes folioPreviewScroll{0%,15%{transform:translateY(0);}45%,60%{transform:translateY(-54px);}85%,100%{transform:translateY(-98px);}}
+.folio-preview__scroll{display:flex;flex-direction:column;gap:9px;padding:12px;animation:folioPreviewScroll 6s cubic-bezier(.22,.61,.30,1) infinite;}
+/* ---- Widget del recepcionista IA (Structura) ---- */
+#ai-widget-panel{position:fixed;right:24px;bottom:92px;z-index:150;width:340px;max-width:calc(100vw - 32px);height:460px;max-height:calc(100vh - 140px);background:#10161D;border:1px solid #232B35;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,0.5);display:flex;flex-direction:column;overflow:hidden;opacity:0;transform:translateY(16px) scale(.97);pointer-events:none;transition:opacity .22s ease, transform .22s cubic-bezier(.22,.61,.30,1);}
+#ai-widget-panel.is-open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
+.ai-widget-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid #232B35;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#E7ECEF;}
+#ai-widget-close{background:none;border:none;color:#7C8894;font-size:20px;line-height:1;cursor:pointer;padding:0;}
+#ai-widget-close:hover{color:#E7ECEF;}
+.ai-widget-messages{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:10px;}
+.ai-widget-msg{max-width:84%;padding:9px 13px;border-radius:12px;font-size:14px;line-height:1.5;white-space:pre-wrap;}
+.ai-widget-msg--bot{align-self:flex-start;background:#161D26;border:1px solid #232B35;color:#C9CFD6;border-bottom-left-radius:4px;}
+.ai-widget-msg--user{align-self:flex-end;background:#2DD4FF;color:#0A0E13;border-bottom-right-radius:4px;}
+.ai-widget-msg--typing{align-self:flex-start;color:#7C8894;font-style:italic;}
+.ai-widget-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;background:#2DD4FF;color:#0A0E13;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;padding:9px 14px;border-radius:20px;text-decoration:none;transition:background .2s ease;}
+.ai-widget-cta:hover{background:#0FA8CE;}
+.ai-widget-form{display:flex;gap:8px;padding:12px;border-top:1px solid #232B35;}
+.ai-widget-form input{flex:1;background:#161D26;border:1px solid #232B35;border-radius:8px;padding:10px 12px;color:#E7ECEF;font-size:14px;font-family:inherit;}
+.ai-widget-form input:focus{outline:none;border-color:#2DD4FF;}
+.ai-widget-form button{background:#2DD4FF;color:#0A0E13;border:none;border-radius:8px;width:38px;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s ease;}
+.ai-widget-form button:hover{background:#0FA8CE;}
+.ai-widget-form button:disabled{opacity:.5;cursor:not-allowed;}
+/* ---- Nav móvil: hamburguesa + sidebar desplegable ---- */
+.desktop-nav{display:flex;align-items:center;gap:36px;}
+.nav-burger{display:none;background:none;border:none;cursor:pointer;padding:8px;width:36px;height:36px;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;}
+.nav-burger span{display:block;width:20px;height:2px;background:#E7ECEF;border-radius:2px;}
+.mobile-sidebar-backdrop{position:fixed;inset:0;background:rgba(10,14,19,0.6);z-index:190;opacity:0;pointer-events:none;transition:opacity .25s ease;}
+.mobile-sidebar-backdrop.is-open{opacity:1;pointer-events:auto;}
+.mobile-sidebar{position:fixed;top:0;right:0;bottom:0;width:280px;max-width:80vw;background:#0D131A;border-left:1px solid #232B35;z-index:200;transform:translateX(100%);transition:transform .3s cubic-bezier(.22,.61,.30,1);overflow-y:auto;}
+.mobile-sidebar.is-open{transform:translateX(0);}
+.nav-sidebar-close{background:none;border:none;color:#7C8894;font-size:26px;line-height:1;cursor:pointer;padding:0;}
+.nav-sidebar-close:hover{color:#E7ECEF;}
+.nav-sidebar-link{display:block;color:rgba(231,236,239,0.88);font-size:16px;font-weight:500;padding:12px 10px;border-radius:8px;transition:background-color .15s ease,color .15s ease;}
+.nav-sidebar-link:hover{background:rgba(45,212,255,0.08);color:#E7ECEF;}
+.nav-sidebar-link.is-current{color:#2DD4FF;}
+.nav-sidebar-cta{display:block;margin-top:12px;text-align:center;background:#2DD4FF;color:#0A0E13;padding:13px 0;border-radius:8px;font-size:15px;font-weight:600;}
+.nav-sidebar-cta:hover{background:#0FA8CE;color:#0A0E13;}
+@media (max-width:768px){
+  .desktop-nav{display:none;}
+  .nav-burger{display:flex;}
+}
+/* ---- Nav desktop: link activo por ruta ---- */
+.nav-link{color:rgba(231,236,239,0.88);font-size:14.5px;font-weight:500;}
+.nav-link.is-current{color:#2DD4FF;font-weight:600;}
+/* ---- Footer: barra inferior con enlace legal ---- */
+.footer-bottom{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;}
+.footer-legal-link{color:#7C8894;font-size:13px;transition:color .2s ease;}
+.footer-legal-link:hover,.footer-legal-link.is-current{color:#2DD4FF;}
+/* ---- Transición SPA entre rutas (fade + slide sutil) ---- */
+.route-content{transition:opacity .28s cubic-bezier(.22,.61,.30,1), transform .28s cubic-bezier(.22,.61,.30,1);}
+.route-content.is-transitioning{opacity:0;transform:translateY(10px);}
+@media (prefers-reduced-motion: reduce){
+  .route-content{transition:none;}
+  .route-content.is-transitioning{opacity:1;transform:none;}
+}
+
+/* ===== legacy/Structura V2 - Home Content.dc.html ===== */
+
+/* ===== legacy/Structura V2 - Como Trabajamos Content.dc.html ===== */
+/* ---- Bloqueo de scroll al tocar el hero shader en móvil ---- */
+@media (max-width:768px){
+  .hero-touch-lock{touch-action:none;}
+}
+/* ---- Hero: el shader WebGPU entra en fundido sobre un fondo CSS animado, que queda
+   de respaldo donde no hay WebGPU (p. ej. el navegador interno de Instagram) ---- */
+.hero-shader{opacity:0;transition:opacity .8s ease;}
+.hero-shader.is-ready{opacity:1;}
+.hero-grain{position:absolute;inset:-50%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");opacity:.06;animation:heroGrain 1.2s steps(6) infinite;}
+@keyframes heroGrain{to{transform:translate(-8%,6%);}}
+.cw-fallback{position:absolute;inset:0;overflow:hidden;background:#0A0E13;}
+.cw-fallback.is-hidden{visibility:hidden;transition:visibility 0s linear .8s;}
+.cw-fallback__glow{position:absolute;inset:-35%;background:radial-gradient(closest-side at 32% 42%,rgba(45,212,255,0.13),rgba(45,212,255,0)),radial-gradient(closest-side at 70% 58%,rgba(15,168,206,0.11),rgba(15,168,206,0)),radial-gradient(closest-side at 50% 30%,#101720,rgba(16,23,32,0));animation:cwGlow 16s ease-in-out infinite alternate;}
+@keyframes cwGlow{from{transform:translate3d(-8%,-4%,0) rotate(-6deg);}to{transform:translate3d(8%,5%,0) rotate(8deg) scale(1.08);}}
+/* estrías a 31° como el FlutedGlass del shader; 51.33px = un periodo (44px) / cos(31°) */
+.cw-fallback__ribs{position:absolute;top:0;bottom:0;left:-60px;right:-60px;background:repeating-linear-gradient(121deg,rgba(255,255,255,0.035) 0,rgba(255,255,255,0) 4px,rgba(255,255,255,0) 36px,rgba(0,0,0,0.16) 43px,rgba(255,255,255,0.035) 44px);animation:cwRibs 8s linear infinite;}
+@keyframes cwRibs{from{transform:translate3d(0,0,0);}to{transform:translate3d(51.33px,0,0);}}
+@media (prefers-reduced-motion: reduce){.cw-fallback *{animation:none;}}
+.nav-links-desktop{display:flex;align-items:center;gap:36px;}
+@media (max-width:768px){
+  .nav-links-desktop{display:none;}
+  .nav-burger{display:flex;}
+}
+
+/* ===== legacy/Structura V2 - Precios Content.dc.html ===== */
+/* ---- Sección de precios ---- */
+.pricing-reveal{opacity:0;transform:translateY(14px);animation:pricing-reveal-in .8s cubic-bezier(.16,1,.3,1) forwards;}
+@keyframes pricing-reveal-in{to{opacity:1;transform:translateY(0);}}
+@media (prefers-reduced-motion: reduce){.pricing-reveal{animation:none;opacity:1;transform:none;}}
+.pricing-cta{transition:background-color .15s ease,border-color .15s ease;}
+.pricing-cta:not(.pricing-cta--primary):hover{border-color:#2DD4FF;background:rgba(45,212,255,0.06);}
+.pricing-cta--primary:hover{background:#0FA8CE;}
+.pricing-cta:focus-visible{outline:2px solid #2DD4FF;outline-offset:2px;}
+.pricing-scale-bg{background:
+  radial-gradient(ellipse 70% 55% at 62% 88%,rgba(255,255,255,0.16) 0%,rgba(127,230,255,0.30) 10%,rgba(23,184,216,0.22) 22%,rgba(14,95,143,0.18) 36%,rgba(10,42,74,0.12) 52%,rgba(2,4,10,0) 68%),
+  linear-gradient(to top,#05070a 0%,#0f1a24 100%);}
+.pricing-grid{display:grid;row-gap:32px;}
+@media (min-width:1024px){
+  .pricing-grid{grid-template-columns:repeat(3,1fr);grid-template-rows:32px 1fr 32px;column-gap:32px;}
+  .pricing-card--edge{grid-row-start:2;}
+  .pricing-card--scale{grid-row:1 / -1;}
+}
+
+/* ===== legacy/Structura V2 - Contacto Content.dc.html ===== */
+/* ---- Icono homepage (chat bubble) ---- */
+/* ---- Hero animado de contacto ---- */
+@keyframes heroDotPulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+.hero-contact{position:relative;overflow:hidden;padding:120px 5% 90px;text-align:center;}
+.hero-contact__dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2DD4FF;box-shadow:0 0 10px #2DD4FF;animation:heroDotPulse 1.8s ease-in-out infinite;margin-right:9px;vertical-align:middle;}
+.ct-fallback{position:absolute;inset:0;overflow:hidden;background:radial-gradient(ellipse 110% 100% at 50% 35%,#101826 0%,#0b1119 45%,#05070a 100%);}
+.ct-fallback.is-hidden{visibility:hidden;transition:visibility 0s linear .8s;}
+/* rejilla del DotGrid; las capas que titilan son subconjuntos alineados con ella (78 = 3×26, 130 = 5×26) */
+.ct-fallback__dots,.ct-fallback__twinkle{position:absolute;inset:0;background-position:0 0;}
+.ct-fallback__dots{background-image:radial-gradient(circle,#1B2733 1.2px,rgba(27,39,51,0) 1.8px);background-size:26px 26px;}
+.ct-fallback__twinkle{background-image:radial-gradient(circle,rgba(127,230,255,0.55) 1.1px,rgba(127,230,255,0) 1.8px);background-size:78px 78px;opacity:0;animation:ctTwinkle 5s ease-in-out infinite;}
+.ct-fallback__twinkle--b{background-size:130px 130px;background-position:26px 52px;animation-delay:-2.5s;}
+@keyframes ctTwinkle{0%,100%{opacity:0;}50%{opacity:.7;}}
+.ct-fallback__ripple{position:absolute;left:50%;top:40%;width:60vmax;height:60vmax;margin:-30vmax 0 0 -30vmax;border-radius:50%;border:1px solid rgba(45,212,255,0.22);opacity:0;animation:ctRipple 7s cubic-bezier(.22,.61,.30,1) infinite;}
+.ct-fallback__ripple--b{animation-delay:-3.5s;}
+@keyframes ctRipple{0%{transform:scale(.1);opacity:0;}12%{opacity:.8;}100%{transform:scale(1.4);opacity:0;}}
+.ct-fallback__vignette{position:absolute;inset:0;background:radial-gradient(ellipse 80% 75% at 50% 40%,rgba(5,7,10,0) 40%,rgba(5,7,10,0.9) 100%);}
+@media (prefers-reduced-motion: reduce){.ct-fallback *{animation:none;}}
+/* ---- Formulario ---- */
+.contact-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:32px;text-align:left;padding:0 5% 120px;max-width:1180px;margin:0 auto;}
+@media (max-width:860px){.contact-grid{grid-template-columns:1fr;}}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media (max-width:520px){.form-row{grid-template-columns:1fr;}}
+.form-field{margin-bottom:20px;}
+.form-label{display:block;font-size:13px;color:#C9CFD6;margin-bottom:8px;letter-spacing:0.02em;}
+.form-required{color:#2DD4FF;}
+.form-input{width:100%;background:#0A0E13;border:1px solid #232B35;border-radius:8px;padding:12px 14px;color:#E7ECEF;font-family:'IBM Plex Sans',sans-serif;font-size:14.5px;transition:border-color .2s ease;box-sizing:border-box;}
+.form-input:focus{outline:none;border-color:#2DD4FF;}
+textarea.form-input{resize:vertical;min-height:120px;}
+.form-submit{box-sizing:border-box;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#2DD4FF;color:#0A0E13;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;padding:15px 24px;border:none;border-radius:8px;cursor:pointer;transition:background .2s ease, transform .2s cubic-bezier(.34,1.4,.5,1);}
+.form-submit:hover{background:#0FA8CE;}
+.form-submit:active{transform:scale(.97);}
+/* ---- Selectores tipo tarjeta (tipo de proyecto / interés) ---- */
+.option-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+.option-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;background:#0A0E13;border:1px solid #232B35;border-radius:10px;padding:18px 10px;color:#7C8894;font-size:12.5px;text-align:center;cursor:pointer;transition:border-color .2s ease, background .2s ease, color .2s ease;font-family:'IBM Plex Sans',sans-serif;}
+.option-card svg{width:22px;height:22px;flex-shrink:0;}
+.option-card:hover{border-color:#3a4552;color:#C9CFD6;}
+.option-card.is-selected{border-color:#2DD4FF;background:rgba(45,212,255,0.08);color:#E7ECEF;}
+.option-card.is-selected svg{color:#2DD4FF;}
+/* ---- Panel lateral ---- */
+.contact-side{background:#10161D;border:1px solid #232B35;border-radius:16px;padding:26px;height:fit-content;}
+.contact-side__row{display:flex;gap:12px;margin-bottom:20px;}
+.contact-side__icon{width:34px;height:34px;flex-shrink:0;border-radius:8px;background:rgba(45,212,255,0.1);display:flex;align-items:center;justify-content:center;color:#2DD4FF;}
+.why-box{background:#0A0E13;border:1px solid #232B35;border-radius:12px;padding:18px 20px;margin:22px 0;}
+.why-item{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:#C9CFD6;line-height:1.5;margin-bottom:12px;}
+.why-item:last-child{margin-bottom:0;}
+.why-item svg{flex-shrink:0;margin-top:2px;color:#2DD4FF;width:15px;height:15px;}
+
+/* ===== legacy/Structura V2 - Privacidad Content.dc.html ===== */
+/* ---- Hero ---- */
+.privacy-hero{padding:120px 5% 64px;text-align:center;background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(45,212,255,0.09) 0%,rgba(10,14,19,0) 70%);}
+.privacy-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2DD4FF;letter-spacing:0.04em;text-transform:uppercase;margin:0 0 16px;}
+/* ---- Resumen ---- */
+.privacy-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 32px;background:linear-gradient(160deg,#161D26,#10161D);border:1px solid #232B35;border-radius:16px;padding:28px;}
+@media (max-width:640px){.privacy-summary{grid-template-columns:1fr;padding:22px;}}
+.privacy-summary__item{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.55;color:#C9CFD6;}
+.privacy-summary__item svg{flex-shrink:0;margin-top:3px;color:#2DD4FF;}
+/* ---- Índice ---- */
+.privacy-toc{display:grid;grid-template-columns:repeat(3,1fr);gap:0 24px;margin:0;padding:0;list-style:none;}
+@media (max-width:860px){.privacy-toc{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:520px){.privacy-toc{grid-template-columns:1fr;}}
+.privacy-toc a{display:flex;gap:12px;padding:9px 0;color:#C9CFD6;font-size:14px;line-height:1.45;transition:color .2s ease;}
+.privacy-toc a:hover{color:#2DD4FF;}
+.privacy-toc__num{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#4a5560;padding-top:2px;}
+/* ---- Secciones (mismo ritmo numerado que Cómo trabajamos) ---- */
+.privacy-section{display:grid;grid-template-columns:80px 1fr;gap:28px;padding:40px 0;border-top:1px solid #232B35;scroll-margin-top:88px;}
+@media (max-width:640px){.privacy-section{grid-template-columns:1fr;gap:12px;padding:32px 0;}}
+.privacy-section__num{font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:700;color:#232B35;line-height:1;}
+@media (max-width:640px){.privacy-section__num{font-size:24px;}}
+.privacy-section h2{margin:0 0 14px;font-size:22px;font-weight:600;letter-spacing:-0.01em;}
+.privacy-section p{color:#C9CFD6;font-size:15px;line-height:1.75;margin:0 0 14px;max-width:640px;}
+.privacy-list{list-style:none;margin:0 0 14px;padding:0;max-width:640px;}
+.privacy-list li{position:relative;padding-left:22px;color:#C9CFD6;font-size:15px;line-height:1.75;margin-bottom:8px;}
+.privacy-list li::before{content:'';position:absolute;left:0;top:12px;width:9px;height:2px;border-radius:1px;background:#2DD4FF;}
+.privacy-list strong{color:#E7ECEF;font-weight:600;}
+.privacy-facts{margin:4px 0 14px;max-width:640px;border:1px solid #232B35;border-radius:12px;background:#10161D;}
+.privacy-facts__row{display:grid;grid-template-columns:140px 1fr;gap:16px;padding:12px 18px;border-top:1px solid #232B35;font-size:14.5px;}
+.privacy-facts__row:first-child{border-top:none;}
+@media (max-width:520px){.privacy-facts__row{grid-template-columns:1fr;gap:2px;}}
+.privacy-facts dt{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#7C8894;padding-top:2px;}
+.privacy-facts dd{margin:0;color:#E7ECEF;overflow-wrap:anywhere;}
+/* ---- Contacto ---- */
+.privacy-contact{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;margin-top:48px;background:linear-gradient(160deg,#161D26,#10161D);border:1px solid #232B35;border-radius:16px;padding:32px;}
+.privacy-contact__actions{display:flex;flex-wrap:wrap;gap:12px;}
+.privacy-btn{display:inline-flex;align-items:center;gap:8px;max-width:100%;box-sizing:border-box;font-family:'IBM Plex Mono',monospace;font-size:14px;padding:13px 20px;border-radius:8px;transition:background .2s ease, border-color .2s ease, transform .2s cubic-bezier(.34,1.4,.5,1);}
+.privacy-btn:active{transform:translateY(2px) scale(.97);}
+.privacy-btn--primary{background:#2DD4FF;color:#0A0E13;font-weight:600;}
+.privacy-btn--primary:hover{background:#0FA8CE;color:#0A0E13;}
+.privacy-btn--ghost{border:1px solid #232B35;color:#E7ECEF;}
+.privacy-btn--ghost:hover{border-color:#2DD4FF;background:rgba(45,212,255,0.08);color:#E7ECEF;}
+@media (max-width:520px){.privacy-contact{padding:24px;}.privacy-contact__actions,.privacy-btn{width:100%;justify-content:center;text-align:center;}}
+
+/* Versiones descartadas (copias viejas del nav en otras páginas). En el sitio
+ * viejo pisaban al shell solo en esas páginas; por eso ahí el selector ES/EN
+ * se veía celeste en vez de claro:
+ *   Home: .lang-toggle{display:flex;align-items:center;border:1px solid #232B35;border-radius:8px;overflow:hidden;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;}
+ *   Home: .lang-btn{background:none;border:none;padding:7px 11px;color:#7C8894;cursor:pointer;transition:background .2s ease,color .2s ease;}
+ *   Home: .lang-btn.is-active{background:#2DD4FF;color:#0A0E13;}
+ *   Contacto: .lang-toggle{display:flex;align-items:center;border:1px solid #232B35;border-radius:8px;overflow:hidden;font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;}
+ *   Contacto: .lang-btn{background:none;border:none;padding:7px 11px;color:#7C8894;cursor:pointer;transition:background .2s ease,color .2s ease;}
+ *   Contacto: .lang-btn.is-active{background:#2DD4FF;color:#0A0E13;}
+ *   Contacto: .nav-links-desktop{display:flex;align-items:center;gap:30px;}
+ */

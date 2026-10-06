@@ -1,0 +1,105 @@
+---
+// Política de privacidad (ES y EN), portada de legacy/Structura V2 -
+// Privacidad Content.dc.html. Cada sección puede traer intro (párrafos),
+// facts (tabla clave/valor), items (viñetas) y outro (párrafos); los ids son
+// los mismos en los dos idiomas para que el índice funcione igual.
+import Base from '../../layouts/Base.astro';
+import { waLink } from '../../config/site';
+import { t, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const d = t(lang);
+const p = d.privacidad;
+const email = d.home.contacto.contactEmail;
+// En pantallas angostas el correo solo puede partirse después de la @.
+const [emailUsuario, emailDominio] = email.split('@');
+const secciones = p.sections.map((s, i) => ({
+  id: s.id,
+  num: String(i + 1).padStart(2, '0'),
+  title: s.title,
+  intro: s.intro ?? [],
+  facts: s.facts ?? [],
+  items: (s.items ?? []).map((it) => (typeof it === 'string' ? { label: '', text: it } : it)),
+  outro: s.outro ?? [],
+}));
+---
+<Base lang={lang} route="privacidad" title={d.seo.privacidad.title} description={d.seo.privacidad.description}>
+  <div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
+
+    <section class="privacy-hero">
+      <div style="max-width:720px;margin:0 auto;">
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;">{p.eyebrow}</p>
+        <h1 style="font-size:clamp(32px,5vw,54px);font-weight:600;letter-spacing:-0.01em;margin:0 0 20px;">{p.title}</h1>
+        <p style="color:#7C8894;font-size:17px;line-height:1.6;max-width:560px;margin:0 auto 22px;">{p.sub}</p>
+        <p style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#7C8894;margin:0;">{p.updatedLabel} {p.updatedDate}</p>
+      </div>
+    </section>
+
+    <div style="padding:0 5% 120px;max-width:900px;margin:0 auto;">
+
+      <p class="privacy-eyebrow">// {p.summaryTitle}</p>
+      <div class="privacy-summary">
+        {p.summary.map((punto) => (
+          <div class="privacy-summary__item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+            <span>{punto}</span>
+          </div>
+        ))}
+      </div>
+
+      <nav aria-label={p.tocTitle} style="margin:56px 0 48px;">
+        <p class="privacy-eyebrow">// {p.tocTitle}</p>
+        <ol class="privacy-toc">
+          {secciones.map((s) => (
+            <li><a href={`#${s.id}`}><span class="privacy-toc__num">{s.num}</span><span>{s.title}</span></a></li>
+          ))}
+        </ol>
+      </nav>
+
+      {secciones.map((s) => (
+        <section id={s.id} class="privacy-section">
+          <div class="privacy-section__num" aria-hidden="true">{s.num}</div>
+          <div>
+            <h2>{s.title}</h2>
+            {s.intro.map((parrafo) => <p>{parrafo}</p>)}
+            {s.facts.length > 0 && (
+              <dl class="privacy-facts">
+                {s.facts.map((f) => (
+                  <div class="privacy-facts__row">
+                    <dt>{f.label}</dt>
+                    <dd>{f.href ? <a href={f.href}>{f.value}</a> : f.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+            {s.items.length > 0 && (
+              <ul class="privacy-list">
+                {s.items.map((it) => <li>{it.label && <strong>{it.label}</strong>}{it.label && ' '}{it.text}</li>)}
+              </ul>
+            )}
+            {s.outro.map((parrafo) => <p>{parrafo}</p>)}
+          </div>
+        </section>
+      ))}
+
+      <div class="privacy-contact">
+        <div style="max-width:460px;">
+          <h2 style="margin:0 0 8px;font-size:22px;font-weight:600;letter-spacing:-0.01em;">{p.contact.title}</h2>
+          <p style="margin:0;color:#7C8894;font-size:15px;line-height:1.6;">{p.contact.sub}</p>
+        </div>
+        <div class="privacy-contact__actions">
+          <a href={`mailto:${email}`} class="privacy-btn privacy-btn--primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            <span>{emailUsuario}@<wbr />{emailDominio}</span>
+          </a>
+          <a href={waLink} target="_blank" rel="noopener" class="privacy-btn privacy-btn--ghost">{p.contact.whatsapp}</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</Base>

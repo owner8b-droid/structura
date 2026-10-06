@@ -1,0 +1,30 @@
+---
+// Home (ES y EN). El hero vivía en el shell del sitio viejo y el resto en
+// "Structura V2 - Home Content.dc.html", que tenía su propio contenedor; se
+// mantienen los dos para que el CSS se aplique igual.
+import Base from '../../layouts/Base.astro';
+import Hero from '../home/Hero.astro';
+import Ticker from '../home/Ticker.astro';
+import Soluciones from '../home/Soluciones.astro';
+import Portafolio from '../home/Portafolio.astro';
+import Experiencia from '../home/Experiencia.astro';
+import ContactoCTA from '../home/ContactoCTA.astro';
+import { t, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const d = t(lang);
+---
+<Base lang={lang} route="home" title={d.seo.home.title} description={d.seo.home.description}>
+  <Hero lang={lang} />
+  <div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
+    <Ticker lang={lang} />
+    <Soluciones lang={lang} />
+    <Portafolio lang={lang} />
+    <Experiencia lang={lang} />
+    <ContactoCTA lang={lang} />
+  </div>
+</Base>

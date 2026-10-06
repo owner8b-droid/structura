@@ -1,0 +1,87 @@
+---
+// Solo el subset latin (alcanza para español e inglés) y los pesos que de
+// verdad se renderizan en el sitio: Sans 400-700 y Mono 400, 600 y 700 (el
+// Mono 500 que cargaba Google Fonts no se usaba). El Mono 700 se precarga: es
+// el del logo y el del "structura." gigante del hero, el LCP de la home.
+import '@fontsource/ibm-plex-sans/latin-400.css';
+import '@fontsource/ibm-plex-sans/latin-500.css';
+import '@fontsource/ibm-plex-sans/latin-600.css';
+import '@fontsource/ibm-plex-sans/latin-700.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '@fontsource/ibm-plex-mono/latin-600.css';
+import '@fontsource/ibm-plex-mono/latin-700.css';
+import monoBold from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-700-normal.woff2?url';
+import '../styles/global.css';
+import '../styles/movimiento.css';
+import type { ComponentProps } from 'astro/types';
+import type Breadcrumbs from '../components/Breadcrumbs.astro';
+import SEO from '../components/SEO.astro';
+import Schema from '../components/Schema.astro';
+import Nav from '../components/Nav.astro';
+import MobileSidebar from '../components/MobileSidebar.astro';
+import Footer from '../components/Footer.astro';
+import ChatWidget from '../components/ChatWidget.astro';
+import { site } from '../config/site';
+import { t, type Lang, type RouteKey } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  route?: RouteKey;
+  title: string;
+  description: string;
+  ogImage?: string;
+  noindex?: boolean;
+  // Las mismas migas que la página muestra: van al JSON-LD (BreadcrumbList).
+  breadcrumbs?: ComponentProps<typeof Breadcrumbs>['items'];
+}
+
+const { lang, route, breadcrumbs, ...seo } = Astro.props;
+// Como en el sitio viejo, la burbuja del chat solo aparece en la home.
+const showChat = site.showChatBubble && route === 'home';
+---
+<!doctype html>
+<html lang={lang === 'es' ? 'es-CR' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href={monoBold} as="font" type="font/woff2" crossorigin />
+    <SEO lang={lang} route={route} {...seo} />
+    <Schema lang={lang} route={route} breadcrumbs={breadcrumbs} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t(lang).nav.skipToContent}</a>
+    <div style="position:relative;width:100%;font-family:'IBM Plex Sans',sans-serif;background:#0A0E13;color:#E7ECEF;overflow-x:hidden;">
+      <Nav lang={lang} route={route} />
+      <MobileSidebar lang={lang} route={route} />
+      <main id="main"><slot /></main>
+      {showChat && <ChatWidget lang={lang} />}
+      <Footer lang={lang} route={route} />
+    </div>
+  </body>
+</html>
+
+<script>
+  // En todas las páginas: scroll suave (Lenis) con anclas que se deslizan, y
+  // animaciones CSS en pausa mientras no están en pantalla.
+  import '../scripts/lenis';
+  import '../scripts/animaciones';
+</script>
+
+<style>
+  /* Fuera de pantalla hasta que recibe foco con el teclado */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 16px;
+    z-index: 1000;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: #2DD4FF;
+    color: #0A0E13;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+  }
+  .skip-link:focus {
+    top: 16px;
+  }
+</style>

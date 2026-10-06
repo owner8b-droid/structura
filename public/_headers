@@ -1,0 +1,12 @@
+# Lo que Astro genera en _astro/ lleva un hash en el nombre: caché de un año.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Seguridad en todo el sitio. La CSP estricta queda para después: antes hay
+# que inventariar los scripts inline del build.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-Frame-Options: SAMEORIGIN

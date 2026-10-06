@@ -1,0 +1,26 @@
+---
+// Cinta de la home, portada de legacy/Structura V2 - Home Content.dc.html.
+// La segunda tira repite la primera para que el marquee no tenga corte, y
+// queda oculta para lectores de pantalla.
+import { t, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const items = t(lang).home.ticker;
+---
+<div data-animado style="border-top:1px solid #232B35;border-bottom:1px solid #232B35;padding:18px 0;overflow:hidden;white-space:nowrap;">
+  <div style="display:inline-flex;animation:marquee 32s linear infinite;">
+    {[false, true].map((copia) => (
+      <div style="display:inline-flex;align-items:center;gap:14px;padding-right:14px;" aria-hidden={copia ? 'true' : undefined}>
+        {items.map((item, i) => (
+          <>
+            <span style={`font-family:'IBM Plex Mono',monospace;font-size:14px;color:${i % 2 === 0 ? '#E7ECEF' : '#7C8894'};`}>{item}</span><span style={`width:5px;height:5px;border-radius:50%;background:${i % 2 === 0 ? '#2DD4FF' : '#232B35'};`}></span>
+          </>
+        ))}
+      </div>
+    ))}
+  </div>
+</div>

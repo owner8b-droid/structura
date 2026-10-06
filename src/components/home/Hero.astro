@@ -1,0 +1,92 @@
+---
+// Hero portado de legacy/Structura V2.dc.html (vivía en el shell, solo en la
+// ruta home), con el mismo parallax de la imagen al hacer scroll. El wordmark
+// gigante pasó de <div> a <h1>, con margin:0 para que no cambie de tamaño.
+import { Picture } from 'astro:assets';
+import hero from '../../assets/hero-mountain.avif';
+import { t, type Lang } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const d = t(lang).home.hero;
+---
+<section style="position:relative;min-height:100vh;overflow:hidden;">
+  <div data-parallax style="position:absolute;inset:0;transform:translateY(0px) scale(1.05);">
+    {/* La foto es vertical (3:4) y se recorta con object-fit: cover. En
+        pantallas más angostas que 69/80 se ve más ancha que el viewport
+        (115vh × 0,75 ≈ 87vh), así que se pide según el alto. No hay versión
+        de 2400 px: la original mide 1600. Calidad 45: la de 1600 px queda en
+        ~131 KB (con la de defecto, 50, eran 213) sin diferencia visible. */}
+    <Picture
+      src={hero}
+      formats={['avif', 'webp']}
+      fallbackFormat="jpg"
+      widths={[640, 1024, 1280, 1600]}
+      quality={45}
+      sizes="(max-aspect-ratio: 69/80) 87vh, 100vw"
+      loading="eager"
+      alt={d.imgAlt}
+      style="width:100%;height:115%;object-fit:cover;object-position:center 35%;"
+      pictureAttributes={{ style: 'display:contents' }}
+    />
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,14,19,0.25) 0%, rgba(10,14,19,0.15) 30%, rgba(10,14,19,0.65) 78%, rgba(10,14,19,0.94) 100%);"></div>
+  </div>
+
+  <div style="position:absolute;inset:0;mix-blend-mode:screen;opacity:0.45;pointer-events:none;">
+    <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;" aria-hidden="true">
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#2DD4FF" stop-opacity="0"/>
+          <stop offset="35%" stop-color="#7dd3fc" stop-opacity="0.5"/>
+          <stop offset="65%" stop-color="#f9a8d4" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#2DD4FF" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#fbcfe8" stop-opacity="0"/>
+          <stop offset="45%" stop-color="#93c5fd" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#2DD4FF" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g style="animation:flow1 24s ease-in-out infinite;transform-origin:center;">
+        <path d="M -200 300 C 300 100, 700 500, 1000 250 S 1600 150, 1900 350" stroke="url(#grad1)" stroke-width="2.5" fill="none"/>
+        <path d="M -200 600 C 350 450, 800 750, 1150 550 S 1550 480, 1900 650" stroke="url(#grad1)" stroke-width="2" fill="none"/>
+      </g>
+      <g style="animation:flow2 30s ease-in-out infinite;transform-origin:center;">
+        <path d="M -200 200 C 250 400, 750 50, 1100 300 S 1500 500, 1900 250" stroke="url(#grad2)" stroke-width="2" fill="none"/>
+      </g>
+    </svg>
+  </div>
+
+  <div style="position:absolute;top:-10%;left:-5%;width:55%;height:45%;background:radial-gradient(ellipse at top left, rgba(45,212,255,0.18) 0%, transparent 65%);pointer-events:none;mix-blend-mode:screen;"></div>
+
+  <!-- bottom row: giant wordmark left + description panel right -->
+  <div style="position:absolute;z-index:2;left:0;right:0;bottom:7%;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:0 5%;">
+    <h1 style="margin:0;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:clamp(2.2rem,8vw,6rem);line-height:0.88;color:#F2F0EA;white-space:nowrap;text-shadow:0 8px 40px rgba(0,0,0,0.4);flex-shrink:1;min-width:0;">
+      structura<span style="color:#2DD4FF;">.</span>
+    </h1>
+
+    <div style="max-width:320px;flex-shrink:2;text-align:right;">
+      <p style="color:#C9CFD6;font-size:0.9rem;line-height:1.6;margin:0;">{d.text}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Parallax de la imagen del hero, misma fórmula que el sitio viejo. Con
+  // movimiento reducido la imagen queda quieta.
+  const fondo = document.querySelector<HTMLElement>('[data-parallax]');
+  if (fondo && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let pendiente = false;
+    addEventListener('scroll', () => {
+      if (pendiente) return;
+      pendiente = true;
+      requestAnimationFrame(() => {
+        pendiente = false;
+        fondo.style.transform = `translateY(${scrollY * 0.15}px) scale(1.05)`;
+      });
+    }, { passive: true });
+  }
+</script>
