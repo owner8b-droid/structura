@@ -1,6 +1,7 @@
 // Monta un shader WebGPU (paquete shaders, misma versión que usaba el sitio
-// viejo desde esm.sh) sobre su <canvas>. Sin WebGPU o con movimiento reducido
-// no descarga la librería y queda el fondo CSS de respaldo que está detrás del
+// viejo desde esm.sh) sobre su <canvas>. Sin WebGPU, con movimiento reducido o
+// en celular (pantalla chica o táctil) no descarga la librería, que pesa
+// ~630 KB comprimida, y queda el fondo CSS de respaldo que está detrás del
 // canvas. Arranca cuando el navegador queda libre, para no competir con la
 // carga de la página.
 type Preset = Parameters<typeof import('shaders/js').createShader>[1];
@@ -13,7 +14,8 @@ interface Avisos {
 }
 
 export function montarShader(canvas: HTMLCanvasElement | null, preset: Preset, avisos: Avisos = {}) {
-  if (!canvas || !('gpu' in navigator) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!canvas || !('gpu' in navigator)) return;
+  if (matchMedia('(prefers-reduced-motion: reduce), (max-width: 767px), (pointer: coarse)').matches) return;
 
   const iniciar = async () => {
     const { createShader, isWebGPUSupported } = await import('shaders/js');

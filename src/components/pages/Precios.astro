@@ -106,53 +106,51 @@ const itemStyle = (i: number, total: number) => `display:flex;gap:12px;${i < tot
 <script>
   import { montarShader } from '../../scripts/shader';
 
-  // Shader WebGPU de la tarjeta Pro (mismo preset que el sitio viejo). Como
-  // antes, no se monta en pantallas chicas ni táctiles: ahí queda el fondo CSS.
-  if (!matchMedia('(max-width: 767px), (pointer: coarse)').matches) {
-    montarShader(document.querySelector<HTMLCanvasElement>('#pricing-scale-shader'), {
-        components: [
-          {
-            type: 'LinearGradient',
-            props: {
-              colorSpace: 'oklab',
-              start: { x: 0.5, y: 1 },
-              end: { x: 0.5, y: 0 },
-              stops: [
-                { color: '#0f1a24', position: 0 },
-                { color: '#05070a', position: 1 }
-              ]
-            }
-          },
-          {
-            type: 'Heatmap',
-            props: {
-              center: { x: 0.6, y: 0.9 },
-              scale: 0.55,
-              shape: JSON.stringify({
-                type: 'gem3D', radius: 0.3, height: 0.32, facets: 10, rotX: 15,
-                rotY: { type: 'mouse', axis: 'x', outputMin: -16, outputMax: 16, curve: 0 },
-                rotZ: { type: 'mouse', axis: 'y', outputMin: -5, outputMax: 5, curve: 0 }
-              }),
-              shapeType: 'gem3D',
-              stops: [
-                { color: '#02040a', position: 0 },
-                { color: '#0a2a4a', position: 0.2 },
-                { color: '#0e5f8f', position: 0.45 },
-                { color: '#17b8d8', position: 0.7 },
-                { color: '#7FE6FF', position: 0.9 },
-                { color: '#ffffff', position: 1 }
-              ]
-            }
-          },
-          {
-            type: 'Vignette',
-            props: { color: '#05070a', center: { x: 0.5, y: 0.5 }, radius: 0.62, falloff: 0.55, intensity: 0.85 }
-          },
-          {
-            type: 'FilmGrain',
-            props: { strength: 0.05 }
+  // Shader WebGPU de la tarjeta Pro (mismo preset que el sitio viejo). En
+  // celular no se monta (ver montarShader): ahí queda el fondo CSS.
+  montarShader(document.querySelector<HTMLCanvasElement>('#pricing-scale-shader'), {
+      components: [
+        {
+          type: 'LinearGradient',
+          props: {
+            colorSpace: 'oklab',
+            start: { x: 0.5, y: 1 },
+            end: { x: 0.5, y: 0 },
+            stops: [
+              { color: '#0f1a24', position: 0 },
+              { color: '#05070a', position: 1 }
+            ]
           }
-        ]
-      });
-  }
+        },
+        {
+          type: 'Heatmap',
+          props: {
+            center: { x: 0.6, y: 0.9 },
+            scale: 0.55,
+            shape: JSON.stringify({
+              type: 'gem3D', radius: 0.3, height: 0.32, facets: 10, rotX: 15,
+              rotY: { type: 'mouse', axis: 'x', outputMin: -16, outputMax: 16, curve: 0 },
+              rotZ: { type: 'mouse', axis: 'y', outputMin: -5, outputMax: 5, curve: 0 }
+            }),
+            shapeType: 'gem3D',
+            stops: [
+              { color: '#02040a', position: 0 },
+              { color: '#0a2a4a', position: 0.2 },
+              { color: '#0e5f8f', position: 0.45 },
+              { color: '#17b8d8', position: 0.7 },
+              { color: '#7FE6FF', position: 0.9 },
+              { color: '#ffffff', position: 1 }
+            ]
+          }
+        },
+        {
+          type: 'Vignette',
+          props: { color: '#05070a', center: { x: 0.5, y: 0.5 }, radius: 0.62, falloff: 0.55, intensity: 0.85 }
+        },
+        {
+          type: 'FilmGrain',
+          props: { strength: 0.05 }
+        }
+      ]
+    });
 </script>

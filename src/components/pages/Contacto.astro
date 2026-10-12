@@ -191,6 +191,8 @@ const etiquetas = JSON.stringify({
 </style>
 
 <script>
+  import { registrar } from '../../scripts/eventos';
+
   // Arma el mensaje con lo que completó el visitante y abre WhatsApp, igual
   // que el sitio viejo. Las etiquetas vienen del idioma de la página.
   const form = document.querySelector<HTMLFormElement>('#contacto-form');
@@ -207,6 +209,8 @@ const etiquetas = JSON.stringify({
       valor('interes') && `${etiquetas.interest}: ${valor('interes')}`,
       `${etiquetas.description}: ${valor('descripcion')}`,
     ].filter(Boolean).join('\n');
+    // Al evento solo van las opciones elegidas, nunca lo que escribió.
+    registrar('formulario-contacto', { tipo: valor('tipo'), interes: valor('interes') });
     window.open(`${form.dataset.wa}?text=${encodeURIComponent(lineas)}`, '_blank', 'noopener');
   });
 </script>

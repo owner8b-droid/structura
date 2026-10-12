@@ -1,0 +1,36 @@
+# Lighthouse CI (Fase 8). Corre sobre el build (dist/) servido en localhost,
+# en móvil con throttling simulado, 3 veces por URL, y compara la mediana con
+# el presupuesto del plan: Performance >= 90, Accessibility >= 95,
+# Best Practices >= 95 y SEO = 100. Lo usa .github/workflows/lighthouse.yml.
+ci:
+  collect:
+    staticDistDir: ./dist
+    url:
+      - http://localhost/
+      - http://localhost/en/
+      - http://localhost/precios/
+      - http://localhost/contacto/
+      - http://localhost/soluciones/desarrollo-web-movil/
+    numberOfRuns: 3
+    settings:
+      # En CI la página vive en localhost y su canonical apunta a
+      # www.structuracr.com, que Lighthouse marca como "otro dominio". Que el
+      # canonical apunte a la propia URL lo revisa check:seo.
+      skipAudits:
+        - canonical
+  assert:
+    assertMatrix:
+      - matchingUrlPattern: ^(?!.*/soluciones/)
+        assertions:
+          categories:performance: [error, {minScore: 0.9, aggregationMethod: median}]
+          categories:accessibility: [error, {minScore: 0.95, aggregationMethod: median}]
+          categories:best-practices: [error, {minScore: 0.95, aggregationMethod: median}]
+          categories:seo: [error, {minScore: 1, aggregationMethod: median}]
+      # Los servicios son borradores con noindex (src/config/servicios.ts) y
+      # Lighthouse les baja el SEO por eso; su title, description y canonical
+      # los revisa check:seo. Cuando uno se publique, va al grupo de arriba.
+      - matchingUrlPattern: /soluciones/
+        assertions:
+          categories:performance: [error, {minScore: 0.9, aggregationMethod: median}]
+          categories:accessibility: [error, {minScore: 0.95, aggregationMethod: median}]
+          categories:best-practices: [error, {minScore: 0.95, aggregationMethod: median}]
