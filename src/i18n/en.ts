@@ -218,7 +218,7 @@ export const en: Dict = {
     essential: {
       title: "Basic Plan",
       desc: "For businesses that need a solid, fast digital presence.",
-      priceFigure: "$240",
+      priceFigure: "$295",
       priceSuffix: "one-time payment",
       features: [
         "Complete landing page (1 page)",
@@ -234,7 +234,7 @@ export const en: Dict = {
       title: "Pro Plan",
       badge: "MOST POPULAR",
       desc: "For businesses that want to stand out and show up on Google from day one.",
-      priceFigure: "$300",
+      priceFigure: "$450",
       priceSuffix: "one-time payment",
       features: [
         "Includes everything in the Basic Plan",
@@ -576,8 +576,8 @@ export const en: Dict = {
         "Basic SEO and Google Analytics integrated",
         "Own domain included for 1 year on the Pro Plan",
       ],
-      precio: "From $240",
-      precioNota: "Basic Plan, one-time payment. The Pro Plan ($300) adds basic SEO, Google Analytics, and your own domain.",
+      precio: "From $295",
+      precioNota: "Basic Plan, one-time payment. The Pro Plan ($450) adds basic SEO, Google Analytics, and your own domain.",
     },
     ecommerce: {
       title: "E-commerce",
@@ -646,7 +646,7 @@ export const en: Dict = {
   seo: {
     home: {
       title: "Web Design & Development in Costa Rica | Structura",
-      description: "Custom websites, online stores, hosting, and AI automation, designed and built in Costa Rica. Plans from $240, one-time payment. We reply within 24 hours.",
+      description: "Custom websites, online stores, hosting, and AI automation, designed and built in Costa Rica. Plans from $295, one-time payment. We reply within 24 hours.",
     },
     comoTrabajamos: {
       title: "How We Work: Our Web Development Process",
@@ -654,7 +654,7 @@ export const en: Dict = {
     },
     precios: {
       title: "Website Pricing in Costa Rica",
-      description: "Website plans in Costa Rica: Basic $240 and Pro $300 as one-time payments, or a custom plan for online stores, integrations, and automation.",
+      description: "Website plans in Costa Rica: Basic $295 and Pro $450 as one-time payments, or a custom plan for online stores, integrations, and automation.",
     },
     contacto: {
       title: "Contact Us: Get a Website Quote",
@@ -666,7 +666,7 @@ export const en: Dict = {
     },
     webMovil: {
       title: "Web & App Development in Costa Rica",
-      description: "Custom websites and mobile apps in Costa Rica: landing pages, multi-page sites, and responsive design. Plans from $240, one-time payment.",
+      description: "Custom websites and mobile apps in Costa Rica: landing pages, multi-page sites, and responsive design. Plans from $295, one-time payment.",
     },
     ecommerce: {
       title: "E-commerce Development in Costa Rica",

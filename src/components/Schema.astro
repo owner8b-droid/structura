@@ -31,7 +31,7 @@ const org = { '@id': `${raiz}#org` };
 const zona = { '@type': 'Country', name: b.areaServed } as const;
 const perfiles = [...b.socials, b.googleBusinessProfile].filter(Boolean);
 
-// "$240" -> 240; los planes que se cotizan ("Cotizar") quedan afuera.
+// "$295" -> 295; los planes que se cotizan ("Cotizar") quedan afuera.
 // Los precios del sitio están en USD (nota al pie de Precios).
 const planes = [d.precios.essential, d.precios.scale].flatMap((plan): Offer[] => {
   const precio = Number(plan.priceFigure.replace(/[^\d.]/g, ''));

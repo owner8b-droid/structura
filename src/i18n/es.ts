@@ -218,7 +218,7 @@ export const es = {
     essential: {
       title: "Plan Básico",
       desc: "Para negocios que necesitan presencia digital sólida y rápida.",
-      priceFigure: "$240",
+      priceFigure: "$295",
       priceSuffix: "único pago",
       features: [
         "Landing page completa (1 página)",
@@ -234,7 +234,7 @@ export const es = {
       title: "Plan Pro",
       badge: "MÁS POPULAR",
       desc: "Para negocios que quieren destacar y aparecer en Google desde el día uno.",
-      priceFigure: "$300",
+      priceFigure: "$450",
       priceSuffix: "único pago",
       features: [
         "Incluye todo lo del Plan Básico",
@@ -576,8 +576,8 @@ export const es = {
         "SEO básico y Google Analytics integrado",
         "Dominio propio incluido por 1 año en el Plan Pro",
       ],
-      precio: "Desde $240",
-      precioNota: "Plan Básico, pago único. El Plan Pro ($300) suma SEO básico, Google Analytics y dominio propio.",
+      precio: "Desde $295",
+      precioNota: "Plan Básico, pago único. El Plan Pro ($450) suma SEO básico, Google Analytics y dominio propio.",
     },
     ecommerce: {
       title: "E-commerce",
@@ -646,7 +646,7 @@ export const es = {
   seo: {
     home: {
       title: "Diseño y desarrollo web en Costa Rica | Structura",
-      description: "Páginas web, tiendas en línea, hosting e IA a la medida, diseñados y desarrollados en Costa Rica. Planes desde $240, pago único. Respondemos en 24 horas.",
+      description: "Páginas web, tiendas en línea, hosting e IA a la medida, diseñados y desarrollados en Costa Rica. Planes desde $295, pago único. Respondemos en 24 horas.",
     },
     comoTrabajamos: {
       title: "Cómo trabajamos: proceso de desarrollo web",
@@ -654,7 +654,7 @@ export const es = {
     },
     precios: {
       title: "Precios de páginas web en Costa Rica",
-      description: "Planes de páginas web en Costa Rica: Básico $240 y Pro $300 con pago único, o un plan a tu medida para tiendas en línea, integraciones y automatización.",
+      description: "Planes de páginas web en Costa Rica: Básico $295 y Pro $450 con pago único, o un plan a tu medida para tiendas en línea, integraciones y automatización.",
     },
     contacto: {
       title: "Contacto: cotizá tu página web",
@@ -666,7 +666,7 @@ export const es = {
     },
     webMovil: {
       title: "Desarrollo web y apps en Costa Rica",
-      description: "Sitios web y apps móviles a medida en Costa Rica: landing pages, sitios multi-página y diseño responsive. Planes desde $240, pago único.",
+      description: "Sitios web y apps móviles a medida en Costa Rica: landing pages, sitios multi-página y diseño responsive. Planes desde $295, pago único.",
     },
     ecommerce: {
       title: "Tiendas en línea y e-commerce en Costa Rica",
