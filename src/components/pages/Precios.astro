@@ -106,8 +106,8 @@ const itemStyle = (i: number, total: number) => `display:flex;gap:12px;${i < tot
 <script>
   import { montarShader } from '../../scripts/shader';
 
-  // Shader WebGPU de la tarjeta Pro (mismo preset que el sitio viejo). En
-  // celular no se monta (ver montarShader): ahí queda el fondo CSS.
+  // Shader WebGPU de la tarjeta Pro (mismo preset que el sitio viejo). Como
+  // antes, en celular no se monta: ahí queda el fondo CSS.
   montarShader(document.querySelector<HTMLCanvasElement>('#pricing-scale-shader'), {
       components: [
         {
@@ -152,5 +152,5 @@ const itemStyle = (i: number, total: number) => `display:flex;gap:12px;${i < tot
           props: { strength: 0.05 }
         }
       ]
-    });
+    }, {}, { soloEscritorio: true });
 </script>
