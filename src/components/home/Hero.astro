@@ -35,7 +35,7 @@ const d = t(lang).home.hero;
     <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,14,19,0.25) 0%, rgba(10,14,19,0.15) 30%, rgba(10,14,19,0.65) 78%, rgba(10,14,19,0.94) 100%);"></div>
   </div>
 
-  <div style="position:absolute;inset:0;mix-blend-mode:screen;opacity:0.45;pointer-events:none;">
+  <div data-lineas style="position:absolute;inset:0;opacity:0.45;pointer-events:none;">
     <svg width="100%" height="100%" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;" aria-hidden="true">
       <defs>
         <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -60,7 +60,7 @@ const d = t(lang).home.hero;
     </svg>
   </div>
 
-  <div style="position:absolute;top:-10%;left:-5%;width:55%;height:45%;background:radial-gradient(ellipse at top left, rgba(45,212,255,0.18) 0%, transparent 65%);pointer-events:none;mix-blend-mode:screen;"></div>
+  <div style="position:absolute;top:-10%;left:-5%;width:55%;height:45%;background:radial-gradient(ellipse at top left, rgba(45,212,255,0.18) 0%, transparent 65%);pointer-events:none;"></div>
 
   <!-- bottom row: giant wordmark left + description panel right -->
   <div style="position:absolute;z-index:2;left:0;right:0;bottom:7%;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:0 5%;">
@@ -75,6 +75,36 @@ const d = t(lang).home.hero;
 </section>
 
 <script>
+  // Las líneas de luz se mueven muy despacio (~10 px por segundo), así que se
+  // actualizan unas 15 veces por segundo en vez de 60, y nada mientras se
+  // scrollea o el hero no está en pantalla: cada actualización redibuja la
+  // pantalla entera, y a 60 por segundo trababa el scroll en GPUs integradas
+  // (MacBook con Intel). Por lo mismo las dos capas dejaron de usar
+  // mix-blend-mode: screen (sobre la foto oscura se ven igual). Con
+  // movimiento reducido el CSS ya las deja quietas y acá no hay nada que mover.
+  const hero = document.querySelector<HTMLElement>('[data-lineas]');
+  const lineas = hero ? [...hero.querySelectorAll('g')].flatMap((g) => g.getAnimations()) : [];
+  if (hero && lineas.length) {
+    const PASO = 66;
+    let reloj = 0;
+    let visible = true;
+    let scrolleando = false;
+    let finScroll = 0;
+    lineas.forEach((a) => a.pause());
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(hero);
+    addEventListener('scroll', () => {
+      scrolleando = true;
+      clearTimeout(finScroll);
+      finScroll = window.setTimeout(() => { scrolleando = false; }, 150);
+    }, { passive: true });
+    // El reloj solo avanza mientras se mueve: al volver sigue donde quedó.
+    setInterval(() => {
+      if (!visible || scrolleando || document.hidden) return;
+      reloj += PASO;
+      lineas.forEach((a) => { a.currentTime = reloj; });
+    }, PASO);
+  }
+
   // Parallax de la imagen del hero, misma fórmula que el sitio viejo. Con
   // movimiento reducido la imagen queda quieta.
   const fondo = document.querySelector<HTMLElement>('[data-parallax]');
