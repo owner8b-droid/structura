@@ -219,12 +219,16 @@ const etiquetas = JSON.stringify({
   import { montarShader } from '../../scripts/shader';
 
   // Shader WebGPU del hero (mismo preset que el sitio viejo). Cuando está en
-  // pantalla se oculta el fondo de respaldo.
+  // pantalla se oculta el fondo de respaldo y, como en Cómo trabajamos, en
+  // celular el hero toma los toques (las ondas siguen al dedo) en vez de
+  // hacer scroll. El formulario está fuera del hero: ahí el scroll es normal.
   const canvas = document.querySelector<HTMLCanvasElement>('#contact-hero-shader');
   const respaldo = document.querySelector('.ct-fallback');
+  const hero = canvas?.closest('section');
   const listo = (si: boolean) => {
     canvas?.classList.toggle('is-ready', si);
     respaldo?.classList.toggle('is-hidden', si);
+    hero?.classList.toggle('hero-touch-lock', si);
   };
   montarShader(canvas, {
       components: [
