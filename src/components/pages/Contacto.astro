@@ -1,7 +1,7 @@
 ---
 // Contacto (ES y EN), portado de legacy/Structura V2 - Contacto Content.dc.html.
-// El hero arranca con el fondo CSS animado de respaldo; el shader WebGPU de
-// encima es de la Fase 4. Las opciones de tipo e interés pasaron de botones
+// El hero arranca con el fondo CSS animado de respaldo; encima entra el campo
+// de puntos en ola (scripts/wave-field.ts, portado de originkit). Las opciones de tipo e interés pasaron de botones
 // con estado en JS a radios nativos (funcionan con teclado y respetan el *
 // de obligatorio). Enviar arma el mismo mensaje de antes y abre WhatsApp;
 // sin JavaScript queda el link directo.
@@ -55,7 +55,8 @@ const etiquetas = JSON.stringify({
           <div class="ct-fallback__vignette"></div>
           <div class="hero-grain"></div>
         </div>
-        <canvas id="contact-hero-shader" class="hero-shader" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+        <canvas id="contact-hero-shader" class="hero-shader ct-wave" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+        <div class="ct-wave__vignette"></div>
       </div>
       <div style="position:relative;z-index:1;max-width:720px;margin:0 auto;">
         <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2DD4FF;letter-spacing:0.04em;margin:0 0 18px;"><span class="hero-contact__dot"></span>{c.hero.eyebrow}</p>
@@ -216,71 +217,24 @@ const etiquetas = JSON.stringify({
 </script>
 
 <script>
-  import { montarShader } from '../../scripts/shader';
+  import { montarOla } from '../../scripts/wave-field';
 
-  // Shader WebGPU del hero (mismo preset que el sitio viejo). Cuando está en
-  // pantalla se oculta el fondo de respaldo y, como en Cómo trabajamos, en
-  // celular el hero toma los toques (las ondas siguen al dedo) en vez de
-  // hacer scroll. El formulario está fuera del hero: ahí el scroll es normal.
+  // Campo de puntos en ola (WebGL) del hero. Cuando está en pantalla se oculta
+  // el fondo de respaldo y, como en Cómo trabajamos, en celular el hero toma
+  // los toques (la ola se levanta bajo el dedo) en vez de hacer scroll. El
+  // formulario está fuera del hero: ahí el scroll es normal.
   const canvas = document.querySelector<HTMLCanvasElement>('#contact-hero-shader');
   const respaldo = document.querySelector('.ct-fallback');
-  const hero = canvas?.closest('section');
+  const hero = canvas?.closest('section') ?? null;
   const listo = (si: boolean) => {
     canvas?.classList.toggle('is-ready', si);
     respaldo?.classList.toggle('is-hidden', si);
     hero?.classList.toggle('hero-touch-lock', si);
   };
-  montarShader(canvas, {
-      components: [
-        {
-          type: 'RadialGradient',
-          props: {
-            colorA: '#101826',
-            colorB: '#05070a',
-            center: { x: 0.5, y: 0.35 },
-            radius: 1.1,
-            repeat: 1,
-            aspect: 1,
-            skewAngle: 0,
-            colorSpace: 'oklab'
-          }
-        },
-        {
-          type: 'DotGrid',
-          props: {
-            color: '#1B2733',
-            density: 42,
-            dotSize: 0.16,
-            offset: 0.5,
-            speed: 0.12,
-            speedVariance: 0.4,
-            twinkle: 0.4
-          }
-        },
-        {
-          type: 'CursorRipples',
-          props: {
-            intensity: 14,
-            decay: 6,
-            radius: 0.55,
-            chromaticSplit: 2.2,
-            edges: 'stretch'
-          }
-        },
-        {
-          type: 'Vignette',
-          props: {
-            color: '#05070a',
-            center: { x: 0.5, y: 0.4 },
-            radius: 0.45,
-            falloff: 0.6,
-            intensity: 0.8
-          }
-        },
-        {
-          type: 'FilmGrain',
-          props: { strength: 0.05 }
-        }
-      ]
-    }, { listo: () => listo(true), error: () => listo(false) });
+  const celular = matchMedia('(max-width: 767px)').matches;
+  montarOla(canvas, hero, {
+    colors: ['#2DD4FF', '#0FA8CE', '#7FE6FF'],
+    // Menos puntos en celular: misma imagen, la mitad de trabajo para la GPU.
+    density: celular ? 100 : 145,
+  }, { listo: () => listo(true), error: () => listo(false) });
 </script>
